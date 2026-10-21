@@ -10,8 +10,7 @@ import { RouterOutlet } from '@angular/router';
       display: block;
     }
   `,
-  template: ` <!-- View: -->
-
+  template: ` 
     <div class="app-shell">
       <div class="flex justify-betwen gap-5 app-header">
         <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">
@@ -21,14 +20,14 @@ import { RouterOutlet } from '@angular/router';
         <button mat-flat-button class="featured">Login</button>
       </div>
 
-      <!-- Show content from parent here: -->
       <ng-content></ng-content>
     </div>`,
 })
 export class AppShell {
-  // @Input({required:true}) title:string = ''
-
-  // title = input.required<string>()
-  // title = input<string>();
   title = input('');
+
+  // isLoding = input('');
+  // hasIcon = input('');
+  // buttonA = input('');
+  // buttonB = input('');
 }
