@@ -12,7 +12,8 @@ export const routes: Routes = [
     //       {path: 'search',component: DealsSearchPage,},
     //       {path: 'deatails',component: DealsDeatailsPage,},
     // ],
-    loadChildren: () => import('./features/deals/deals.routes'),
+    // loadChildren: () => import('./features/deals/deals.routes'),
+    loadChildren: () => import('./features/deals').then((e) => e.dealsRoutes),
   },
   {
     path: '**',
