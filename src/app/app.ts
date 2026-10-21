@@ -17,6 +17,7 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
       <button app-toolbar-action mat-flat-button>Login</button>
 
       <!-- Main content -->
+       Main content
       <router-outlet />
     </app-shell>
   `,
