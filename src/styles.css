@@ -1,3 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@theme inline{
+  /* --color-*: initial; */
+  --color-primary: var(--mat-sys-primary);
+  --color-on-primary: var(--mat-sys-on-primary);
+}
+
+[mat-flat-button].featured {
+  --mat-button-filled-container-color: var(--color-red-500);
+}
+.featured-buttons [mat-flat-button] {
+  --mat-button-filled-container-color: var(--color-red-500);
+}
