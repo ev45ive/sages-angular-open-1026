@@ -10,11 +10,11 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
   styles: [``],
   template: `
     <!-- View -> template -->
-    <app-shell [title]="appName()"> <!-- dynamic [binding] -->
+    <app-shell [title]="appName()">
+      <!-- dynamic [binding] -->
       <!-- Content -> <ng-content> -->
       <router-outlet />
     </app-shell>
-
 
     <!-- HTML: -->
     <!-- <button type="submit" onclick=""> content html </button> -->
@@ -22,9 +22,9 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
 })
 export class App {
   /* Context */
-  
-  // + Zone.js - click => dirty checking change detection
-  // title = 'Sages' 
 
-  protected readonly appName = signal('sages');
+  // + Zone.js - click => dirty checking change detection
+  // title = 'Sages'
+
+  appName = signal('sages');
 }
