@@ -10,29 +10,35 @@ import { RouterOutlet } from '@angular/router';
       display: block;
     }
   `,
-  template: ` <div class="app-shell">
-    <ng-content select="[app-toolbar]">
-      <div class="flex justify-betwen gap-5 app-header">
-        <!-- <ng-content select="h1,h2,h3..."></ng-content> -->
+  template: ` <ng-content select="[app-toolbar]">
+      <!-- <ng-content select="h1,h2,h3..."></ng-content> -->
 
-        <!-- Header: -->
-        <ng-content select="[app-title]">
-          <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">
-            {{ title() }}
-          </h1>
-        </ng-content>
+      <div class="bg-slate-600 py-3">
+        <div class="container mx-auto flex justify-between gap-5">
+          <!-- Header: -->
+          <ng-content select="[app-title]">
+            <h1 class="text-2xl leading-loose text-primary app-title">
+              {{ title() }}
+            </h1>
+          </ng-content>
 
-        <!-- Buttons: -->
-         <!-- TODO? -->
+          <!-- Buttons: -->
+          <div class="flex gap-5">
+            <ng-content select="[app-toolbar-action]" />
+          </div>
+        </div>
       </div>
     </ng-content>
 
-    <ng-content></ng-content>
-  </div>`,
+    <div class="my-5 mx-auto container grid gap-5">
+      <!-- Composition: -->
+      <ng-content></ng-content>
+    </div>`,
 })
 export class AppShell {
   title = input('');
 
+  /* Configuration + if/else */
   // isLoding = input('');
   // hasIcon = input('');
   // buttonA = input('');

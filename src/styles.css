@@ -11,7 +11,8 @@
 }
 
 [mat-flat-button].featured {
-  --mat-button-filled-container-color: var(--color-red-500);
+  --mat-button-filled-color: var(--mat-sys-on-secondary);
+  --mat-button-filled-container-color: var(--mat-sys-secondary);
 }
 .featured-buttons [mat-flat-button] {
   --mat-button-filled-container-color: var(--color-red-500);
