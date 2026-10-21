@@ -7,9 +7,9 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   styles: [],
   template: `
-    <div class="my-5 mx-auto container grid gap-5">
-      <div class="flex justify-betwen gap-5">
-        <h1 class="text-2xl leading-loose bg-primary text-on-primary">Hello, {{ title() }}</h1>
+    <div class="my-5 mx-auto container grid gap-5 app-shell">
+      <div class="flex justify-betwen gap-5 app-header">
+        <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">Hello, {{ title() }}</h1>
         <button mat-flat-button>Login</button>
         <button mat-flat-button class="featured">Login</button>
       </div>
