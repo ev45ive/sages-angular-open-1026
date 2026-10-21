@@ -29,3 +29,8 @@ https://angular.dev/update-guide?v=18.0-19.0&l=2
 
 # Translate
 - ???
+
+# new workspace
+
+ng new sages  --ai-config vscode --directory "." --inline-style  --inline-template --skip-tests  --routing  --style tailwind  --zoneless --ssr false
+
