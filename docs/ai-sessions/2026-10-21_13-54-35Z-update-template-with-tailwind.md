@@ -1925,3 +1925,363 @@ _**Agent (copilot/claude-haiku-5.5)**_
 
 Completed: *Fix button colors to use proper tokens* (2/3)
 </details></tool-use>
+
+---
+
+_**User (2026-10-21 14:20:40Z)**_
+
+Extract ThemeToggle component
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `theme.ts`
+
+**Input:**
+
+- endLine: `50`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\core\theme\theme.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { DOCUMENT } from '@angular/common';
+import { Service, effect, inject, signal } from '@angular/core';
+
+@Service()
+export class Theme {
+  private readonly document = inject(DOCUMENT);
+  readonly isDark = signal(
+    this.document.defaultView?.matchMedia('(prefers-color-scheme: dark)').matches ?? false,
+  );
+
+  constructor() {
+    // Material tokens resolve light-dark() from the html color-scheme.
+    effect(() => {
+      this.document.documentElement.style.colorScheme = this.isDark() ? 'dark' : 'light';
+    });
+  }
+
+  toggle(): void {
+    this.isDark.update((dark) => !dark);
+  }
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `angular.instructions.md`
+
+**Input:**
+
+- endLine: `300`
+- filePath: `c:\Projects\sages-angular-open-1026\docs\instructions\angular.instructions.md`
+- startLine: `1`
+
+**Result:**
+
+```
+You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+
+## TypeScript Best Practices
+
+- Use strict type checking
+- Prefer type inference when the type is obvious
+- Avoid the `any` type; use `unknown` when type is uncertain
+
+## Angular Best Practices
+
+- Always use angular schematics for new files (ng generate ...) unless there is no generator
+  - Do not change options - schematic will use angular.json defaults
+  - For pages use `ng g c ... --type=page`
+  - For models use `ng g interface ...`
+  - For data sources and services use `ng g s ...`
+
+- Always use standalone components over NgModules
+- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
+- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly. `OnPush` is the default in Angular v22+.
+- Use signals for state management
+- Implement lazy loading for feature routes
+- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
+- Use `NgOptimizedImage` for all static images.
+  - `NgOptimizedImage` does not work for inline base64 images.
+
+## Accessibility Requirements
+
+- It MUST pass all AXE checks.
+- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
+
+## Components
+
+- Keep components small and focused on a single responsibility
+- Use `input()` and `output()` functions instead of decorators
+- Use `model()` for two-way bound properties with `[(prop)]` syntax instead of pairing `input()` with `output()`
+- Use `computed()` for derived state
+- Use `linkedSignal()` for state derived from multiple reactive sources that must stay synchronized
+- Prefer inline templates for small components
+- Prefer Signal Forms (`@angular/forms/signals`) for new forms. They are stable in Angul
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `ARCHITECTURE.md`
+
+**Input:**
+
+- endLine: `300`
+- filePath: `c:\Projects\sages-angular-open-1026\docs\ARCHITECTURE.md`
+- startLine: `1`
+
+**Result:**
+
+````
+
+
+
+# Project Architecure
+Example structure (exact files may differ)
+
+```sh
+src/
+├── main.ts                         # Bootstrap application
+├── index.html
+├── styles.css                      # Global styles, tokens, layers
+│
+└── app/
+    ├── app.ts                      # Root component
+    ├── app.config.ts               # Global providers
+    ├── app.routes.ts               # Root routing, lazy features
+    │
+    ├── core/                       # Application-wide infrastructure
+    │   ├── auth/
+    │   │   ├── auth.service.ts
+    │   │   ├── auth.guard.ts
+    │   │   └── auth.interceptor.ts
+    │   ├── http/
+    │   │   ├── api.config.ts
+    │   │   ├── error.interceptor.ts
+    │   │   └── retry.interceptor.ts
+    │   ├── layout/
+    │   │   ├── app-shell.ts
+    │   │   ├── sidebar.ts
+    │   │   └── topbar.ts
+    │   └── config/
+    │       └── app.tokens.ts
+    │
+    ├── features/                   # Business capabilities
+    │   │
+    │   ├── deals/                  # Example feature name
+    │   │   ├── deals.routes.ts     # Feature routes + providers (always present + default export)
+    │   │   ├── index.ts            # Public feature API (always present)
+    │   │   │
+    │   │   ├── pages/              # Routable, compose UI + state
+    │   │   │   ├── deals-list/deals-list.page.ts
+    │   │   │   ├── deal-detail/deal-detail.page.ts
+    │   │   │   └── deal-edit/deal-edit.page.ts
+    │   │   │
+    │   │   ├── ui/                 # Feature-specific presentation
+    │   │   │   ├── deal-card/deal-card.ts
+    │   │   │   ├── deal-form/deal-form.ts
+    │   │   │   ├── deal-status/deal-status.ts
+    │   │   │   └── deal-picker/deal-picker.ts
+    │   │   │
+    │   │   ├── data/               # Data access + state
+    │   │   │   ├── deals.api.ts
+    │   │   │   ├── deals.store.ts
+    │   │   │   └── deals.mapper.ts
+    │   │   │
+    │   │   └── model/              # Domain contracts + logic
+    │   │       
+… (output truncated)
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="execution_subagent"><details>
+<summary>Tool use: **execution_subagent**</summary>
+
+Execution complete: Generate theme-toggle component
+
+**Input:**
+
+- description: `Generate theme-toggle component`
+- query: `Run exactly this command in the directory c:\Projects\sages-angular-open-1026 and report the full output (list of CREATE/UPDATE lines): npx ng g c core/theme/theme-toggle`
+
+**Result:**
+
+```
+CREATE src/app/core/theme/theme-toggle/theme-toggle.ts (273 bytes)
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="run_in_terminal"><details>
+<summary>Tool use: **run_in_terminal**</summary>
+
+Running ` npx ng g c core/theme/theme-toggle`
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `theme-toggle.ts`
+
+**Input:**
+
+- endLine: `20`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\core\theme\theme-toggle\theme-toggle.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  imports: [],
+  selector: 'app-theme-toggle',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: ` <p>theme-toggle works!</p> `,
+})
+export class ThemeToggle {}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **theme-toggle.ts**</summary>
+
+@@ lines 1-13 @@
+
+```
+, computed, inject } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { Theme } from '../theme';
+
+@Component({
+  imports: [MatIconButton],
+  selector: 'app-theme-toggle',
+  template: `
+    <button
+      mat-icon-button
+      type="button"
+      class="[--mat-icon-button-icon-color:var(--mat-sys-on-primary)]"
+      [attr.aria-label]="theme.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+      (click)="theme.toggle()"
+    >
+      <span class="material-symbols-outlined">{{ themeIcon() }}</span>
+    </button>
+  `,
+})
+export class ThemeToggle {
+  protected readonly theme = inject(Theme);
+  protected readonly themeIcon = computed(() => (this.theme.isDark() ? 'light_mode' : 'dark_mode'));
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **app-shell.ts**</summary>
+
+@@ lines 49-52 @@ (deleted)
+
+@@ lines 28-36 @@
+
+```
+app-theme-toggle /
+```
+
+@@ lines 1-8 @@
+
+```
+input } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { RouterOutlet } from '@angular/router';
+import { ThemeToggle } from '../../theme/theme-toggle/theme-toggle';
+
+@Component({
+  selector: 'app-shell',
+  imports: [MatButton, ThemeToggle
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 2 todos
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `app-shell.ts`, `theme-toggle.ts`, 1 problem found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\layouts\\app-shell\\app-shell.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\theme\\theme-toggle\\theme-toggle.ts"
+]
+```
+
+
+**Result:**
+
+````
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\layouts\\app-shell\\app-shell.ts">
+This code at line 8
+```
+  imports: [MatButton, ThemeToggle],
+```
+has the problem reported:
+<compileError>
+MatButton is not used within the template of AppShell
+</compileError>
+
+</errors>
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\theme\\theme-toggle\\theme-toggle.ts">
+No errors found
+</errors>
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Extracted the toggle into  at `src/app/core/theme/theme-toggle/theme-toggle.ts`, generated with `ng g c`, and AppShell now renders `<app-theme-toggle />`.
+
+-  owns the  injection, the icon computed, the aria-label, and the icon-color override.
+- `AppShell` no longer imports , , or .
+
+The `MatButton` import in `AppShell` is still unused, which was already flagged before. I left it alone since you didn't ask for that cleanup. I haven't re-run the browser check after this refactor.
