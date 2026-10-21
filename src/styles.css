@@ -2,8 +2,10 @@
 
 @import 'tailwindcss';
 
-@theme inline{
-  /* --color-*: initial; */
+@theme inline {
+  /* --*: initial;
+  --color-*: initial; */
+
   --color-primary: var(--mat-sys-primary);
   --color-on-primary: var(--mat-sys-on-primary);
 }
