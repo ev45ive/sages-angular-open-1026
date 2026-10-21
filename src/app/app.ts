@@ -17,6 +17,10 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
       <!-- Token attribute -> [app-title] slot -->
       <!-- <p app-title>{{appName()}}</p> -->
 
+      
+        <button app-toolbar-action mat-flat-button>Login</button>
+        <button app-toolbar-action mat-flat-button class="featured">Login</button>
+
       <router-outlet />
     </app-shell>
   `,

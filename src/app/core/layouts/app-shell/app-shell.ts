@@ -23,8 +23,7 @@ import { RouterOutlet } from '@angular/router';
         </ng-content>
 
         <!-- Buttons: -->
-        <button mat-flat-button>Login</button>
-        <button mat-flat-button class="featured">Login</button>
+         <!-- TODO? -->
       </div>
     </ng-content>
 
