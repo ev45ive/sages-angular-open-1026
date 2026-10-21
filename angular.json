@@ -35,7 +35,8 @@
           "skipTests": true
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": true,
+          "flat": false
         }
       },
       "root": "",
@@ -53,7 +54,10 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/material-theme.scss", "src/styles.css"]
+            "styles": [
+              "src/material-theme.scss",
+              "src/styles.css"
+            ]
           },
           "configurations": {
             "production": {

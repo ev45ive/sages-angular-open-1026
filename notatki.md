@@ -94,3 +94,14 @@ https://web-platform-dx.github.io/baseline/
 https://tailwindcss.com/docs/responsive-design#container-queries
 
 https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state
+
+
+# Schematics - ng g component ...
+ng g --help 
+ng g c --help 
+
+ng g c features/deals/pages/deals-search --type page
+
+ng g s features/deals/data/deals-source
+
+ng g interface features/deals/model/deal 
