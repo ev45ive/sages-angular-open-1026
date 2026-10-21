@@ -24,6 +24,7 @@ import { RouterOutlet } from '@angular/router';
 
           <!-- Buttons: -->
           <div class="flex gap-5">
+            
             <ng-content select="[app-toolbar-action]" />
           </div>
         </div>

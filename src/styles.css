@@ -2,13 +2,7 @@
 
 @import 'tailwindcss';
 
-@theme inline {
-  /* --*: initial;
-  --color-*: initial; */
-
-  --color-primary: var(--mat-sys-primary);
-  --color-on-primary: var(--mat-sys-on-primary);
-}
+@import './design/material-tokens.css';
 
 [mat-flat-button].featured {
   --mat-button-filled-color: var(--mat-sys-on-secondary);
