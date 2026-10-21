@@ -10,12 +10,17 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
   styles: [``],
   template: `
     <app-shell [title]="appName()">
+      <!-- Whole toolbar -->
+      <!-- <p app-toolbar>{{appName()}}</p> -->
+
+      <!-- Just Title -->
+      <!-- Token attribute -> [app-title] slot -->
+      <!-- <p app-title>{{appName()}}</p> -->
+
       <router-outlet />
     </app-shell>
-
   `,
 })
 export class App {
-
   appName = signal('sages');
 }

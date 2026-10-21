@@ -10,18 +10,26 @@ import { RouterOutlet } from '@angular/router';
       display: block;
     }
   `,
-  template: ` 
-    <div class="app-shell">
+  template: ` <div class="app-shell">
+    <ng-content select="[app-toolbar]">
       <div class="flex justify-betwen gap-5 app-header">
-        <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">
-          Hello {{ title() }}
-        </h1>
+        <!-- <ng-content select="h1,h2,h3..."></ng-content> -->
+
+        <!-- Header: -->
+        <ng-content select="[app-title]">
+          <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">
+            {{ title() }}
+          </h1>
+        </ng-content>
+
+        <!-- Buttons: -->
         <button mat-flat-button>Login</button>
         <button mat-flat-button class="featured">Login</button>
       </div>
+    </ng-content>
 
-      <ng-content></ng-content>
-    </div>`,
+    <ng-content></ng-content>
+  </div>`,
 })
 export class AppShell {
   title = input('');
