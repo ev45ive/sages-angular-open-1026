@@ -18,14 +18,19 @@ import { mockDeals } from '@feature/deals/data/mock-deals';
             {{ deal().title }}
           </h2>
           <p class="mt-1 text-body-md text-on-surface-variant">
-            Annual enterprise license for 50 seats. Awaiting legal review.
+            {{ deal().description }}
           </p>
         </div>
         <div class="flex shrink-0 items-center gap-3">
           <span
-            class="rounded-full bg-tertiary-container px-3 py-1 text-label-md text-on-tertiary-container"
-            >negotiation</span
+            class="rounded-full  px-3 py-1 text-label-md "
+            [class]="{
+              'bg-amber-400': deal().stage === 'new',
+              'bg-red-400': deal().stage === 'negotiation',
+            }"
           >
+            {{ deal().stage }}
+          </span>
           <button type="button" mat-raised-button>Edit</button>
         </div>
       </div>
