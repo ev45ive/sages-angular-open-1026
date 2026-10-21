@@ -52,6 +52,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## Templates
 
+- For styles use tailwind with material tokens - [Material Tokens](/src/design/material-tokens.css)
 - Keep templates simple and avoid complex logic
 - Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
 - Use the async pipe to handle observables
