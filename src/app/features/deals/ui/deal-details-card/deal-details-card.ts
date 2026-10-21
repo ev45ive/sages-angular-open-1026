@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { MatAnchor } from '@angular/material/button';
+import { mockDeals } from '@feature/deals/data/mock-deals';
 
 @Component({
-  imports: [],
+  imports: [MatAnchor],
   selector: 'app-deal-details-card',
   styles: `
     :host {
@@ -12,17 +14,19 @@ import { Component } from '@angular/core';
     <article class="rounded-md bg-surface-container-lowest p-5 shadow-level1">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h2 class="text-title-md text-on-surface">Enterprise License — Tech Solutions</h2>
-          <p class="mt-1 text-body-md text-on-surface-variant">Annual enterprise license for 50 seats. Awaiting legal review.</p>
+          <h2 class="text-title-md text-on-surface">
+            {{ deal().title }}
+          </h2>
+          <p class="mt-1 text-body-md text-on-surface-variant">
+            Annual enterprise license for 50 seats. Awaiting legal review.
+          </p>
         </div>
         <div class="flex shrink-0 items-center gap-3">
-          <span class="rounded-full bg-tertiary-container px-3 py-1 text-label-md text-on-tertiary-container">negotiation</span>
-          <button
-            type="button"
-            class="rounded-md border border-primary bg-transparent px-4 py-1.5 text-label-lg text-primary hover:bg-primary/(--mat-sys-hover-state-layer-opacity) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          <span
+            class="rounded-full bg-tertiary-container px-3 py-1 text-label-md text-on-tertiary-container"
+            >negotiation</span
           >
-            Edit
-          </button>
+          <button type="button" mat-raised-button>Edit</button>
         </div>
       </div>
       <dl class="mt-5 grid grid-cols-3 gap-4">
@@ -36,10 +40,14 @@ import { Component } from '@angular/core';
         </div>
         <div>
           <dt class="text-label-lg text-on-surface">Public</dt>
-          <dd class="mt-1 text-body-lg text-on-surface">Yes</dd>
+          <dd class="mt-1 text-body-lg text-on-surface">
+            {{ deal().public ? 'Yes' : 'No' }}
+          </dd>
         </div>
       </dl>
     </article>
   `,
 })
-export class DealDetailsCard {}
+export class DealDetailsCard {
+  deal = signal(mockDeals[1]);
+}

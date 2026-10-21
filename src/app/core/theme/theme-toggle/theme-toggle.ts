@@ -16,13 +16,11 @@ import { readonly } from '@angular/forms/signals';
       <span class="material-symbols-outlined">{{ themeIcon() }}</span>
     </button>
   `,
-  styles: [
-    `
-      :host() {
-        --mat-icon-button-icon-color: var(--mat-sys-on-primary);
-      }
-    `,
-  ],
+  styles: `
+    :host {
+      --mat-icon-button-icon-color: var(--mat-sys-on-primary);
+    }
+  `,
 })
 export class ThemeToggle {
   // constructor(@Inject(Theme) readonly theme: Theme) {}

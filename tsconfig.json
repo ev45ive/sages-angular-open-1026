@@ -16,11 +16,11 @@
     "paths": {
       /* Core */
       "@core/tokens": ["./src/app/core/index.ts"],
-      
+
       /* Features */
       "@feature/deals/*": ["./src/app/features/deals/*"],
       "@feature/contacts/*": ["./src/app/features/contacts/*"],
-      
+
       /* Shared */
       "@shared/*": ["./src/app/shared/*"]
 
@@ -30,7 +30,10 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true
+    "strictInputAccessModifiers": true,
+    "extendedDiagnostics": {
+      "checks": { "unusedStandaloneImports": "suppress" }
+    }
   },
   "files": [],
   "references": [
