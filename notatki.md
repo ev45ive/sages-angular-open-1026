@@ -45,3 +45,6 @@ ng serve -o
 
 // lub:
 ng s - o
+
+http://localhost:4200/
+
