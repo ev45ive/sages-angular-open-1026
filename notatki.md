@@ -48,3 +48,6 @@ ng s - o
 
 http://localhost:4200/
 
+
+# Material
+ng add @angular/material
