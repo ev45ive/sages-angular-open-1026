@@ -1,23 +1,22 @@
 import { Component, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { RouterOutlet } from '@angular/router';
+import { AppShell } from './core/layouts/app-shell/app-shell';
 
 @Component({
-  imports: [RouterOutlet, MatButton],
+  /* Host: */
   selector: 'app-root',
-  styles: [],
+  imports: [RouterOutlet, MatButton, AppShell],
+  styles: [``],
   template: `
-    <div class="app-shell">
-      <div class="flex justify-betwen gap-5 app-header">
-        <h1 class="text-2xl leading-loose bg-primary text-on-primary app-title">Hello, {{ title() }}</h1>
-        <button mat-flat-button>Login</button>
-        <button mat-flat-button class="featured">Login</button>
-      </div>
-
+    <!-- View -> template -->
+    <app-shell>
+      <!-- Content -> <ng-content> -->
       <router-outlet />
-    </div>
+    </app-shell>
   `,
 })
 export class App {
+  /* Context */
   protected readonly title = signal('sages');
 }

@@ -17,7 +17,8 @@
   --mat-button-filled-container-color: var(--color-red-500);
 }
 
+.app-shell {
+  @apply my-5 mx-auto container grid gap-5;
 
-.app-shell{
-    @apply my-5 mx-auto container grid gap-5;
+  /* .app-header { } */
 }
