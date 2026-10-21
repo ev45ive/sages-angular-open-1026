@@ -34,7 +34,7 @@ src/
     ├── features/                   # Business capabilities
     │   │
     │   ├── deals/                  # Example feature name
-    │   │   ├── deals.routes.ts     # Feature routes + providers (always present)
+    │   │   ├── deals.routes.ts     # Feature routes + providers (always present + default export)
     │   │   ├── index.ts            # Public feature API (always present)
     │   │   │
     │   │   ├── pages/              # Routable, compose UI + state
