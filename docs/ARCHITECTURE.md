@@ -101,11 +101,14 @@ src/
 ## Dependencies
 App dependencies direction
 
+- app → shared
 - core → shared
 - feature → shared
 
-- feature → core/tokens
-- feature → feature/index
+- feature → core/index (InjectionToken/abstract class/@Service)
+- feature → feature/index.ts (barell)
+
+- app.routes → feature/feature.routes.ts (default)
 
 ## Within a feature, typical dependencies are:
 - pages → ui, data, model
