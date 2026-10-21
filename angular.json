@@ -14,7 +14,8 @@
           "displayBlock": true,
           "inlineTemplate": true,
           "inlineStyle": true,
-          "skipTests": true
+          "skipTests": true,
+          "flat": false
         },
         "@schematics/angular:class": {
           "skipTests": true

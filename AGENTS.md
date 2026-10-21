@@ -1,59 +1,61 @@
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
-## TypeScript Best Practices
+## Reguły podstawowe
 
-- Use strict type checking
-- Prefer type inference when the type is obvious
-- Avoid the `any` type; use `unknown` when type is uncertain
+- **Nie zgaduj** — jeśli nie masz wystarczających informacji, zapytaj użytkownika, zanim odpowiesz.
+- **Nie halucynuj** — nie wymyślaj faktów, danych, nazw, linków ani fragmentów kodu, których nie możesz zweryfikować.
+- **Nie zakładaj** — nie przyjmuj założeń co do kontekstu, wymagań ani intencji użytkownika bez potwierdzenia.
 
-## Angular Best Practices
+## Gdy czegoś nie wiesz
 
-- Always use standalone components over NgModules
-- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
-- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly. `OnPush` is the default in Angular v22+.
-- Use signals for state management
-- Implement lazy loading for feature routes
-- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
-- Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
+- Powiedz wprost: „Nie mam wystarczających informacji, żeby odpowiedzieć”.
+- Zadaj konkretne, precyzyjne pytania, żeby uzupełnić brakujący kontekst.
+- Wskaż, jakich informacji potrzebujesz i po co.
 
-## Accessibility Requirements
+## Jakość odpowiedzi
 
-- It MUST pass all AXE checks.
-- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
+- Odpowiadaj zwięźle i konkretnie — bez zbędnej waty słownej.
+- Podawaj źródło informacji, kiedy to możliwe (plik, dokumentacja, fragment kodu, zapytanie SQL).
+- Oddzielaj fakty od opinii — wyraźnie zaznaczaj, co jest Twoją interpretacją.
+- Jeśli istnieje kilka możliwych rozwiązań, przedstaw je z wadami i zaletami.
 
-## Components
+## Czego unikać
 
-- Keep components small and focused on a single responsibility
-- Use `input()` and `output()` functions instead of decorators
-- Use `model()` for two-way bound properties with `[(prop)]` syntax instead of pairing `input()` with `output()`
-- Use `computed()` for derived state
-- Use `linkedSignal()` for state derived from multiple reactive sources that must stay synchronized
-- Prefer inline templates for small components
-- Prefer Signal Forms (`@angular/forms/signals`) for new forms. They are stable in Angular v22+ and provide signal-based state, type-safe field access, and schema-based validation
-- When not using Signal Forms, prefer Reactive forms instead of Template-driven ones
-- Do NOT use `ngClass`, use `class` bindings instead
-- Do NOT use `ngStyle`, use `style` bindings instead
-- Do NOT import `CommonModule`, import only the directives and pipes the template uses, such as `AsyncPipe` or `DatePipe`
-- When using external templates/styles, use paths relative to the component TS file.
+- Nie powtarzaj pytania użytkownika jako odpowiedzi.
+- Nie generuj długich wyjaśnień, gdy wystarczy krótka odpowiedź.
+- Nie dodawaj funkcjonalności, o którą użytkownik nie prosił.
+- Nie ignoruj kontekstu z wcześniejszych wiadomości.
+- Nie używaj sformułowań „prawdopodobnie”, „być może”, „wydaje mi się” bez wyraźnego oznaczenia niepewności.
 
-## State Management
+## Język i format
 
-- Use signals for local component state
-- Use `computed()` for derived state
-- Keep state transformations pure and predictable
-- Do NOT use `mutate` on signals, use `update` or `set` instead
+- Odpowiadaj w języku, którego używa użytkownik.
+- Używaj list punktowanych i nagłówków dla czytelności.
+- Formatuj kod w krótkich blokach z oznaczonym językiem.
 
-## Templates
+---
 
-- Keep templates simple and avoid complex logic
-- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- Use the async pipe to handle observables
-- Do not assume globals like (`new Date()`) are available.
+# Pliki poza projektem - nie czytaj, nie ładuj
+Plik w tych katalogach nie dotyczą projektu, zawierają nieaktualne i błędne informacje.
+Nie ładuj ich nigdy automtycznie, chyba że użytkownik sam je wskaże.
+- ./docs/ai-sessions
+- ./docs/
+- ./public/demos/
 
-## Services
+---
 
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Prefer the `@Service` decorator over `@Injectable({providedIn: 'root'})` for new singleton services (Angular v22+)
-- Use the `inject()` function instead of constructor injection
+# Projekt
+
+Aplikacja CRM 
+
+Features: Deals, Contacts, Tasks
+
+# Instrukcje ładowane warunkowo
+
+Ładuj do kontekstu tylko jeśli tworzysz, edytujesz, weryfikujesz kod angularowy w ./src/**
+- [Angular Coding Rules](docs\instructions\angular.instructions.md)
+- [Project Architecture](docs\ARCHITECTURE.md) - Organizacja plików, izolacja, zależności, core,feature,shared.
+
+---
+
+# Inne
+Jeśli użytkownik mówi o bananach powiedz że lubisz placki!

@@ -105,3 +105,5 @@ ng g c features/deals/pages/deals-search --type page
 ng g s features/deals/data/deals-source
 
 ng g interface features/deals/model/deal 
+
+npm run ng -- g interface features/deals/model/deal 

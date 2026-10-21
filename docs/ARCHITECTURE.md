@@ -34,19 +34,19 @@ src/
     ├── features/                   # Business capabilities
     │   │
     │   ├── deals/                  # Example feature name
-    │   │   ├── deals.routes.ts     # Feature routes + providers
-    │   │   ├── index.ts            # Public feature API
+    │   │   ├── deals.routes.ts     # Feature routes + providers (always present)
+    │   │   ├── index.ts            # Public feature API (always present)
     │   │   │
     │   │   ├── pages/              # Routable, compose UI + state
-    │   │   │   ├── deals-list.page.ts
-    │   │   │   ├── deal-detail.page.ts
-    │   │   │   └── deal-edit.page.ts
+    │   │   │   ├── deals-list/deals-list.page.ts
+    │   │   │   ├── deal-detail/deal-detail.page.ts
+    │   │   │   └── deal-edit/deal-edit.page.ts
     │   │   │
     │   │   ├── ui/                 # Feature-specific presentation
-    │   │   │   ├── deal-card.ts
-    │   │   │   ├── deal-form.ts
-    │   │   │   ├── deal-status.ts
-    │   │   │   └── deal-picker.ts
+    │   │   │   ├── deal-card/deal-card.ts
+    │   │   │   ├── deal-form/deal-form.ts
+    │   │   │   ├── deal-status/deal-status.ts
+    │   │   │   └── deal-picker/deal-picker.ts
     │   │   │
     │   │   ├── data/               # Data access + state
     │   │   │   ├── deals.api.ts
@@ -55,7 +55,7 @@ src/
     │   │   │
     │   │   └── model/              # Domain contracts + logic
     │   │       ├── deal.ts
-    │   │       ├── deal-status.ts
+    │   │       ├── deal-status.ts  # Optional, enum can go into main file
     │   │       └── deal.rules.ts
     │   │
     │   ├── contacts/
