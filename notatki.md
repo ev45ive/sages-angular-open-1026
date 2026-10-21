@@ -50,4 +50,7 @@ http://localhost:4200/
 
 
 # Material
-ng add @angular/material
+ng add @angular/
+
+# DevTools
+https://angular.dev/tools/devtools
