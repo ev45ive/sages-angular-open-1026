@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DealDetailsCard } from '../../ui/deal-details-card/deal-details-card';
+import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-details-card';
 
 @Component({
   imports: [DealDetailsCard],

@@ -12,7 +12,20 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      /* Core */
+      "@core/tokens": ["./src/app/core/index.ts"],
+      
+      /* Features */
+      "@feature/deals/*": ["./src/app/features/deals/*"],
+      "@feature/contacts/*": ["./src/app/features/contacts/*"],
+      
+      /* Shared */
+      "@shared/*": ["./src/app/shared/*"]
+
+      /* TODO: eslint boundaries */
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
