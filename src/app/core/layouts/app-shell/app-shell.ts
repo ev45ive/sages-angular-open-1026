@@ -13,11 +13,11 @@ import { RouterOutlet } from '@angular/router';
   template: ` <ng-content select="[app-toolbar]">
       <!-- <ng-content select="h1,h2,h3..."></ng-content> -->
 
-      <div class="bg-slate-600 py-3">
-        <div class="container mx-auto flex justify-between gap-5">
+      <div class="bg-primary text-on-primary pt-3 pb-2">
+        <div class="container mx-auto flex justify-between items-center gap-5">
           <!-- Header: -->
           <ng-content select="[app-title]">
-            <h1 class="text-2xl leading-loose text-primary app-title">
+            <h1 class="text-2xl leading-loose app-title">
               {{ title() }}
             </h1>
           </ng-content>
@@ -30,7 +30,7 @@ import { RouterOutlet } from '@angular/router';
       </div>
     </ng-content>
 
-    <div class="my-5 mx-auto container grid gap-5">
+    <div class="grid mx-auto container my-5 gap-5">
       <!-- Composition: -->
       <ng-content></ng-content>
     </div>`,

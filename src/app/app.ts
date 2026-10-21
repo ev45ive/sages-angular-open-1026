@@ -13,8 +13,8 @@ import { AppShell } from './core/layouts/app-shell/app-shell';
       <!-- <p app-toolbar>{{appName()}}</p> -->
       <!-- <p app-title>{{appName()}}</p> -->
 
-      <button app-toolbar-action mat-raised-button>Settings</button>
-      <button app-toolbar-action mat-flat-button>Login</button>
+      <button app-toolbar-action mat-flat-button>Settings</button>
+      <button app-toolbar-action mat-raised-button>Login</button>
 
       <!-- Main content -->
        Main content
