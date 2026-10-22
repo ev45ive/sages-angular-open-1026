@@ -32,33 +32,14 @@ export class DealsSearchPage {
   // selectedDeal = signal<Deal>(mockDeals[0]);
 
   // Computed() = formula =SUM(A1,B2) - lazy + memoized + referential stability / equal(a,b)
-  selectedDeal1 = computed(
-    () => {
-      console.log('Searching for ' + this.selectedDealId() + ' filter:' + this.filter());
-
-      const id = this.selectedDealId(); // auto-tracking!
-
-      this.filter(); // tracking
-
-      const deal = mockDeals.find((d) => d.id === this.selectedDealId()) as Deal;
-
-      deal.public = false; // Mutation
-      return deal // same ref -> no update -> stale View
-
-      // return { ...deal, public: false }; // Shallow copy - new obj ref -> same keys refs
-    },
-    // { equal: (a, b) => a === b }, // When to clear cache! // default to reference equals ===
-  );
-
   selectedDeal = computed(() => {
-    console.log('Transforming for ' + this.selectedDeal1().id);
-    return this.selectedDeal1();
+    // const id = this.selectedDealId(); // auto-tracking!
+
+    const deal = mockDeals.find((d) => d.id === this.selectedDealId()) as Deal;
+    return deal;
   });
 
   selectDeal(id: string) {
-    // Update + Notify!
     this.selectedDealId.set(id);
-
-    // this.selectedDeal.set(mockDeals[0]); // computed is read-only
   }
 }
