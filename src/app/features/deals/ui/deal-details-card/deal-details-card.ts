@@ -25,10 +25,8 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">
-            
             <app-deal-stage-badge [stage]="deal.stage" />
 
-            <!-- ==== -->
             <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
           </div>
         </div>
