@@ -25,7 +25,16 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
             </p>
           </div>
           <div>
-            {{ deal.stage }}
+            <span
+              class="rounded-full  px-3 py-1 text-label-md "
+              [class]="{
+                'bg-amber-400': deal.stage === 'new',
+                'bg-red-400': deal.stage === 'negotiation',
+              }"
+            >
+              <!-- Trigger view change detection -->
+              {{ deal.stage }}
+            </span>
           </div>
         </div>
       } @empty {
@@ -37,7 +46,6 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   `,
 })
 export class DealItemsList {
-
   // inputs+outputs -> Stateless / Controlled / Presentational component
 
   items = input<Deal[]>([]);
