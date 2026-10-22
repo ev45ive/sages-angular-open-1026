@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
  *   <app-info-item label="Contact" value="Anna Kowalska" />
  * </app-info-grid>
  * ```
- * 
+ *
+ * @snippet [info-grid](/.vscode/shared-components.code-snippets#L2)
  * @owner Mateusz Kulesza <mateusz@sages.oi>
  * @see [InfoGridItem](./info-item.ts)
  */

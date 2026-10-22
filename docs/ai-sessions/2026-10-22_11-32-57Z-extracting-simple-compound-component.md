@@ -1874,3 +1874,399 @@ _**Agent (copilot/claude-haiku-5.5)**_
 
 Created 3 todos
 </details></tool-use>
+
+---
+
+_**User (2026-10-22 11:58:42Z)**_
+
+add snippets info to components JSDoc
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `50`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGrid](./info-grid.ts)
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-grid.ts`
+
+**Input:**
+
+- endLine: `30`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-grid.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component } from '@angular/core';
+
+/**
+ * Layout wrapper that arranges `app-info-item` children in a three-column grid.
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ * 
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGridItem](./info-item.ts)
+ */
+@Component({
+  selector: 'app-info-grid',
+  host: { class: 'mt-5 grid grid-cols-3 gap-4' },
+  template: `<ng-content />`,
+})
+export class InfoGrid {}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 31-31 @@
+
+```
+snippet info-item
+ * @snippet info-item-label
+ * @snippet info-item-value
+ * @
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+
+```
+
+```
+
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-grid.ts**</summary>
+
+@@ lines 13-13 @@
+
+```
+
+ * @snippet info-grid
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I added `@snippet` tags to both JSDoc blocks, listing the prefixes from `.vscode/shared-components.code-snippets`:
+
+- `src/app/shared/ui/info-grid/info-grid.ts`: `@snippet info-grid`
+- `src/app/shared/ui/info-grid/info-item.ts`: `@snippet info-item`, `info-item-label`, `info-item-value`
+
+`@snippet` is a custom tag, not a standard JSDoc one. I left the existing `@see` links as they were after your edits.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 4 todos
+</details></tool-use>
+
+---
+
+_**User (2026-10-22 12:00:19Z)**_
+
+make this links to snippets file
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `shared-components.code-snippets`
+
+**Input:**
+
+- endLine: `200`
+- filePath: `c:\Projects\sages-angular-open-1026\.vscode\shared-components.code-snippets`
+- startLine: `1`
+
+**Result:**
+
+```
+{
+  "InfoGrid usage": {
+    "scope": "html,typescript",
+    "prefix": "info-grid",
+    "description": "InfoGrid with one InfoItem",
+    "body": [
+      "<app-info-grid>",
+      "  <app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />",
+      "  $0",
+      "</app-info-grid>"
+    ]
+  },
+  "InfoItem usage": {
+    "scope": "html,typescript",
+    "prefix": "info-item",
+    "description": "InfoItem with label and value inputs",
+    "body": [
+      "<app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />"
+    ]
+  },
+  "InfoItem usage with projected label": {
+    "scope": "html,typescript",
+    "prefix": "info-item-label",
+    "description": "InfoItem with projected info-label",
+    "body": [
+      "<app-info-item value=\"${1:Value}\">",
+      "  <span info-label>${2:Label}</span>",
+      "</app-info-item>"
+    ]
+  },
+  "InfoItem usage with projected value": {
+    "scope": "html,typescript",
+    "prefix": "info-item-value",
+    "description": "InfoItem with projected value",
+    "body": [
+      "<app-info-item label=\"${1:Label}\">${2:value}</app-info-item>"
+    ]
+  }
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-grid.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-grid.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component } from '@angular/core';
+
+/**
+ * Layout wrapper that arranges `app-info-item` children in a three-column grid.
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @snippet info-grid
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGridItem](./info-item.ts)
+ */
+@Component({
+  selector: 'app-info-grid',
+  host: { class: 'mt-5 grid grid-cols-3 gap-4' },
+  template: `<ng-content />`,
+})
+export class InfoGrid {}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @snippet info-item
+ * @snippet info-item-label
+ * @snippet info-item-value
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGrid](./info-grid.ts)
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-grid.ts**</summary>
+
+@@ lines 14-14 @@
+
+```
+[info-grid](../../../../../.vscode/shared-components.code-snippets#L2)
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+
+```
+
+```
+
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 31-33 @@
+
+```
+[info-item](../../../../../.vscode/shared-components.code-snippets#L13)
+ * @snippet [info-item-label](../../../../../.vscode/shared-components.code-snippets#L21)
+ * @snippet [info-item-value](../../../../../.vscode/shared-components.code-snippets#L31)
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+The `@snippet` tags in both files now link to their entries in `.vscode/shared-components.code-snippets`:
+
+- `src/app/shared/ui/info-grid/info-grid.ts`: `info-grid` links to line 2.
+- `src/app/shared/ui/info-grid/info-item.ts`: `info-item` links to line 13, `info-item-label` to line 21, and `info-item-value` to line 31.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 1 todo
+</details></tool-use>

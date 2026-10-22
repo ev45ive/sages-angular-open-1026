@@ -28,6 +28,10 @@ import { Component, input } from '@angular/core';
  * </app-info-grid>
  * ```
  *
+ * @snippet [info-item](.vscode/shared-components.code-snippets#L13)
+ * @snippet [info-item-label](.vscode/shared-components.code-snippets#L21)
+ * @snippet [info-item-value](.vscode/shared-components.code-snippets#L31)
+ * 
  * @owner Mateusz Kulesza <mateusz@sages.oi>
  * @see [InfoGrid](./info-grid.ts)
  */
