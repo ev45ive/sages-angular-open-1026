@@ -25,7 +25,11 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
       </div>
 
       <div class="grid gap-sm">
-        <app-deal-details-card [deal]="selectedDeal()" />
+        @if (selectedDeal(); as deal) {
+          <app-deal-details-card [deal]="deal" />
+        } @else {
+          <div class="px-3 py-4 text-center">No deal selected</div>
+        }
       </div>
     </div>
   `,
@@ -40,14 +44,6 @@ export class DealsSearchPage {
     // const id = this.selectedDealId(); // auto-tracking!
 
     const deal = this.dealsList().find((d) => d.id === this.selectedDealId());
-
-    if (deal) {
-      deal; // Deal
-    } else if (deal == undefined) {
-      deal;
-    } else {
-      deal satisfies never; // exhaustiveness check
-    }
 
     return deal;
   });
