@@ -74,8 +74,8 @@ export class DealsSearchPage {
 
   selectedDealId = signal('d2');
 
-  // dealsList = signal<Deal[]>(mockDeals);
-  dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
+  dealsList = signal<Deal[]>(mockDeals);
+  // dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
 
   // selectedDeal = signal<Deal>(mockDeals[0]);
   selectedDeal = computed(() => {
@@ -105,19 +105,10 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    // const list = [...this.dealsList()];
-    // for (const key in list) {
-    //   if (list[key].id !== draft.id) continue;
-
-    //   list[key] = draft;
-    // }
-    // this.dealsList.set(list);
-
-
-    // this.dealsList.set(this.dealsList().map((d) => (d.id === draft.id ? draft : d)));
-
-    // Functional - pass transformer into the value -> get new value
-    this.dealsList.update((list) => list.map((d) => (d.id === draft.id ? draft : d)));
+    
+    this.dealsList.update((list) => {
+      return list.map((d) => (d.id === draft.id ? draft : d));
+    });
 
     this.mode.set('details');
   }
