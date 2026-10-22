@@ -2,10 +2,13 @@ import { Component, input, output, signal } from '@angular/core';
 import { MatAnchor } from '@angular/material/button';
 import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
+import { InfoGrid } from '@shared/ui/info-grid/info-grid';
+import { InfoItem } from '@shared/ui/info-grid/info-item';
 import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  imports: [MatAnchor, DealStageBadge],
+  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe],
   selector: 'app-deal-details-card',
   styles: `
     :host {
@@ -30,22 +33,11 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
             <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
           </div>
         </div>
-        <dl class="mt-5 grid grid-cols-3 gap-4">
-          <div>
-            <dt class="text-label-lg text-on-surface">Value</dt>
-            <dd class="mt-1 text-title-md text-on-surface">$48,000</dd>
-          </div>
-          <div>
-            <dt class="text-label-lg text-on-surface">Contact</dt>
-            <dd class="mt-1 text-body-lg text-on-surface">Anna Kowalska</dd>
-          </div>
-          <div>
-            <dt class="text-label-lg text-on-surface">Public</dt>
-            <dd class="mt-1 text-body-lg text-on-surface">
-              {{ deal.public ? 'Yes' : 'No' }}
-            </dd>
-          </div>
-        </dl>
+        <app-info-grid>
+          <app-info-item label="Value" [value]="deal.value | currency" />
+          <app-info-item label="Contact" value="Anna Kowalska" />
+          <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+        </app-info-grid>
       </article>
     } @else {
       <div class="px-3 py-4 text-center">No deal selected</div>
