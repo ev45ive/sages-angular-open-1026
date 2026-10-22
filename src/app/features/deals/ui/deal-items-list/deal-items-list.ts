@@ -1,9 +1,9 @@
 import { Component, input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { Deal } from '@feature/deals/model/deal';
-import { NgForOf } from '../../../../../../node_modules/@angular/common/types/_common_module-chunk';
 
 @Component({
-  imports: [NgForOf],
+  imports: [CurrencyPipe],
   selector: 'app-deal-items-list',
   styles: `
     :host {
@@ -12,34 +12,36 @@ import { NgForOf } from '../../../../../../node_modules/@angular/common/types/_c
   `,
   template: `
     <div class="grid gap-sm">
-      <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
+      <!-- <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
         <div class="grow">
           <strong>Item 11</strong>
           <p>Testing</p>
         </div>
         <div>Negotiation</div>
-      </div>
-      <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
-        <div class="grow">
-          <strong>Item 21</strong>
-          <p>Testing</p>
-        </div>
-        <div>Negotiation</div>
-      </div>
+      </div> -->
 
-      <div
-        class="flex items-center bg-surface-container px-3 py-4 gap-2"
-        *ngFor="let item of items()"
-      >
-        <div class="grow">
-          <strong>Item 31</strong>
-          <p>Testing</p>
+      @for (deal of items(); track deal.id) {
+        <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
+          <div class="grow">
+            <strong>{{ deal.title }}</strong>
+            <p>
+              {{ deal.value | currency }}
+            </p>
+          </div>
+          <div>
+            {{ deal.stage }}
+          </div>
         </div>
-        <div>Negotiation</div>
-      </div>
+      } @empty {
+        <div class="flex items-center justify-center bg-surface-container px-3 py-4 gap-2">
+          No deals found
+        </div>
+      }
     </div>
   `,
 })
 export class DealItemsList {
   items = input<Deal[]>([]);
+
+  // formatMOney() ..
 }

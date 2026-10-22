@@ -32,7 +32,7 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
 })
 export class DealsSearchPage {
   selectedDealId = signal('d2');
-  dealsList = signal(mockDeals);
+  dealsList = signal<Deal[]>([]);
 
   // selectedDeal = signal<Deal>(mockDeals[0]);
 
