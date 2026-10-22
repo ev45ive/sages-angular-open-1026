@@ -1,8 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
-
 @import './design/material-tokens.css';
+
+@theme inline {
+  --spacing-bananna: var(--spacing) * 5;
+
+  /* Named spacing roles */
+  --spacing-sm: var(--spacing) * 2;
+  --spacing-md: var(--spacing) * 5;
+}
+
+/* Overrides */
 
 [mat-flat-button].featured {
   --mat-button-filled-color: var(--mat-sys-on-secondary);
@@ -11,6 +20,8 @@
 .featured-buttons [mat-flat-button] {
   --mat-button-filled-container-color: var(--color-red-500);
 }
+
+/* App Styles */
 
 .app-shell {
   @apply my-5 mx-auto container grid gap-5;

@@ -16,12 +16,23 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
     <p>deals-search works!</p>
 
     <!-- Effect - Consumer  -->
-    <h1>{{ selectedDeal().title }}</h1>
+    <!-- <h1>{{ selectedDeal().title }}</h1> -->
 
-    <app-deal-items-list />
+    <!-- .grid.grid-cols-2.gap-md>.grid.gap-md*2 -->
+    <div class="grid sm:grid-cols-2 gap-md">
+      <!--  -->
+      <h1 class="text-2xl leading-loose col-span-full">Deals</h1>
+      
+      <div class="grid gap-sm">
+        <app-deal-items-list />
+      </div>
+      <div class="grid gap-sm">
+        <app-deal-details-card [deal]="selectedDeal()" />
+      </div>
+
+    </div>
 
     <!-- Child component -->
-    <app-deal-details-card [deal]="selectedDeal()" />
 
     <!-- <input [value]="deal().title"> -->
   `,
