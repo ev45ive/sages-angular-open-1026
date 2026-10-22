@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -72,27 +73,30 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
 export class DealsSearchPage {
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
-  selectedDealId = signal('d2');
+  selectedDealId = signal('');
 
   dealsList = signal<Deal[]>(mockDeals);
   // dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
 
-  // selectedDeal = signal<Deal>(mockDeals[0]);
-  selectedDeal = computed(() => {
-    // const id = this.selectedDealId(); // auto-tracking!
-    const deal = this.dealsList().find((d) => d.id === this.selectedDealId());
-    return deal;
+  // selectedDeal = computed(() => { // lazy + tracking + sync
+
+  selectedDeal = signal<Deal | undefined>(undefined);
+
+  // Eager + tracking + Async
+  loadDeal$ = effect(() => {
+    const id = this.selectedDealId(); // auto-tracking!
+    if (!id) return;
+
+    setTimeout(() => {
+      const deal = this.dealsList().find((d) => d.id === id);
+      this.selectedDeal.set(deal);
+    }, 2_000);
   });
 
   // ---
 
-  // cdr = inject(ChangeDetectorRef)
-
   createDeal() {
     this.mode.set('creator');
-
-    // fetch / timeout / asnyc
-    // this.cdr.detectChanges() // manual change detection
   }
 
   selectDeal(id: string) {
@@ -105,7 +109,6 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    
     this.dealsList.update((list) => {
       return list.map((d) => (d.id === draft.id ? draft : d));
     });
