@@ -17,7 +17,13 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'app-info-grid',
-  host: { class: 'mt-5 grid grid-cols-3 gap-4' },
+  host: { class: 'mt-5 grid sm:grid-cols-3 gap-4' },
   template: `<ng-content />`,
 })
 export class InfoGrid {}
+
+/* 
+    [app-info-grid]{
+        @mt-5 grid sm:grid-cols-3 gap-4;
+    }
+*/
