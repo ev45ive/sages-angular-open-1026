@@ -13,9 +13,23 @@ import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-detail
   template: `
     <p>deals-search works!</p>
 
-    <app-deal-details-card />
+    <!-- Effect - Consumer  -->
+    <h1>{{selectedDeal().title}}</h1>
+
+    <!-- Child component -->
+    <app-deal-details-card [deal]="selectedDeal()"/>
+
+    <!-- <input [value]="deal().title"> -->
   `,
 })
 export class DealsSearchPage {
-  deal = signal(mockDeals[1]);
+  
+  // Owner
+  selectedDeal = signal(mockDeals[1]);
+
+  selectDeal(id:string){
+
+    // Update + Notify!
+    this.selectedDeal.set(mockDeals[0])
+  }
 }

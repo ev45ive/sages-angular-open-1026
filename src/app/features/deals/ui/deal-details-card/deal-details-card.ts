@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { MatAnchor } from '@angular/material/button';
 import { mockDeals } from '@feature/deals/data/mock-deals';
+import { Deal } from '@feature/deals/model/deal';
 
 @Component({
   imports: [MatAnchor],
@@ -29,6 +30,7 @@ import { mockDeals } from '@feature/deals/data/mock-deals';
               'bg-red-400': deal().stage === 'negotiation',
             }"
           >
+            <!-- Trigger view change detection -->
             {{ deal().stage }}
           </span>
           <button type="button" mat-raised-button>Edit</button>
@@ -54,5 +56,5 @@ import { mockDeals } from '@feature/deals/data/mock-deals';
   `,
 })
 export class DealDetailsCard {
-  deal = signal(mockDeals[1]);
+  deal = input<Deal>(mockDeals[1]); // From Parent - ReadOnly
 }
