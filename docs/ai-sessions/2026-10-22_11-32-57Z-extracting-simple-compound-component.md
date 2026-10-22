@@ -687,3 +687,582 @@ _**Agent (copilot/claude-haiku-5.5)**_
 The card's `<dl>` block is replaced with three `<app-info-item>` usages. "Value" is now the same size as the other values, per the default I chose for the open question.
 
 The `rm` command was skipped, so the folders the schematic generated are still there: `shared/ui/info-grid/info-grid/` and `shared/ui/info-grid/info-item/`. They are not imported anywhere, so the build should not be affected, but they are duplicates. Should I delete them?
+
+---
+
+_**User (2026-10-22 11:46:41Z)**_
+
+add JSDoc to both - Description
++ @example usages with ```html ``` blocks 
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { Component, input } from '@angular/core';
+
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="list_dir"><details>
+<summary>Tool use: **list_dir**</summary>
+
+Read `info-grid`
+
+**Input:**
+
+- path: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid`
+
+**Result:**
+
+```
+info-grid/
+info-grid.ts
+info-item/
+info-item.ts
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `deal-details-card.ts`
+
+**Input:**
+
+- endLine: `80`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\features\deals\ui\deal-details-card\deal-details-card.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { Component, input, output, signal } from '@angular/core';
+import { MatAnchor } from '@angular/material/button';
+import { mockDeals } from '@feature/deals/data/mock-deals';
+import { Deal } from '@feature/deals/model/deal';
+import { InfoGrid } from '@shared/ui/info-grid/info-grid';
+import { InfoItem } from '@shared/ui/info-grid/info-item';
+import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
+import { CurrencyPipe } from '@angular/common';
+
+@Component({
+  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe],
+  selector: 'app-deal-details-card',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: `
+    @if (deal(); as deal) {
+      <article class="rounded-md bg-surface-container-lowest p-5 shadow-level1">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h2 class="text-title-md text-on-surface">
+              {{ deal.title }}
+            </h2>
+            <p class="mt-1 text-body-md text-on-surface-variant">
+              {{ deal.description }}
+            </p>
+          </div>
+          <div class="flex shrink-0 items-center gap-3">
+            <app-deal-stage-badge [stage]="deal.stage" />
+
+            <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
+          </div>
+        </div>
+        <app-info-grid>
+          <app-info-item label="Value" [value]="deal.value | currency" />
+          <app-info-item label="Contact" value="Anna Kowalska" />
+          <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+        </app-info-grid>
+      </article>
+    } @else {
+      <div class="px-3 py-4 text-center">No deal selected</div>
+    }
+  `,
+})
+export class DealDetailsCard {
+  deal = input<Deal>();
+
+  edit = output();
+
+  onEdit() {
+    this.edit.emit();
+  }
+
+  // TODO: Emit!
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-grid.ts`
+
+**Input:**
+
+- endLine: `20`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-grid.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-info-grid',
+  host: { class: 'mt-5 grid grid-cols-3 gap-4' },
+  template: `<ng-content />`,
+})
+export class InfoGrid {}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-grid.ts**</summary>
+
+@@ lines 3-3 @@
+
+````
+/**
+ * Layout wrapper that arranges `app-info-item` children in a three-column grid.
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ */
+
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+
+```
+
+```
+
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 3-3 @@
+
+````
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ */
+
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `info-grid.ts`, `info-item.ts`, no problems found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\info-grid\\info-grid.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\info-grid\\info-item.ts"
+]
+```
+
+
+**Result:**
+
+```
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\info-grid\\info-grid.ts">
+No errors found
+</errors>
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\info-grid\\info-item.ts">
+No errors found
+</errors>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+JSDoc with a description and `html` examples is now on both components:
+
+- `src/app/shared/ui/info-grid/info-grid.ts`: , one example
+- `src/app/shared/ui/info-grid/info-item.ts`: , three examples (attribute, projected label, projected value)
+
+No errors are reported. I did not change `src/app/features/deals/ui/deal-details-card/deal-details-card.ts`, which now has the  and  changes you or a tool made.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 3 todos
+</details></tool-use>
+
+---
+
+_**User (2026-10-22 11:48:41Z)**_
+
+add info grid reference to item jsdoc
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `40`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 22-22 @@
+
+```
+
+ * @see InfoGrid
+ *
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I added a `@see InfoGrid` tag to the  JSDoc in `src/app/shared/ui/info-grid/info-item.ts`. It sits after the examples and points to the parent component.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 3 todos
+</details></tool-use>
+
+---
+
+_**User (2026-10-22 11:49:16Z)**_
+
+add 1 grid + item eample below
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `45`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ *
+ * @see InfoGrid
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 23-23 @@
+
+````
+example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I added a grid + item example to the  JSDoc in `src/app/shared/ui/info-grid/info-item.ts`, placed after the existing examples and before the `@see InfoGrid` tag.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 3 todos
+</details></tool-use>
+
+---
+
+_**User (2026-10-22 11:50:17Z)**_
+
+add @owner
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Which name should go in `@owner`? I can use a person's name or a team name. I haven't added the tag yet, so I won't guess.
+
+---
+
+_**User (2026-10-22 11:50:33Z)**_
+
+Mateusz Kulesza mateusz@sages.oi
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `50`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @see InfoGrid
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **info-item.ts**</summary>
+
+@@ lines 31-31 @@
+
+```
+owner Mateusz Kulesza <mateusz@sages.oi>
+ * @
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Added `@owner Mateusz Kulesza <mateusz@sages.oi>` to the  JSDoc in `src/app/shared/ui/info-grid/info-item.ts`, above the `@see InfoGrid` tag.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 3 todos
+</details></tool-use>

@@ -33,6 +33,7 @@ import { CurrencyPipe } from '@angular/common';
             <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
           </div>
         </div>
+
         <app-info-grid>
           <app-info-item label="Value" [value]="deal.value | currency" />
           <app-info-item label="Contact" value="Anna Kowalska" />
