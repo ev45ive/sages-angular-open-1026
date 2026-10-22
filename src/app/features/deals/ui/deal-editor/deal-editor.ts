@@ -28,17 +28,9 @@ import { Deal } from '@feature/deals/model/deal';
   `,
 })
 export class DealEditor {
-  
   deal = input<Deal>();
   
   draft = linkedSignal(() => ({ ...(this.deal() ?? emptyDealDraft()) }));
-
-  // draft = signal<Deal>(emptyDealDraft());
-
-  // Do not use effect to sync signals -> Change detection cascade
-  // _copy = effect(() => {
-  //   this.draft.set(this.deal() ? { ...this.deal()! } : this.draft());
-  // });
 
   save = output<Deal>();
 

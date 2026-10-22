@@ -129,3 +129,7 @@ https://en.wikipedia.org/wiki/Persistent_data_structure
 
 Wystawiasz to, co się zmienia (Expose Variants). Ukrywasz to, co musi zawsze być prawdziwe (Protect Invariants).
 
+
+
+# TODO:
+- Powiązane comboboxy - [Kraj] -> [Woj] -> [miasto]
