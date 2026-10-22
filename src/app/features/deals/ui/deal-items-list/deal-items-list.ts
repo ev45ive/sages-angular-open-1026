@@ -15,14 +15,12 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
   template: `
     <div class="grid gap-sm">
       @for (deal of items(); track deal.id) {
-        <div
-          tabindex="0"
-          class="flex items-center bg-surface-container px-3 py-4 gap-2 cursor-pointer focus:ring-1 ring-red-600"
+        <button
+          type="button"
+          class="flex items-center text-start bg-surface-container px-3 py-4 gap-2 cursor-pointer"
           [class.bg-primary!]="deal.id === selectedId()"
           [class.text-on-primary!]="deal.id === selectedId()"
           (click)="selectItem(deal.id)"
-          (keyup.Enter)="selectItem(deal.id)"
-          (keyup.Space)="selectItem(deal.id)"
           (keyup.ArrowUp)="moveSelection(-1)"
           (keyup.ArrowDown)="moveSelection(+1)"
         >
@@ -35,7 +33,7 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
           <div>
             <app-deal-stage-badge [stage]="deal.stage" />
           </div>
-        </div>
+        </button>
       } @empty {
         <div class="flex items-center justify-center bg-surface-container px-3 py-4 gap-2">
           No deals found

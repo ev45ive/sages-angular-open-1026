@@ -13,9 +13,10 @@ import { Deal } from '@feature/deals/model/deal';
 import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-details-card';
 import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list';
 import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
+import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
 
 @Component({
-  imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, MatButton],
+  imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, MatButton, DealEditor],
   selector: 'app-deals-search',
   styles: `
     :host {
@@ -48,7 +49,11 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
           }
           @case ('editor') {
             <!--  -->
-            edit mode
+
+            @if (selectedDeal(); as deal) {
+              <app-deal-editor [deal]="deal" (save)="saveDeal($event)" />
+            }
+            
             <button mat-flat-button (click)="closeEditor()">Cancel</button>
           }
           @case ('creator') {
@@ -65,6 +70,9 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
   `,
 })
 export class DealsSearchPage {
+  saveDeal($event: Deal) {
+    throw new Error('Method not implemented.');
+  }
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
   selectedDealId = signal('d2');
@@ -83,7 +91,7 @@ export class DealsSearchPage {
 
   createDeal() {
     this.mode.set('creator');
-    
+
     // fetch / timeout / asnyc
     // this.cdr.detectChanges() // manual change detection
   }
