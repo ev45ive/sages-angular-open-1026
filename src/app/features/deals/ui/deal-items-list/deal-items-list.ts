@@ -2,9 +2,10 @@ import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Deal } from '@feature/deals/model/deal';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
 
 @Component({
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, DealStageBadge],
   selector: 'app-deal-items-list',
   styles: `
     :host {
@@ -25,20 +26,7 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
             </p>
           </div>
           <div>
-            
-            
-            <span
-              class="rounded-full  px-3 py-1 text-label-md "
-              [class]="{
-                'bg-amber-400': deal.stage === 'new',
-                'bg-red-400': deal.stage === 'negotiation',
-              }"
-            >
-              <!-- Trigger view change detection -->
-              {{ deal.stage }}
-            </span>
-
-
+            <app-deal-stage-badge [stage]="deal.stage" />
           </div>
         </div>
       } @empty {

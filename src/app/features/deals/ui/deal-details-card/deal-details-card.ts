@@ -25,19 +25,7 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">
-            <!-- Czy wydzielamy?  -->
-
-            <!-- Kto jest właścicielem? feature/deals vs shared/ui  -->
-
-            <!-- Kto jest właścicielem prezentacji badge?  shared/ui  -->
-            <!-- Kto jest właścicielem prezentacji deal stage? feature/deals vs  -->
-
-            <!-- Kto zmienia deal.stage - Parent? input() -->
-
-            <!-- Kto zmienia deal stages colors  -->
-
-            <!-- <app-deal-stage-badge stage="negotiation" /> -->
-             
+            
             <app-deal-stage-badge [stage]="deal.stage" />
 
             <!-- ==== -->
