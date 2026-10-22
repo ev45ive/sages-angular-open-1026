@@ -56,5 +56,9 @@ import { Deal } from '@feature/deals/model/deal';
   `,
 })
 export class DealDetailsCard {
-  deal = input<Deal>(mockDeals[1]); // From Parent - ReadOnly
+  // From Parent - ReadOnly
+
+  // deal = input<Deal>(); // T | undefined - optional
+  // deal = input(mockDeals[0]); // initial
+  deal = input.required<Deal>(); // required
 }
