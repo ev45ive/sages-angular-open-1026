@@ -24,16 +24,37 @@ import { Deal } from '@feature/deals/model/deal';
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">
+            <!-- ==== -->
+            <!-- SOLID SRP - Role - one reason for change -->
+
+            <!-- Expose Variants <-> Protect Invariant -->
+
+            <!-- Owner | Lifetime | Evolution  -->
+
+            <!-- === ROLE === -->
+
+            <!-- Presentation - HTML/CSS -->
+            <!-- <div app-badge>Promotion</div> -->
+            <!-- Style lifecycle == THeme lifecycle -->
+            
+            <!-- Data -->
+            <!-- <div app-badge>{{ label }}</div> -->
+            
+            <!-- Label - Deals? Deal? stage? -->
+
             <span
-              class="rounded-full  px-3 py-1 text-label-md "
+              class="rounded-full px-3 py-1 text-label-md "
+
               [class]="{
                 'bg-amber-400': deal.stage === 'new',
+                'bg-green-400': deal.stage === 'proposal',
                 'bg-red-400': deal.stage === 'negotiation',
               }"
             >
-              <!-- Trigger view change detection -->
               {{ deal.stage }}
             </span>
+
+            <!-- ==== -->
             <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
           </div>
         </div>
