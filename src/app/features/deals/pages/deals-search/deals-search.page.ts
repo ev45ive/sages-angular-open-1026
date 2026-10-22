@@ -26,28 +26,33 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
       </div>
 
       <div class="grid gap-sm">
-        @let activeMode = mode();
-
-        @if (activeMode === 'details') {
+        <!-- 
+          @if (activeMode === 'details') {
         } @else if (activeMode === 'editor') {
-        } @else if (activeMode === 'creator') {
-        } @else {
-          {{ activeMode | exhaustive }}
-        }
+          } @else if (activeMode === 'creator') {
+            } @else {
+              {{ activeMode | exhaustive }}
+              } -->
+        @let activeMode = mode();
+        @let deal = selectedDeal();
 
         @switch (activeMode) {
-          @case ('details') {}
-          @case ('editor') {}
-          @case ('creator') {}
+          @case ('details') {
+            @if (deal) {
+              <app-deal-details-card [deal]="deal" />
+            } @else {
+              <div class="px-3 py-4 text-center">No deal selected</div>
+            }
+          }
+          @case ('editor') {
+            <!--  -->
+          }
+          @case ('creator') {
+            <!--  -->
+          }
           @default {
             {{ activeMode | exhaustive }}
           }
-        }
-
-        @if (selectedDeal(); as deal) {
-          <app-deal-details-card [deal]="deal" />
-        } @else {
-          <div class="px-3 py-4 text-center">No deal selected</div>
         }
       </div>
     </div>
