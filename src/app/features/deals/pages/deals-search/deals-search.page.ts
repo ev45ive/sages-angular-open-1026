@@ -29,7 +29,7 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
       </div>
 
       <div class="grid gap-sm">
-        <app-deal-items-list [items]="dealsList()" />
+        <app-deal-items-list [items]="dealsList()" (selectionChanged)="selectDeal($event)" />
       </div>
 
       <div class="grid gap-sm">

@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Deal } from '@feature/deals/model/deal';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 @Component({
   imports: [CurrencyPipe],
@@ -13,7 +14,10 @@ import { Deal } from '@feature/deals/model/deal';
   template: `
     <div class="grid gap-sm">
       @for (deal of items(); track deal.id) {
-        <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
+        <div
+          class="flex items-center bg-surface-container px-3 py-4 gap-2"
+          (click)="selectItem(deal.id)"
+        >
           <div class="grow">
             <strong>{{ deal.title }}</strong>
             <p>
@@ -35,5 +39,10 @@ import { Deal } from '@feature/deals/model/deal';
 export class DealItemsList {
   items = input<Deal[]>([]);
 
-  // formatMOney() ..
+  // Event Emmitter -> (id) => $event
+  selectionChanged = output<Deal['id']>();
+
+  selectItem(id: Deal['id']) {
+    this.selectionChanged.emit(id);
+  }
 }
