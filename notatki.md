@@ -107,3 +107,7 @@ ng g s features/deals/data/deals-source
 ng g interface features/deals/model/deal 
 
 npm run ng -- g interface features/deals/model/deal 
+
+
+# Immutability
+https://en.wikipedia.org/wiki/Persistent_data_structure

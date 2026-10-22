@@ -42,7 +42,10 @@ export class DealsSearchPage {
 
       const deal = mockDeals.find((d) => d.id === this.selectedDealId()) as Deal;
 
-      return deal;
+      deal.public = false; // Mutation
+      return deal // same ref -> no update -> stale View
+
+      // return { ...deal, public: false }; // Shallow copy - new obj ref -> same keys refs
     },
     // { equal: (a, b) => a === b }, // When to clear cache! // default to reference equals ===
   );
