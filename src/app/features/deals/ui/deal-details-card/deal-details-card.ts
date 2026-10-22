@@ -2,9 +2,10 @@ import { Component, input, output, signal } from '@angular/core';
 import { MatAnchor } from '@angular/material/button';
 import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
+import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
 
 @Component({
-  imports: [MatAnchor],
+  imports: [MatAnchor, DealStageBadge],
   selector: 'app-deal-details-card',
   styles: `
     :host {
@@ -24,29 +25,20 @@ import { Deal } from '@feature/deals/model/deal';
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">
- 
-          <!-- Czy wydzielamy?  -->
-          
-          <!-- Kto jest właścicielem? feature/deals vs shared/ui  -->
-           
-          <!-- Kto jest właścicielem prezentacji badge?  shared/ui  -->
-          <!-- Kto jest właścicielem prezentacji deal stage? feature/deals vs  -->
+            <!-- Czy wydzielamy?  -->
 
-          <!-- Kto zmienia deal.stage - Parent? input() -->
-           
-          <!-- Kto zmienia deal stages colors  -->
+            <!-- Kto jest właścicielem? feature/deals vs shared/ui  -->
 
-            <span
-              class="rounded-full px-3 py-1 text-label-md "
+            <!-- Kto jest właścicielem prezentacji badge?  shared/ui  -->
+            <!-- Kto jest właścicielem prezentacji deal stage? feature/deals vs  -->
 
-              [class]="{
-                'bg-amber-400': deal.stage === 'new',
-                'bg-green-400': deal.stage === 'proposal',
-                'bg-red-400': deal.stage === 'negotiation',
-              }"
-            >
-              {{ deal.stage }}
-            </span>
+            <!-- Kto zmienia deal.stage - Parent? input() -->
+
+            <!-- Kto zmienia deal stages colors  -->
+
+            <!-- <app-deal-stage-badge stage="negotiation" /> -->
+             
+            <app-deal-stage-badge [stage]="deal.stage" />
 
             <!-- ==== -->
             <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
