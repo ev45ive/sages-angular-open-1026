@@ -3,9 +3,10 @@ import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
 import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-details-card';
 import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list';
+import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 
 @Component({
-  imports: [DealDetailsCard, DealItemsList],
+  imports: [DealDetailsCard, DealItemsList, ExhaustivePipe],
   selector: 'app-deals-search',
   styles: `
     :host {
@@ -25,6 +26,24 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
       </div>
 
       <div class="grid gap-sm">
+        @let activeMode = mode();
+
+        @if (activeMode === 'details') {
+        } @else if (activeMode === 'editor') {
+        } @else if (activeMode === 'creator') {
+        } @else {
+          {{ activeMode | exhaustive }}
+        }
+
+        @switch (activeMode) {
+          @case ('details') {}
+          @case ('editor') {}
+          @case ('creator') {}
+          @default {
+            {{ activeMode | exhaustive }}
+          }
+        }
+
         @if (selectedDeal(); as deal) {
           <app-deal-details-card [deal]="deal" />
         } @else {
@@ -35,6 +54,8 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
   `,
 })
 export class DealsSearchPage {
+  mode = signal<'details' | 'editor' | 'creator'>('details');
+
   selectedDealId = signal('d2');
   dealsList = signal<Deal[]>([]);
 
