@@ -16,9 +16,15 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
     <div class="grid gap-sm">
       @for (deal of items(); track deal.id) {
         <div
-          class="flex items-center bg-surface-container px-3 py-4 gap-2"
+          tabindex="0"
+          class="flex items-center bg-surface-container px-3 py-4 gap-2 cursor-pointer focus:ring-1 ring-red-600"
           [class.bg-primary!]="deal.id === selectedId()"
+          [class.text-on-primary!]="deal.id === selectedId()"
           (click)="selectItem(deal.id)"
+          (keyup.Enter)="selectItem(deal.id)"
+          (keyup.Space)="selectItem(deal.id)"
+          (keyup.ArrowUp)="moveSelection(-1)"
+          (keyup.ArrowDown)="moveSelection(+1)"
         >
           <div class="grow">
             <strong>{{ deal.title }}</strong>
@@ -40,6 +46,14 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
 })
 export class DealItemsList {
   // inputs+outputs -> Stateless / Controlled / Presentational component
+
+  moveSelection(d: number) {
+    const items = this.items();
+    if (!items.length) return;
+    const cursor = items.findIndex((i) => i.id === this.selectedId());
+    const move = Math.min(Math.max(cursor + d, 0), items.length - 1);
+    this.selectItem(items[move].id);
+  }
 
   items = input<Deal[]>([]);
 
