@@ -24,23 +24,17 @@ import { Deal } from '@feature/deals/model/deal';
             </p>
           </div>
           <div class="flex shrink-0 items-center gap-3">
-            <!-- ==== -->
-            <!-- SOLID SRP - Role - one reason for change -->
+ 
+          <!-- Czy wydzielamy?  -->
+          
+          <!-- Kto jest właścicielem? feature/deals vs shared/ui  -->
+           
+          <!-- Kto jest właścicielem prezentacji badge?  shared/ui  -->
+          <!-- Kto jest właścicielem prezentacji deal stage? feature/deals vs  -->
 
-            <!-- Expose Variants <-> Protect Invariant -->
-
-            <!-- Owner | Lifetime | Evolution  -->
-
-            <!-- === ROLE === -->
-
-            <!-- Presentation - HTML/CSS -->
-            <!-- <div app-badge>Promotion</div> -->
-            <!-- Style lifecycle == THeme lifecycle -->
-            
-            <!-- Data -->
-            <!-- <div app-badge>{{ label }}</div> -->
-            
-            <!-- Label - Deals? Deal? stage? -->
+          <!-- Kto zmienia deal.stage - Parent? input() -->
+           
+          <!-- Kto zmienia deal stages colors  -->
 
             <span
               class="rounded-full px-3 py-1 text-label-md "

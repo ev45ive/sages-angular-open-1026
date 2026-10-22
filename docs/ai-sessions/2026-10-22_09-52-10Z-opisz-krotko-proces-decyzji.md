@@ -410,3 +410,254 @@ Reguła praktyczna:
 - Reguła, którą można złamać z zewnątrz: enkapsulacja.
 
 Te dwa kierunki są przeciwne. To, co wystawiasz, to to, co się zmienia. To, co ukrywasz, to to, co musi zawsze być prawdziwe.
+
+---
+
+_**User (2026-10-22 10:08:22Z)**_
+
+dopisz na końcu notatki
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `notatki.md`, lines 119 to 119
+
+**Input:**
+
+- endLine: `400`
+- filePath: `c:\Projects\sages-angular-open-1026\notatki.md`
+- startLine: `190`
+
+**Result:**
+
+```
+{"node":{"children":[{"children":[{"children":[{"lineBreakBefore":true,"priority":1,"references":[{"anchor":{"$mid":1,"_sep":1,"external":"file:///c%3A/Projects/sages-angular-open-1026/notatki.md","fsPath":"c:\\Projects\\sages-angular-open-1026\\notatki.md","path":"/c:/Projects/sages-angular-open-1026/notatki.md","scheme":"file"},"options":{"isFromTool":true}}],"text":"","type":2}],"ctor":2,"ctorName":"W$e","props":{"priority":1},"references":[],"type":1}],"ctor":2,"ctorName":"Mn","props":{},"references":[],"type":1}],"ctor":2,"ctorName":"dMe","props":{},"references":[],"type":1}}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `notatki.md`, lines 119 to 119
+
+**Input:**
+
+- endLine: `190`
+- filePath: `c:\Projects\sages-angular-open-1026\notatki.md`
+- startLine: `150`
+
+**Result:**
+
+```
+{"node":{"children":[{"children":[{"children":[{"lineBreakBefore":true,"priority":1,"references":[{"anchor":{"$mid":1,"_sep":1,"external":"file:///c%3A/Projects/sages-angular-open-1026/notatki.md","fsPath":"c:\\Projects\\sages-angular-open-1026\\notatki.md","path":"/c:/Projects/sages-angular-open-1026/notatki.md","scheme":"file"},"options":{"isFromTool":true}}],"text":"","type":2}],"ctor":2,"ctorName":"W$e","props":{"priority":1},"references":[],"type":1}],"ctor":2,"ctorName":"Mn","props":{},"references":[],"type":1}],"ctor":2,"ctorName":"dMe","props":{},"references":[],"type":1}}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="grep_search"><details>
+<summary>Tool use: **grep_search**</summary>
+
+Searched for regex `.*` (`**/notatki.md`), 119 results
+
+**Input:**
+
+- includePattern: `notatki.md`
+- isRegexp: `true`
+- query: `.*`
+
+**Result:**
+
+```
+Found 119 matches in 1 file for ".*" (showing 100 matches in 1 file)
+
+notatki.md
+1:
+2:# Instalacje
+3:
+4:node -v
+5:npm -v
+6:git -v
+7:
+8:v24.15.0
+9:11.12.1
+10:git version 2.40.1.windows.1
+11:
+12:# VS Code
+13:Ctrl+Shift+P -> Clone
+14:
+15:# GIT
+16:https://github.com/ev45ive/sages-angular-open-1026.git
+17:
+18:
+19:# Exercise Tracker
+20:https://docs.google.com/spreadsheets/d/1mUjlaF0djFPWQc7m4HszaQIgHQhGiaAYRQBJAMSIgNQ/edit?gid=0#gid=0
+21:
+22:
+23:# Angular CLI
+24:npm install -g @angular/cli@latest
+25:
+26:ng version
+27:ng -help
+28:
+29:ng new -help
+30:ng s -help
+31:
+32:https://angular.dev/update-guide?v=18.0-19.0&l=2
+33:
+34:# Translate
+35:- ???
+36:
+37:# new workspace
+38:
+39:ng new sages  --ai-config vscode --directory "." --inline-style  --inline-template --skip-tests  --routing  --style tailwind  --zoneless --ssr false
+40:
+41:# ng serve
+42:npm i
+43:// oraz:
+44:
+45:npm start
+46:
+47:// lub:
+48:ng serve -o
+49:
+50:// lub:
+51:ng s - o
+52:
+53:http://localhost:4200/
+54:
+55:
+56:# Material
+57:ng add @angular/
+58:
+59:# DevTools
+60:https://angular.dev/tools/devtools
+61:
+62:
+63:
+64:
+65:# Design Tokens
+66:
+67:https://m3.material.io/foundations/design-tokens/overview
+68:https://v21.primeng.org/theming/styled#architecture
+69:
+70:# Flex
+71:https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+72:
+73:http://www.flexboxdefense.com/
+74:https://flexboxfroggy.com/
+75:
+76:
+77:# CSS GRID
+78:https://css-tricks.com/complete-guide-css-grid-layout/
+79:https://cssgridgarden.com/
+80:
+81:
+82:# CSS Specifity
+83:https://css-tricks.com/specifics-on-css-specificity/
+84:
+85:# CSS Selectors
+86:https://flukeout.github.io/
+87:
+88:# CSS 2022 Selectors
+89:
+90:https://css-tricks.com/what-css-do-you-absolutely-have-to-know-in-2022/
+91:
+92:https://caniuse.com/?search=container
+93:
+94:https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries
+95:
+96:https://web-platform-dx.github.io/baseline/
+97:
+98:https://tailwindcss.com/docs/responsive-design#container-queries
+99:
+100:https://tailwindc
+… (output truncated)
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `notatki.md`, lines 95 to 119
+
+**Input:**
+
+- endLine: `140`
+- filePath: `c:\Projects\sages-angular-open-1026\notatki.md`
+- startLine: `95`
+
+**Result:**
+
+```
+
+https://web-platform-dx.github.io/baseline/
+
+https://tailwindcss.com/docs/responsive-design#container-queries
+
+https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-parent-state
+
+
+# Schematics - ng g component ...
+ng g --help 
+ng g c --help 
+
+ng g c features/deals/pages/deals-search --type page
+
+ng g s features/deals/data/deals-source
+
+ng g interface features/deals/model/deal 
+
+npm run ng -- g interface features/deals/model/deal 
+
+
+# Immutability
+https://en.wikipedia.org/wiki/Persistent_data_structure
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **notatki.md**</summary>
+
+@@ lines 118-118 @@
+
+```
+
+
+# Abstrakcja vs enkapsulacja
+
+**Abstrakcja** pojawia się, gdy istnieją co najmniej dwa warianty tego samego zachowania, które zmieniają się niezależnie. Ukrywa wariancję i wystawia punkt wejścia (`variant`, token DI, `ng-content`).
+
+**Enkapsulacja** pojawia się, gdy istnieje choć jeden niezmiennik, który zewnętrzny kod mógłby złamać przez bezpośrednią zmianę stanu. Ukrywa stan i wystawia tylko operacje utrzymujące regułę.
+
+- Jeden przypadek i brak reguły: nic nie rób.
+- Drugi wariant: abstrakcja.
+- Reguła, którą można złamać z zewnątrz: enkapsulacja.
+
+Wystawiasz to, co się zmienia (Expose Variants). Ukrywasz to, co musi zawsze być prawdziwe (Protect Invariants).
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Dopisałem na końcu `notatki.md` sekcję „Abstrakcja vs enkapsulacja” z odpowiedzią z poprzedniej wiadomości. Nie dopisałem treści z `docs/Component-Extraction.md`, bo to już osobny plik. Jeśli miałeś na myśli coś innego, napisz co.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Updated todo list
+</details></tool-use>

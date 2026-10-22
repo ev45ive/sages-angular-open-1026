@@ -25,6 +25,8 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
             </p>
           </div>
           <div>
+            
+            
             <span
               class="rounded-full  px-3 py-1 text-label-md "
               [class]="{
@@ -35,6 +37,8 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
               <!-- Trigger view change detection -->
               {{ deal.stage }}
             </span>
+
+
           </div>
         </div>
       } @empty {
