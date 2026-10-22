@@ -16,6 +16,10 @@ Ctrl+Shift+P -> Clone
 https://github.com/ev45ive/sages-angular-open-1026.git
 
 
+# Exercise Tracker
+https://docs.google.com/spreadsheets/d/1mUjlaF0djFPWQc7m4HszaQIgHQhGiaAYRQBJAMSIgNQ/edit?gid=0#gid=0
+
+
 # Angular CLI
 npm install -g @angular/cli@latest
 
