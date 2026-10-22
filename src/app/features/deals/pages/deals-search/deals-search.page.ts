@@ -83,19 +83,27 @@ export class DealsSearchPage {
 
   selectedDeal = signal<Deal | undefined>(undefined);
 
-  // Eager + tracking + Async
-  loadDeal$ = effect(() => {
-    const id = this.selectedDealId(); // auto-tracking!
+  // Eager + tracking + Async + onCleanup!
+  loadDeal$ = effect((onCleanup) => {
+    const id = this.selectedDealId();
     if (!id) return;
 
-    this.dealsList(); // tracking changes!~
+    this.dealsList();
 
-    const untrackedMOde = untracked(() => this.mode());
-
-    setTimeout(() => {
+    console.log('Request ' + id);
+    
+    const handler = setTimeout(() => {
+      console.log('Response ' + id);
       const deal = this.dealsList().find((d) => d.id === id);
       this.selectedDeal.set(deal);
-    }, 2_000);
+    }, 2_000 * Math.random());
+
+    // Abort previous request
+    onCleanup(() => {
+      console.log('Aborting Request ' + id);
+
+      clearTimeout(handler);
+    });
   });
 
   // ---
