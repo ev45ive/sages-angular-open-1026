@@ -73,7 +73,9 @@ export class DealsSearchPage {
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
   selectedDealId = signal('d2');
-  dealsList = signal<Deal[]>(mockDeals);
+
+  // dealsList = signal<Deal[]>(mockDeals);
+  dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
 
   // selectedDeal = signal<Deal>(mockDeals[0]);
   selectedDeal = computed(() => {
@@ -103,18 +105,19 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    const list = this.dealsList(); // reference
+    // const list = [...this.dealsList()];
+    // for (const key in list) {
+    //   if (list[key].id !== draft.id) continue;
 
-    // Find and replace!
-    for (const key in list) {
-      if (list[key].id !== draft.id) continue;
+    //   list[key] = draft;
+    // }
+    // this.dealsList.set(list);
 
-      list[key] = draft; // Replace array item -> Mutating array!
-    }
 
-    // this.dealsList.set(list) // same reference -> no changes...
+    // this.dealsList.set(this.dealsList().map((d) => (d.id === draft.id ? draft : d)));
 
-    this.dealsList.set([...list]); // new reference -> maybe changes!?
+    // Functional - pass transformer into the value -> get new value
+    this.dealsList.update((list) => list.map((d) => (d.id === draft.id ? draft : d)));
 
     this.mode.set('details');
   }
