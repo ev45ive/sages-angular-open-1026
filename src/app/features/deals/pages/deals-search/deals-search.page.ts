@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { mockDeals } from '@feature/deals/data/mock-deals';
 import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-details-card';
 
 @Component({
@@ -15,4 +16,6 @@ import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-detail
     <app-deal-details-card />
   `,
 })
-export class DealsSearchPage {}
+export class DealsSearchPage {
+  deal = signal(mockDeals[1]);
+}
