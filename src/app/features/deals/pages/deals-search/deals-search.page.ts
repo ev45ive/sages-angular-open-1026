@@ -6,6 +6,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
 import { MatButton } from '@angular/material/button';
@@ -86,6 +87,10 @@ export class DealsSearchPage {
   loadDeal$ = effect(() => {
     const id = this.selectedDealId(); // auto-tracking!
     if (!id) return;
+
+    this.dealsList(); // tracking changes!~
+
+    const untrackedMOde = untracked(() => this.mode());
 
     setTimeout(() => {
       const deal = this.dealsList().find((d) => d.id === id);
