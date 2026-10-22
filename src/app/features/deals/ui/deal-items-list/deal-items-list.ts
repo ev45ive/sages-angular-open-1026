@@ -17,6 +17,7 @@ import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
       @for (deal of items(); track deal.id) {
         <div
           class="flex items-center bg-surface-container px-3 py-4 gap-2"
+          [class.bg-primary!]="deal.id === selectedId()"
           (click)="selectItem(deal.id)"
         >
           <div class="grow">
@@ -41,6 +42,8 @@ export class DealItemsList {
   // inputs+outputs -> Stateless / Controlled / Presentational component
 
   items = input<Deal[]>([]);
+
+  selectedId = input<Deal['id']>();
 
   // Event Emmitter -> (id) => $event
   selectionChanged = output<Deal['id']>();

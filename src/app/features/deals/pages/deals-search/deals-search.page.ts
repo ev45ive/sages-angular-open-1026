@@ -1,4 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
 import { MatButton } from '@angular/material/button';
 import { mockDeals } from '@feature/deals/data/mock-deals';
@@ -15,6 +22,7 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
       display: block;
     }
   `,
+  // changeDetection: ChangeDetectionStrategy.OnPush, // Default v22+
   template: `
     <div class="grid sm:grid-cols-[minmax(200px,1fr)_2fr] gap-md">
       <div class="flex justify-between col-span-full">
@@ -24,7 +32,11 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
       </div>
 
       <div class="grid gap-sm">
-        <app-deal-items-list [items]="dealsList()" (selectionChanged)="selectDeal($event)" />
+        <app-deal-items-list
+          [items]="dealsList()"
+          [selectedId]="selectedDealId()"
+          (selectionChanged)="selectDeal($event)"
+        />
       </div>
 
       <div class="grid gap-sm">
@@ -67,8 +79,13 @@ export class DealsSearchPage {
 
   // ---
 
+  // cdr = inject(ChangeDetectorRef)
+
   createDeal() {
     this.mode.set('creator');
+    
+    // fetch / timeout / asnyc
+    // this.cdr.detectChanges() // manual change detection
   }
 
   selectDeal(id: string) {
