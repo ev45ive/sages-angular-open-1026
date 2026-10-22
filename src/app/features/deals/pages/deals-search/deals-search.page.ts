@@ -16,11 +16,6 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
     }
   `,
   template: `
-    <!-- <button mat-stroked-button>Create Deal</button>
-    <button mat-raised-button>Create Deal</button>
-    <button mat-flat-button>Create Deal</button> -->
-
-    <!-- .grid.grid-cols-2.gap-md>.grid.gap-md*2 -->
     <div class="grid sm:grid-cols-[minmax(200px,1fr)_2fr] gap-md">
       <div class="flex justify-between col-span-full">
         <h1 class="text-2xl leading-loose ">Deals</h1>
@@ -37,18 +32,17 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 
         @switch (activeMode) {
           @case ('details') {
-            <app-deal-details-card [deal]="selectedDeal()" />
-            <button mat-flat-button>Edit</button>
+            <app-deal-details-card [deal]="selectedDeal()" (edit)="editDeal()" />
           }
           @case ('editor') {
             <!--  -->
             edit mode
-            <button mat-flat-button>Cancel</button>
+            <button mat-flat-button (click)="closeEditor()">Cancel</button>
           }
           @case ('creator') {
             <!--  -->
             Create mode
-            <button mat-flat-button>Cancel</button>
+            <button mat-flat-button (click)="closeEditor()">Cancel</button>
           }
           @default {
             {{ activeMode | exhaustive: 'Invalid Mode :' + activeMode }}
@@ -71,16 +65,22 @@ export class DealsSearchPage {
     return deal;
   });
 
+  // ---
+
   createDeal() {
     this.mode.set('creator');
+  }
+
+  selectDeal(id: string) {
+    this.mode.set('details');
+    this.selectedDealId.set(id);
   }
 
   editDeal() {
     this.mode.set('editor');
   }
 
-  selectDeal(id: string) {
+  closeEditor() {
     this.mode.set('details');
-    this.selectedDealId.set(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { MatAnchor } from '@angular/material/button';
 import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
@@ -34,7 +34,7 @@ import { Deal } from '@feature/deals/model/deal';
               <!-- Trigger view change detection -->
               {{ deal.stage }}
             </span>
-            <button type="button" mat-raised-button>Edit</button>
+            <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
           </div>
         </div>
         <dl class="mt-5 grid grid-cols-3 gap-4">
@@ -61,6 +61,12 @@ import { Deal } from '@feature/deals/model/deal';
 })
 export class DealDetailsCard {
   deal = input<Deal>();
+
+  edit = output();
+
+  onEdit() {
+    this.edit.emit();
+  }
 
   // TODO: Emit!
 }
