@@ -2,9 +2,10 @@ import { Component, computed, signal } from '@angular/core';
 import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
 import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-details-card';
+import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list';
 
 @Component({
-  imports: [DealDetailsCard],
+  imports: [DealDetailsCard, DealItemsList],
   selector: 'app-deals-search',
   styles: `
     :host {
@@ -16,6 +17,8 @@ import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-detail
 
     <!-- Effect - Consumer  -->
     <h1>{{ selectedDeal().title }}</h1>
+
+    <app-deal-items-list />
 
     <!-- Child component -->
     <app-deal-details-card [deal]="selectedDeal()" />
