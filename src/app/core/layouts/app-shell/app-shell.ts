@@ -33,7 +33,7 @@ import { ThemeToggle } from '../../theme/theme-toggle/theme-toggle';
         </div>
       </ng-content>
 
-      <div class="grid mx-auto container my-5 gap-5 grow">
+      <div class="grid mx-auto container my-5 gap-5 grow content-start">
         <!-- Composition: -->
         <ng-content></ng-content>
       </div>

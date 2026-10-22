@@ -19,7 +19,7 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
     <!-- <h1>{{ selectedDeal().title }}</h1> -->
 
     <!-- .grid.grid-cols-2.gap-md>.grid.gap-md*2 -->
-    <div class="grid sm:grid-cols-2 gap-md">
+    <div class="grid sm:grid-cols-[minmax(200px,1fr)_2fr] gap-md">
       <!--  -->
       <h1 class="text-2xl leading-loose col-span-full">Deals</h1>
       
