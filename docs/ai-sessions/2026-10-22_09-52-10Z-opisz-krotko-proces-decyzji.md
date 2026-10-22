@@ -383,3 +383,30 @@ _**Agent (copilot/claude-haiku-5.5)**_
 
 Created 4 todos
 </details></tool-use>
+
+---
+
+_**User (2026-10-22 10:06:52Z)**_
+
+jaki minimalny constraint powoduje większą abstakcje, kiedy invariant powoduje enkapsulacje
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+**Abstrakcja** pojawia się, gdy istnieją **co najmniej dwa warianty** tego samego zachowania, które będą się zmieniać niezależnie. Pierwsze użycie to tylko konkret. Dopiero drugi przypadek pokazuje, co jest zmienne. Abstrakcja ukrywa **wariancję** i wystawia punkt wejścia (`variant`, token DI, `ng-content`).
+
+**Enkapsulacja** pojawia się, gdy istnieje **choć jeden niezmiennik**, który zewnętrzny kod mógłby złamać przez bezpośrednią zmianę stanu. Minimalnie wystarczy reguła i stan zapisywalny z zewnątrz. Enkapsulacja ukrywa **stan** i wystawia tylko operacje, które utrzymują regułę.
+
+Przykład z badge'a:
+
+- `stage` jako dowolny string: reguła „etap ∈ {new, proposal, negotiation}” istnieje tylko w głowie programisty. Potrzebna jest enkapsulacja, czyli typ `DealStage` i `input.required<DealStage>()`.
+- Kolor etapu w jednym miejscu: abstrakcja jest zbędna (wariant 3). W dwóch miejscach trzeba ją wyciągnąć (wariant 4).
+
+Reguła praktyczna:
+
+- Jeden przypadek i brak reguły: nic nie rób.
+- Drugi wariant: abstrakcja.
+- Reguła, którą można złamać z zewnątrz: enkapsulacja.
+
+Te dwa kierunki są przeciwne. To, co wystawiasz, to to, co się zmienia. To, co ukrywasz, to to, co musi zawsze być prawdziwe.

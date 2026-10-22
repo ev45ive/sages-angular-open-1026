@@ -116,3 +116,16 @@ npm run ng -- g interface features/deals/model/deal
 # Immutability
 https://en.wikipedia.org/wiki/Persistent_data_structure
 
+
+# Abstrakcja vs enkapsulacja
+
+**Abstrakcja** pojawia się, gdy istnieją co najmniej dwa warianty tego samego zachowania, które zmieniają się niezależnie. Ukrywa wariancję i wystawia punkt wejścia (`variant`, token DI, `ng-content`).
+
+**Enkapsulacja** pojawia się, gdy istnieje choć jeden niezmiennik, który zewnętrzny kod mógłby złamać przez bezpośrednią zmianę stanu. Ukrywa stan i wystawia tylko operacje utrzymujące regułę.
+
+- Jeden przypadek i brak reguły: nic nie rób.
+- Drugi wariant: abstrakcja.
+- Reguła, którą można złamać z zewnątrz: enkapsulacja.
+
+Wystawiasz to, co się zmienia (Expose Variants). Ukrywasz to, co musi zawsze być prawdziwe (Protect Invariants).
+
