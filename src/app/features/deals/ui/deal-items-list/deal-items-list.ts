@@ -37,6 +37,9 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   `,
 })
 export class DealItemsList {
+
+  // inputs+outputs -> Stateless / Controlled / Presentational component
+
   items = input<Deal[]>([]);
 
   // Event Emmitter -> (id) => $event

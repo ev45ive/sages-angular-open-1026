@@ -60,9 +60,6 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 })
 export class DealsSearchPage {
   mode = signal<'details' | 'editor' | 'creator'>('details');
-  createDeal() {
-    this.mode.set('creator');
-  }
 
   selectedDealId = signal('d2');
   dealsList = signal<Deal[]>(mockDeals);
@@ -76,6 +73,10 @@ export class DealsSearchPage {
 
     return deal;
   });
+
+  createDeal() {
+    this.mode.set('creator');
+  }
 
   selectDeal(id: string) {
     this.selectedDealId.set(id);
