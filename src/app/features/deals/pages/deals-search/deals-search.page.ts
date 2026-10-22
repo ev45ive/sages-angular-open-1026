@@ -103,14 +103,20 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    const list = this.dealsList();
+    const list = this.dealsList(); // reference
 
     // Find and replace!
     for (const key in list) {
-      if (list[key].id === draft.id) {
-        list[key] = draft;
-      }
+      if (list[key].id !== draft.id) continue;
+
+      list[key] = draft; // Replace array item -> Mutating array!
     }
+
+    // this.dealsList.set(list) // same reference -> no changes...
+
+    this.dealsList.set([...list]); // new reference -> maybe changes!?
+
+    this.mode.set('details');
   }
 
   closeEditor() {

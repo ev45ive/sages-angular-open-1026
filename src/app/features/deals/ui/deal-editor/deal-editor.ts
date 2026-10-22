@@ -22,6 +22,8 @@ import { Deal } from '@feature/deals/model/deal';
       <!-- ^- Mutating original signal value -> no .set(). -> same Ref -> no updates! -->
 
       <p>{{ draft().title.length }} / 100</p>
+
+      <button (click)="submit()">Save</button>
     </div>
   `,
 })
@@ -32,7 +34,7 @@ export class DealEditor {
 
   ngOnInit() {
     // Set Draft - edit or new
-    
+
     // const copy = {...this.deal()} // shallow copy
 
     const copy = structuredClone(this.deal()); // deep copy
