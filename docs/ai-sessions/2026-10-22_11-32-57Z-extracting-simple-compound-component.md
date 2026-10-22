@@ -1266,3 +1266,611 @@ _**Agent (copilot/claude-haiku-5.5)**_
 
 Created 3 todos
 </details></tool-use>
+
+---
+
+_**User (2026-10-22 11:54:22Z)**_
+
+create vscode snippets for shared components - now only for this 2, cursor placeholders, add gitignore exception
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="search" data-tool-name="file_search"><details>
+<summary>Tool use: **file_search**</summary>
+
+Searched for files matching `sages-angular-open-1026` · `.{gitignore,vscode/*}`, 6 matches
+
+**Input:**
+
+- query: `c:\Projects\sages-angular-open-1026\.{gitignore,vscode/*}`
+
+**Result:**
+
+```
+6 total results
+c:\Projects\sages-angular-open-1026\.gitignore
+c:\Projects\sages-angular-open-1026\.vscode\extensions.json
+c:\Projects\sages-angular-open-1026\.vscode\mcp.json
+c:\Projects\sages-angular-open-1026\.vscode\launch.json
+c:\Projects\sages-angular-open-1026\.vscode\settings.json
+c:\Projects\sages-angular-open-1026\.vscode\tasks.json
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-item.ts`
+
+**Input:**
+
+- endLine: `80`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-item.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component, input } from '@angular/core';
+
+/**
+ * Label/value pair. The `label` input or a `[info-label]` element renders the label; the `value` input or projected content renders the value.
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Value" value="$48,000" />
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item value="Anna Kowalska">
+ *   <span info-label>Contact</span>
+ * </app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+ * ```
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ *
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGrid](./info-grid.ts)
+ */
+@Component({
+  selector: 'app-info-item',
+  template: `
+    <div class="text-label-lg text-on-surface">
+      <ng-content select="[info-label]">{{ label() }}</ng-content>
+    </div>
+    <div class="mt-1 text-body-lg text-on-surface">
+      <ng-content>{{ value() }}</ng-content>
+    </div>
+  `,
+})
+export class InfoItem {
+  label = input<string | null>();
+  value = input<string | null>();
+}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `info-grid.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\info-grid\info-grid.ts`
+- startLine: `1`
+
+**Result:**
+
+````
+import { Component } from '@angular/core';
+
+/**
+ * Layout wrapper that arranges `app-info-item` children in a three-column grid.
+ *
+ * @example
+ * ```html
+ * <app-info-grid>
+ *   <app-info-item label="Value" value="$48,000" />
+ *   <app-info-item label="Contact" value="Anna Kowalska" />
+ * </app-info-grid>
+ * ```
+ * 
+ * @owner Mateusz Kulesza <mateusz@sages.oi>
+ * @see [InfoGridItem](./info-item.ts)
+ */
+@Component({
+  selector: 'app-info-grid',
+  host: { class: 'mt-5 grid grid-cols-3 gap-4' },
+  template: `<ng-content />`,
+})
+export class InfoGrid {}
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `.gitignore`
+
+**Input:**
+
+- endLine: `200`
+- filePath: `c:\Projects\sages-angular-open-1026\.gitignore`
+- startLine: `1`
+
+**Result:**
+
+```
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="create_file"><details>
+<summary>Tool use: **create_file**</summary>
+
+Created `shared-components.code-snippets`
+
+**Input:**
+
+- content:
+
+````
+{
+  "Shared InfoGrid component": {
+    "scope": "typescript",
+    "prefix": "info-grid",
+    "description": "Shared InfoGrid layout component",
+    "body": [
+      "import { Component } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Layout wrapper description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-grid}>",
+      " *   <app-info-item label=\"${7:Label}\" value=\"${8:Value}\" />",
+      " * </app-${2:info-grid}>",
+      " * ```",
+      " *",
+      " * @owner ${3:Name} <${4:email}>",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-grid}',",
+      "  host: { class: '${5:mt-5 grid grid-cols-3 gap-4}' },",
+      "  template: `<ng-content />`,",
+      "})",
+      "export class ${6:InfoGrid} {}"
+    ]
+  },
+  "Shared InfoItem component": {
+    "scope": "typescript",
+    "prefix": "info-item",
+    "description": "Shared InfoItem label/value component",
+    "body": [
+      "import { Component, input } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Label/value pair description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-item} label=\"${3:Label}\" value=\"${4:Value}\" />",
+      " * ```",
+      " *",
+      " * @owner ${5:Name} <${6:email}>",
+      " * @see [${7:InfoGrid}](./${8:info-grid}.ts)",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-item}',",
+      "  template: `",
+      "    <div class=\"text-label-lg text-on-surface\">",
+      "      <ng-content select=\"[info-label]\">{{ label() }}</ng-content>",
+      "    </div>",
+      "    <div class=\"mt-1 text-body-lg text-on-surface\">",
+      "      <ng-content>{{ value() }}</ng-content>",
+      "    </div>",
+      "  `,",
+      "})",
+      "export class ${9:InfoItem} {",
+      "  label = input<string | null>();",
+      "  value = input<string | null>();",
+      "}"
+    ]
+  }
+}
+
+````
+
+- filePath: `c:\Projects\sages-angular-open-1026\.vscode\shared-components.code-snippets`
+
+**Result:**
+
+```
+The following files were successfully edited:
+c:\Projects\sages-angular-open-1026\.vscode\shared-components.code-snippets
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **shared-components.code-snippets**</summary>
+
+@@ lines 1-1 @@
+
+````
+{
+  "Shared InfoGrid component": {
+    "scope": "typescript",
+    "prefix": "info-grid",
+    "description": "Shared InfoGrid layout component",
+    "body": [
+      "import { Component } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Layout wrapper description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-grid}>",
+      " *   <app-info-item label=\"${7:Label}\" value=\"${8:Value}\" />",
+      " * </app-${2:info-grid}>",
+      " * ```",
+      " *",
+      " * @owner ${3:Name} <${4:email}>",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-grid}',",
+      "  host: { class: '${5:mt-5 grid grid-cols-3 gap-4}' },",
+      "  template: `<ng-content />`,",
+      "})",
+      "export class ${6:InfoGrid} {}"
+    ]
+  },
+  "Shared InfoItem component": {
+    "scope": "typescript",
+    "prefix": "info-item",
+    "description": "Shared InfoItem label/value component",
+    "body": [
+      "import { Component, input } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Label/value pair description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-item} label=\"${3:Label}\" value=\"${4:Value}\" />",
+      " * ```",
+      " *",
+      " * @owner ${5:Name} <${6:email}>",
+      " * @see [${7:InfoGrid}](./${8:info-grid}.ts)",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-item}',",
+      "  template: `",
+      "    <div class=\"text-label-lg text-on-surface\">",
+      "      <ng-content select=\"[info-label]\">{{ label() }}</ng-content>",
+      "    </div>",
+      "    <div class=\"mt-1 text-body-lg text-on-surface\">",
+      "      <ng-content>{{ value() }}</ng-content>",
+      "    </div>",
+      "  `,",
+      "})",
+      "export class ${9:InfoItem} {",
+      "  label = input<string | null>();",
+      "  value = input<string | null>();",
+      "}"
+    ]
+  }
+}
+
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **.gitignore**</summary>
+
+@@ lines 30-30 @@
+
+```
+!.vscode/shared-components.code-snippets
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `shared-components.code-snippets`, `.gitignore`, no problems found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\.vscode\\shared-components.code-snippets",
+  "c:\\Projects\\sages-angular-open-1026\\.gitignore"
+]
+```
+
+
+**Result:**
+
+```
+<errors path="c:\\Projects\\sages-angular-open-1026\\.vscode\\shared-components.code-snippets">
+No errors found
+</errors>
+<errors path="c:\\Projects\\sages-angular-open-1026\\.gitignore">
+No errors found
+</errors>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I created two workspace snippets in `.vscode/shared-components.code-snippets`, with tab stops for each value:
+
+- `info-grid` creates the  component, with tab stops for the description, selector, owner, class list, and class name.
+- `info-item` creates the  component, with tab stops for the description, selector, label, value, owner, the `@see` target, and class name.
+
+I also added `!.vscode/shared-components.code-snippets` to `.gitignore`, since `.vscode/*` is ignored by default. Both files pass the error check.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 2 todos
+</details></tool-use>
+
+---
+
+_**User (2026-10-22 11:55:23Z)**_
+
+I meant usage of those components not imlenntation snuppets
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `shared-components.code-snippets`, lines 1 to 60
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\.vscode\shared-components.code-snippets`
+- startLine: `1`
+
+**Result:**
+
+````
+{
+  "Shared InfoGrid component": {
+    "scope": "typescript",
+    "prefix": "info-grid",
+    "description": "Shared InfoGrid layout component",
+    "body": [
+      "import { Component } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Layout wrapper description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-grid}>",
+      " *   <app-info-item label=\"${7:Label}\" value=\"${8:Value}\" />",
+      " * </app-${2:info-grid}>",
+      " * ```",
+      " *",
+      " * @owner ${3:Name} <${4:email}>",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-grid}',",
+      "  host: { class: '${5:mt-5 grid grid-cols-3 gap-4}' },",
+      "  template: `<ng-content />`,",
+      "})",
+      "export class ${6:InfoGrid} {}"
+    ]
+  },
+  "Shared InfoItem component": {
+    "scope": "typescript",
+    "prefix": "info-item",
+    "description": "Shared InfoItem label/value component",
+    "body": [
+      "import { Component, input } from '@angular/core';",
+      "",
+      "/**",
+      " * ${1:Label/value pair description.}",
+      " *",
+      " * @example",
+      " * ```html",
+      " * <app-${2:info-item} label=\"${3:Label}\" value=\"${4:Value}\" />",
+      " * ```",
+      " *",
+      " * @owner ${5:Name} <${6:email}>",
+      " * @see [${7:InfoGrid}](./${8:info-grid}.ts)",
+      " */",
+      "@Component({",
+      "  selector: 'app-${2:info-item}',",
+      "  template: `",
+      "    <div class=\"text-label-lg text-on-surface\">",
+      "      <ng-content select=\"[info-label]\">{{ label() }}</ng-content>",
+      "    </div>",
+      "    <div class=\"mt-1 text-body-lg text-on-surface\">",
+      "      <ng-content>{{ value() }}</ng-content>",
+      "    </div>",
+      "  `,",
+      "})",
+      "export class ${9:InfoItem} {",
+      "  label = input<string | null>();",
+      "  value = input<string | null>();",
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **shared-components.code-snippets**</summary>
+
+@@ lines 2-61 @@
+
+```
+InfoGrid usage": {
+    "scope": "html,typescript",
+    "prefix": "info-grid",
+    "description": "InfoGrid with one InfoItem",
+    "body": [
+      "<app-info-grid>",
+      "  <app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />",
+      "  $0",
+      "</app-info-grid>"
+    ]
+  },
+  "InfoItem usage": {
+    "scope": "html,typescript",
+    "prefix": "info-item",
+    "description": "InfoItem with label and value inputs",
+    "body": [
+      "<app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />"
+    ]
+  },
+  "InfoItem usage with projected label": {
+    "scope": "html,typescript",
+    "prefix": "info-item-label",
+    "description": "InfoItem with projected info-label",
+    "body": [
+      "<app-info-item value=\"${1:Value}\">",
+      "  <span info-label>${2:Label}</span>",
+      "</app-info-item>"
+    ]
+  },
+  "InfoItem usage with projected value": {
+    "scope": "html,typescript",
+    "prefix": "info-item-value",
+    "description": "InfoItem with projected value",
+    "body": [
+      "<app-info-item label=\"${1:Label}\">${2:value}</app-info-item>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `shared-components.code-snippets`, no problems found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\.vscode\\shared-components.code-snippets"
+]
+```
+
+
+**Result:**
+
+```
+<errors path="c:\\Projects\\sages-angular-open-1026\\.vscode\\shared-components.code-snippets">
+No errors found
+</errors>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I replaced the implementation snippets in `.vscode/shared-components.code-snippets` with usage snippets for templates. They are available in HTML and TypeScript files:
+
+- `info-grid`: `<app-info-grid>` with one `<app-info-item>` and a final cursor position
+- `info-item`: `<app-info-item label value />`
+- `info-item-label`: `<app-info-item>` with a projected `<span info-label>`
+- `info-item-value`: `<app-info-item label>` with projected content
+
+The file still matches the existing `.gitignore` exception, and it passes the error check.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 3 todos
+</details></tool-use>

@@ -1,0 +1,39 @@
+{
+  "InfoGrid usage": {
+    "scope": "html,typescript",
+    "prefix": "info-grid",
+    "description": "InfoGrid with one InfoItem",
+    "body": [
+      "<app-info-grid>",
+      "  <app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />",
+      "  $0",
+      "</app-info-grid>"
+    ]
+  },
+  "InfoItem usage": {
+    "scope": "html,typescript",
+    "prefix": "info-item",
+    "description": "InfoItem with label and value inputs",
+    "body": [
+      "<app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />"
+    ]
+  },
+  "InfoItem usage with projected label": {
+    "scope": "html,typescript",
+    "prefix": "info-item-label",
+    "description": "InfoItem with projected info-label",
+    "body": [
+      "<app-info-item value=\"${1:Value}\">",
+      "  <span info-label>${2:Label}</span>",
+      "</app-info-item>"
+    ]
+  },
+  "InfoItem usage with projected value": {
+    "scope": "html,typescript",
+    "prefix": "info-item-value",
+    "description": "InfoItem with projected value",
+    "body": [
+      "<app-info-item label=\"${1:Label}\">${2:value}</app-info-item>"
+    ]
+  }
+}
