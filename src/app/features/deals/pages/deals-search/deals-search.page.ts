@@ -26,23 +26,11 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
       </div>
 
       <div class="grid gap-sm">
-        <!-- 
-          @if (activeMode === 'details') {
-        } @else if (activeMode === 'editor') {
-          } @else if (activeMode === 'creator') {
-            } @else {
-              {{ activeMode | exhaustive }}
-              } -->
         @let activeMode = mode();
-        @let deal = selectedDeal();
 
         @switch (activeMode) {
           @case ('details') {
-            @if (deal) {
-              <app-deal-details-card [deal]="deal" />
-            } @else {
-              <div class="px-3 py-4 text-center">No deal selected</div>
-            }
+            <app-deal-details-card [deal]="selectedDeal()" />
           }
           @case ('editor') {
             <!--  -->
@@ -51,7 +39,7 @@ import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
             <!--  -->
           }
           @default {
-            {{ activeMode | exhaustive }}
+            {{ activeMode | exhaustive: 'Invalid Mode :' + activeMode }}
           }
         }
       </div>
