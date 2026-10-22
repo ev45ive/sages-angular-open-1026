@@ -61,4 +61,6 @@ import { Deal } from '@feature/deals/model/deal';
 })
 export class DealDetailsCard {
   deal = input<Deal>();
+
+  // TODO: Emit!
 }

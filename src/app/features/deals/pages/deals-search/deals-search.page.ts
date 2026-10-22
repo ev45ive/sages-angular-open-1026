@@ -65,12 +65,9 @@ export class DealsSearchPage {
   dealsList = signal<Deal[]>(mockDeals);
 
   // selectedDeal = signal<Deal>(mockDeals[0]);
-
   selectedDeal = computed(() => {
     // const id = this.selectedDealId(); // auto-tracking!
-
     const deal = this.dealsList().find((d) => d.id === this.selectedDealId());
-
     return deal;
   });
 
@@ -78,7 +75,12 @@ export class DealsSearchPage {
     this.mode.set('creator');
   }
 
+  editDeal() {
+    this.mode.set('editor');
+  }
+
   selectDeal(id: string) {
+    this.mode.set('details');
     this.selectedDealId.set(id);
   }
 }
