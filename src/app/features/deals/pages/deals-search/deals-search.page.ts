@@ -113,7 +113,7 @@ export class DealsSearchPage {
   }
 
   selectDeal(id: string) {
-    this.mode.set('details');
+    // this.mode.set('details');
     this.selectedDealId.set(id);
   }
 

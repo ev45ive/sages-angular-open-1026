@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
 import { Deal } from '@feature/deals/model/deal';
 
 @Component({
@@ -28,19 +28,17 @@ import { Deal } from '@feature/deals/model/deal';
   `,
 })
 export class DealEditor {
+  
   deal = input<Deal>();
+  
+  draft = linkedSignal(() => ({ ...(this.deal() ?? emptyDealDraft()) }));
 
-  draft = signal<Deal>(emptyDealDraft());
+  // draft = signal<Deal>(emptyDealDraft());
 
-  ngOnInit() {
-    // Set Draft - edit or new
-
-    // const copy = {...this.deal()} // shallow copy
-
-    const copy = structuredClone(this.deal()); // deep copy
-
-    this.draft.set(copy ?? emptyDealDraft());
-  }
+  // Do not use effect to sync signals -> Change detection cascade
+  // _copy = effect(() => {
+  //   this.draft.set(this.deal() ? { ...this.deal()! } : this.draft());
+  // });
 
   save = output<Deal>();
 
