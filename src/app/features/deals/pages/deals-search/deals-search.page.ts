@@ -39,7 +39,16 @@ export class DealsSearchPage {
   selectedDeal = computed(() => {
     // const id = this.selectedDealId(); // auto-tracking!
 
-    const deal = this.dealsList().find((d) => d.id === this.selectedDealId()) as Deal;
+    const deal = this.dealsList().find((d) => d.id === this.selectedDealId());
+
+    if (deal) {
+      deal; // Deal
+    } else if (deal == undefined) {
+      deal;
+    } else {
+      deal satisfies never; // exhaustiveness check
+    }
+
     return deal;
   });
 

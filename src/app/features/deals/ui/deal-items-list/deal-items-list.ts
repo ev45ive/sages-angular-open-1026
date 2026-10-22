@@ -12,14 +12,6 @@ import { Deal } from '@feature/deals/model/deal';
   `,
   template: `
     <div class="grid gap-sm">
-      <!-- <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
-        <div class="grow">
-          <strong>Item 11</strong>
-          <p>Testing</p>
-        </div>
-        <div>Negotiation</div>
-      </div> -->
-
       @for (deal of items(); track deal.id) {
         <div class="flex items-center bg-surface-container px-3 py-4 gap-2">
           <div class="grow">
