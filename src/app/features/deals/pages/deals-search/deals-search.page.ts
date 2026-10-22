@@ -53,7 +53,7 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
             @if (selectedDeal(); as deal) {
               <app-deal-editor [deal]="deal" (save)="saveDeal($event)" />
             }
-            
+
             <button mat-flat-button (click)="closeEditor()">Cancel</button>
           }
           @case ('creator') {
@@ -70,9 +70,6 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
   `,
 })
 export class DealsSearchPage {
-  saveDeal($event: Deal) {
-    throw new Error('Method not implemented.');
-  }
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
   selectedDealId = signal('d2');
@@ -103,6 +100,17 @@ export class DealsSearchPage {
 
   editDeal() {
     this.mode.set('editor');
+  }
+
+  saveDeal(draft: Deal) {
+    const list = this.dealsList();
+
+    // Find and replace!
+    for (const key in list) {
+      if (list[key].id === draft.id) {
+        list[key] = draft;
+      }
+    }
   }
 
   closeEditor() {
