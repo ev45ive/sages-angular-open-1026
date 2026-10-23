@@ -30,48 +30,9 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = '') {
-    //
-    // Unicast<T> observable - RECIPE<T>
-    //
-    const obs = this.http.get(`${this.apiURL}deals`, {
+    return this.http.get(`${this.apiURL}deals`, {
       params: { q: q },
       headers: { ...this.auth.getHeaders() },
     });
-
-    // ----
-
-    // Subscriber A -> Request
-    const sub = obs.subscribe(console.log);
-
-    sub.unsubscribe();
-
-    // Subscriber B -> Request
-    obs.subscribe({
-      next: console.log,
-      error: console.log,
-      complete: () => console.log('complete'),
-    });
   }
-
-  //   async fetchDeals(q = '', init?: RequestInit): Promise<Deal[]> {
-  //     const resp = await fetch(`${this.apiURL}deals?q=${q}`, {
-  //       // signal: huston.signal,
-  //       headers: {
-  //         ...init?.headers,
-  //         ...this.auth.getHeaders(),
-  //       },
-  //       ...init,
-  //     });
-
-  //     // JSON / Error handling:
-  //     if (!resp.ok) {
-  //       const e = await resp.json();
-  //       throw new Error(e.error.message);
-  //     }
-
-  //     const data = await resp.json();
-
-  //     // mapping
-  //     return data.items;
-  //   }
 }
