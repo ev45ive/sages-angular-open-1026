@@ -5,6 +5,8 @@ import {
   computed,
   effect,
   inject,
+  resource,
+  Signal,
   signal,
   untracked,
 } from '@angular/core';
@@ -17,6 +19,8 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
 import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
 import { DealsAPI } from '@feature/deals/data/deals-api/deals-api';
+import { finalize, lastValueFrom } from 'rxjs';
+import { useDealsResource } from '@feature/deals/data/injectables/useDealsResource';
 
 @Component({
   imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, MatButton, DealEditor],
@@ -31,35 +35,45 @@ import { DealsAPI } from '@feature/deals/data/deals-api/deals-api';
       <div class="flex justify-between col-span-full">
         <h1 class="text-2xl leading-loose ">Deals</h1>
 
-        <button mat-stroked-button (click)="createDeal()">Create Deal</button>
+        <button mat-stroked-button (click)="openDealCreator()">Create Deal</button>
       </div>
 
       <div class="grid gap-sm">
-        <app-deal-items-list
-          [items]="dealsList()"
-          [(selectedId)]="selectedDealId"
-          (selectedIdChange)="selectDeal($event)"
-        />
+        @if (dealsResource.isLoading()) {
+          Loading Deals
+        } @else if (dealsResource.error()) {
+          Error Loading Deals
+        } @else {
+          <app-deal-items-list
+            [items]="dealsResource.value()"
+            [(selectedId)]="selectedDealId"
+            (selectedIdChange)="selectDeal($event)"
+          />
+        }
       </div>
 
       <div class="grid gap-sm">
         @let activeMode = mode();
 
+        @if (selectedDeal.isLoading()) {
+          Deal is loading
+        }
+
         @switch (activeMode) {
           @case ('details') {
-            <app-deal-details-card [deal]="selectedDeal()" (edit)="editDeal()" />
+            <app-deal-details-card [deal]="selectedDeal.value()" (edit)="editDeal()" />
           }
           @case ('editor') {
-            <!--  -->
-
-            @if (selectedDeal(); as deal) {
-              <app-deal-editor [deal]="deal" (cancel)="closeEditor()" (save)="saveDeal($event)" />
+            @if (selectedDeal.hasValue()) {
+              <app-deal-editor
+                [deal]="selectedDeal.value()"
+                (cancel)="closeEditor()"
+                (save)="saveDeal($event)"
+              />
             }
           }
           @case ('creator') {
-            <!--  -->
-            Create mode
-            <button mat-flat-button (click)="closeEditor()">Cancel</button>
+            <app-deal-editor (cancel)="closeEditor()" (save)="createDeal($event)" />
           }
           @default {
             {{ activeMode | exhaustive: 'Invalid Mode :' + activeMode }}
@@ -70,44 +84,33 @@ import { DealsAPI } from '@feature/deals/data/deals-api/deals-api';
   `,
 })
 export class DealsSearchPage {
+  createDeal($event: Deal) {
+    throw new Error('Method not implemented.');
+  }
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
   selectedDealId = signal('');
 
   dealsList = signal<Deal[]>([]);
 
-  selectedDeal = signal<Deal | undefined>(undefined);
-
-  // TODO: Factory/Builder / Service Injector
-  // api = new DealsApi(new Auth( API_URL ))
+  // selectedDeal = signal<Deal | undefined>(undefined);
 
   api = inject(DealsAPI);
 
-  loadingDeals = effect((onCleanup) => {
-    const sub = this.api.fetchDeals('').subscribe({
-      next: (items) => this.dealsList.set(items),
-      error: (error) => console.log(error.message),
-    });
+  dealsFilter = signal('');
+  dealsResource = useDealsResource(this.dealsFilter);
+  // tasksResource = useTasksResource(this.dealsFilter);
 
-    onCleanup(() => sub.unsubscribe());
+  selectedDeal = resource({
+    params: () => {
+      const id = this.selectedDealId();
+      if (!id) return;
+      return { id };
+    },
+    loader: ({ params: { id } }) => lastValueFrom(this.api.fetchDealById(id)),
   });
 
-  // Eager + tracking + Async + onCleanup!
-  loadDeal$ = effect((onCleanup) => {
-    const id = this.selectedDealId();
-    if (!id) return;
-
-    const sub = this.api.fetchDealById(id).subscribe({
-      next: (data) => this.selectedDeal.set(data),
-      error: (error) => console.log(error.message),
-    });
-
-    onCleanup(() => sub.unsubscribe());
-  });
-
-  // ---F
-
-  createDeal() {
+  openDealCreator() {
     this.mode.set('creator');
   }
 
@@ -121,9 +124,9 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    this.dealsList.update((list) => {
-      return list.map((d) => (d.id === draft.id ? draft : d));
-    });
+    // this.dealsList.update((list) => {
+    //   return list.map((d) => (d.id === draft.id ? draft : d));
+    // });
 
     this.mode.set('details');
   }
