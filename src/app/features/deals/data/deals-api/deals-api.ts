@@ -6,7 +6,7 @@ import { Deal } from '@feature/deals/model/deal';
 
 import { API_URL } from '@core/tokens';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, map, Observable, tap } from 'rxjs';
 
 type PagingObject<T> = { items: T[]; limit: number; offset: number };
 
@@ -19,7 +19,7 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = ''): Observable<Deal[]> {
-    
+
     return this.http
       .get<PagingObject<Deal>>(`${this.apiURL}deals`, {
         params: { q: q },
@@ -31,8 +31,21 @@ export class DealsAPI {
           throw new Error(error.error.error.message);
         }),
         // step 3
-        map((res) => res.items),
         // step ...
+        
+        tap(console.log),
+        
+        map((res) => res.items),
+
+        // ^-------O-|>
+        //         v - map()
+        
+        // ^-------i-|>
+        //         v - delay()
+
+        // tap(console.log),
+        
+        // ^--------------i-|>
       );
   }
 

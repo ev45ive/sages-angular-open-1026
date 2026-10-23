@@ -133,3 +133,14 @@ Wystawiasz to, co się zmienia (Expose Variants). Ukrywasz to, co musi zawsze by
 
 # TODO:
 - Powiązane comboboxy - [Kraj] -> [Woj] -> [miasto]
+
+
+
+# RxJS Marble Diagrams // ^--------X>
+
+https://rxjs.dev/guide/operators
+http://rxmarbles.com/
+https://www.learnrxjs.io/
+
+http://rxviz.vercel.com/
+
