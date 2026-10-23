@@ -1,9 +1,11 @@
 import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Deal } from '@feature/deals/model/deal';
+import { SharedModule } from '@shared/index';
+import { InfoGrid } from '@shared/ui/info-grid/info-grid';
+
 
 @Component({
-  imports: [FormsModule],
+  imports: [SharedModule, InfoGrid],
   selector: 'app-deal-editor',
   styles: `
     :host {
@@ -16,7 +18,10 @@ import { Deal } from '@feature/deals/model/deal';
 
       <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
 
-      <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="title" />
+      <mat-form-field>
+        <mat-label></mat-label>
+
+      </mat-form-field>
 
       <p>{{ draft().title.length }} / 100</p>
 
