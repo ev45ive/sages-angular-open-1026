@@ -83,23 +83,17 @@ export class DealsSearchPage {
 
   api = inject(DealsAPI);
 
-  loadingDeals = effect((onCleanup) => {
-    // Consumer - component/route/action...
-
+  loadingDeals = effect(async (onCleanup) => {
     // Cancelling fetch
     const huston = new AbortController();
     onCleanup(() => huston.abort('Cancelled'));
 
-    const load = async () => {
-      try {
-        const data = await this.api.fetchDeals('', { signal: huston.signal });
-        this.dealsList.set(data);
-      } catch (error) {
-        console.log(error); /* Cancelled? */
-      }
-    };
-
-    load();
+    try {
+      const data = await this.api.fetchDeals('', { signal: huston.signal });
+      this.dealsList.set(data);
+    } catch (error) {
+      console.log(error); /* Cancelled? */
+    }
   });
 
   // Eager + tracking + Async + onCleanup!
