@@ -88,12 +88,12 @@ export class DealsSearchPage {
     const huston = new AbortController();
     onCleanup(() => huston.abort('Cancelled'));
 
-    try {
-      const data = await this.api.fetchDeals('', { signal: huston.signal });
-      this.dealsList.set(data);
-    } catch (error) {
-      console.log(error); /* Cancelled? */
-    }
+    // try {
+    //   const data = await this.api.fetchDeals('', { signal: huston.signal });
+    //   this.dealsList.set(data);
+    // } catch (error) {
+    //   console.log(error); /* Cancelled? */
+    // }
   });
 
   // Eager + tracking + Async + onCleanup!
