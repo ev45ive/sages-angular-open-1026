@@ -145,3 +145,7 @@ https://www.learnrxjs.io/
 http://rxviz.vercel.com/
 https://rx-viz.vercel.app/
 
+
+# Ankieta
+
+ANGULAR open 21-23.10.2026	kulesza	https://sages.link/547914	https://sages.link/547914/qrcode
