@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '@core/auth/auth-guard';
 
 export const routes: Routes = [
   {
@@ -7,7 +8,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'login',
+    loadComponent: () => import('./core/auth/login/login.page').then((e) => e.LoginPage),
+  },
+  {
     path: 'deals',
+    canActivate: [authGuard],
     // children:[
     //       {path: 'search',component: DealsSearchPage,},
     //       {path: 'deatails',component: DealsDeatailsPage,},

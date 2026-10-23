@@ -1,7 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Auth } from '@core/auth/auth';
+import { Auth, SKIP_AUTH } from '@core/auth/auth';
 import { API_URL } from '@core/tokens';
 import { catchError, defer, EMPTY, retry, throwError, timeout, timer } from 'rxjs';
 
@@ -38,10 +37,9 @@ export const URLInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  if (req.headers.has('Authorization')) return next(req);
+  if (req.context.get(SKIP_AUTH) || req.headers.has('Authorization')) return next(req);
 
   const auth = inject(Auth);
-  const router = inject(Router);
 
   // defer: headers are rebuilt on every attempt, including the retry.
   return defer(() => next(req.clone({ setHeaders: auth.getHeaders() }))).pipe(
@@ -59,7 +57,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
       assertHttpError(error);
 
       if (error.status == 401) {
-        router.navigateByUrl('/login');
+        auth.logout();
         return EMPTY;
       }
       return throwError(() => error);

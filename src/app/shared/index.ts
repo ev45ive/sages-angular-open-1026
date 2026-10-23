@@ -10,6 +10,7 @@ import { NgModule } from '@angular/core';
 import { InfoItem } from './ui/info-grid/info-item';
 import { InfoGrid } from './ui/info-grid/info-grid';
 import { JsonPipe } from '@angular/common';
+import { FormField } from '@angular/forms/signals';
 
 export { InfoGrid } from './ui/info-grid/info-grid';
 export { InfoItem } from './ui/info-grid/info-item';
@@ -18,6 +19,7 @@ export { InfoItem } from './ui/info-grid/info-item';
  * Components and module for Forms
  */
 export const SharedForms = [
+  FormField,
   FormsModule,
   ReactiveFormsModule,
   MatFormFieldModule,
