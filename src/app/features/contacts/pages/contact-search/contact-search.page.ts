@@ -1,4 +1,4 @@
-import { Component, effect, inject, linkedSignal } from '@angular/core';
+import { Component, effect, inject, linkedSignal, resource, signal } from '@angular/core';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactsAPI } from '@feature/contacts/data/contacts-api/contacts-api';
@@ -58,4 +58,18 @@ export class ContactSearchPage {
     params: () => ({ q: this.params().q ?? '' }),
     stream: ({ params: { q } }) => this.api.fetchContacts(q),
   });
+
+  countries = resource({
+    params: () => ({ countryFilter: '' }),
+    loader: () => Promise.resolve(['Polska']),
+  });
+  selectedCountry = signal('')
+
+  cities = resource({
+    params: ({chain}) => ({ cityFilter: '', country: this.selectedCountry(), countries: chain(this.countries) }),
+    loader: () => Promise.resolve(['Warszawa']), // undefined until  countries + selectedCountry
+  });
+  selectedCity = signal('')
+
+  // selectedCountry -> selectedCity.set('')
 }
