@@ -83,11 +83,10 @@ export class DealsSearchPage {
 
   api = inject(DealsAPI);
 
-  loadingDeals = effect(async (onCleanup) => {
-    
+  loadingDeals = effect((onCleanup) => {
     const sub = this.api.fetchDeals('').subscribe({
-      next: console.log,
-      error: console.log,
+      next: (data) => this.dealsList.set(data.items),
+      // error: console.log,
       // complete: () => console.log('complete'),
     });
 
@@ -99,22 +98,11 @@ export class DealsSearchPage {
     const id = this.selectedDealId();
     if (!id) return;
 
-    this.dealsList();
-
-    console.log('Request ' + id);
-
-    const handler = setTimeout(() => {
-      console.log('Response ' + id);
-      const deal = this.dealsList().find((d) => d.id === id);
-      this.selectedDeal.set(deal);
-    }, 100 * Math.random());
-
-    // Abort previous request
-    onCleanup(() => {
-      console.log('Aborting Request ' + id);
-
-      clearTimeout(handler);
+    const sub = this.api.fetchDealById(id).subscribe({
+      next: (data) => this.selectedDeal.set(data),
     });
+
+    onCleanup(() => sub.unsubscribe());
   });
 
   // ---

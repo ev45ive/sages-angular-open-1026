@@ -30,13 +30,15 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = '') {
-    return this.http.get(`${this.apiURL}deals`, {
+    return this.http.get<{ items: Deal[] }>(`${this.apiURL}deals`, {
       params: { q: q },
       headers: { ...this.auth.getHeaders() },
     });
   }
 
-  fetchDealById(id=''){
-    // TODO...
+  fetchDealById(id = '') {
+    return this.http.get<Deal>(`${this.apiURL}deals/${id}`, {
+      headers: { ...this.auth.getHeaders() },
+    });
   }
 }
