@@ -1,8 +1,17 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Auth } from '@core/auth/auth';
 import { API_URL } from '@core/tokens';
 import { catchError } from 'rxjs';
+
+
+export const HTTP_ERRORS = {
+  // Authentication and authorization failures.
+  auth: [401, 403],
+  // Transient failures that may be retried.
+  retry: [408, 425, 429, 500, 502, 503, 504],
+};
+
 
 export const URLInterceptor: HttpInterceptorFn = (req, next) => {
   // Open for overrides:
@@ -34,7 +43,10 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
   // const auth = inject(Auth);
 
   return next(req).pipe(
-    catchError((error) => {
+    catchError((error:unknown) => {
+
+      assertHttpError(error)
+
       throw new Error(error.error.error.message);
     }),
   );
@@ -48,3 +60,19 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 // IntB.next = IntN
 
 // IntN.next =  HttpHandler -> Observable + .pipe()
+
+// ZodJS
+// Zod.parse(Schema<T>, unkonown) -> T | thorw
+
+export type ErrorReponse = {
+  error: {
+    status: number;
+    message: string;
+    code: string; // 'UNAUTHORIZED'|...;
+  };
+};
+
+// Type Guard - Narrow type or throw
+function assertHttpError(error: unknown): asserts error is HttpErrorResponse {
+  if (!(error instanceof HttpErrorResponse)) throw error;
+}
