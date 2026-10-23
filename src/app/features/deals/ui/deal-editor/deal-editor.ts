@@ -12,16 +12,11 @@ import { Deal } from '@feature/deals/model/deal';
   `,
   template: `
     <div class="grid gap-5 p-5">
-      <h2 class="text-xl" >Edit Deal</h2>
+      <h2 class="text-xl">Edit Deal</h2>
 
-      <input
-        class="p-3 bg-surface-bright border"
-        type="text"
+      <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
 
-        [(ngModel)]="draft().title"
-      />
-        <!-- [ngModel]="draft().title" (ngModelChange)="draft().title = $event" -->
-        <!-- [value]="draft().title" (input)="draft().title = $event.target.value" -->
+      <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="title" />
 
       <p>{{ draft().title.length }} / 100</p>
 
@@ -40,6 +35,11 @@ export class DealEditor {
     return { ...this.deal() };
   });
 
+  // Individual field signals
+  title = linkedSignal(() => this.draft().title);
+  value = linkedSignal(() => this.draft().value);
+  // ...
+
   save = output<Deal>();
   cancel = output();
 
@@ -48,6 +48,12 @@ export class DealEditor {
   }
 
   submit() {
+    const draft = {
+      ...this.draft(),
+      title: this.title(),
+      value: this.value(),
+    };
+
     this.save.emit(this.draft());
   }
 }
