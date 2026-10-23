@@ -12,28 +12,26 @@ import { SharedForms /* SharedModule */ } from '@shared/ui';
     }
   `,
   template: `
-    <div class="grid gap-5 p-5">
-      <h2 class="text-xl">Edit Deal</h2>
-
-      <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
-
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input type="text" matInput [ngModel]="deal().title" required #titleModelREf="ngModel" />
-
-        <mat-hint align="end"> {{ titleModelREf.value.length }} / 100 </mat-hint>
-        <mat-error>
-          @if (titleModelREf.getError('required')) {
-            Field is required
-          }
-        </mat-error>
-      </mat-form-field>
-
-      <div class="flex justify-end gap-md">
-        <button (click)="submit()">Save</button>
-        <button mat-flat-button (click)="onCancel()">Cancel</button>
+    <form>
+      <div class="grid gap-5 p-5">
+        <h2 class="text-xl">Edit Deal</h2>
+        <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input type="text" matInput [ngModel]="deal().title" required #titleModelREf="ngModel" name="title" />
+          <mat-hint align="end"> {{ titleModelREf.value.length }} / 100 </mat-hint>
+          <mat-error>
+            @if (titleModelREf.getError('required')) {
+              Field is required
+            }
+          </mat-error>
+        </mat-form-field>
+        <div class="flex justify-end gap-md">
+          <button (click)="submit()">Save</button>
+          <button mat-flat-button (click)="onCancel()">Cancel</button>
+        </div>
       </div>
-    </div>
+    </form>
   `,
 })
 export class DealEditor {
