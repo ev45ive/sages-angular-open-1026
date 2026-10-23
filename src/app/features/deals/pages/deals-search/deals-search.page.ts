@@ -85,8 +85,11 @@ export class DealsSearchPage {
 
   loadingDeals = effect(async (onCleanup) => {
     // Cancelling fetch
-    const huston = new AbortController();
-    onCleanup(() => huston.abort('Cancelled'));
+    // const huston = new AbortController();
+    // onCleanup(() => huston.abort('Cancelled'));
+
+
+    this.api.fetchDeals('')
 
     // try {
     //   const data = await this.api.fetchDeals('', { signal: huston.signal });

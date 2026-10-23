@@ -13,14 +13,13 @@ import { HttpClient } from '@angular/common/http';
     var - sync 1 value
     signal() - sync 1 value
     
-    fn() - lazy, sync value
-    promise - async, value 
+    fn() - lazy, sync value 1-1
+    promise - async, value   1-*
     
     []  - sync ...value
-    Observable - lazy, async ...value
+    Observable - lazy, async ...value  1-1
 
 */
-
 
 @Service()
 export class DealsAPI {
@@ -31,9 +30,26 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = '') {
-    const obs =this.http.get(`${this.apiURL}deals`, {
+    //
+    // Unicast<T> observable - RECIPE<T>
+    //
+    const obs = this.http.get(`${this.apiURL}deals`, {
       params: { q: q },
       headers: { ...this.auth.getHeaders() },
+    });
+
+    // ----
+
+    // Subscriber A -> Request
+    const sub = obs.subscribe(console.log);
+
+    sub.unsubscribe();
+
+    // Subscriber B -> Request
+    obs.subscribe({
+      next: console.log,
+      error: console.log,
+      complete: () => console.log('complete'),
     });
   }
 
