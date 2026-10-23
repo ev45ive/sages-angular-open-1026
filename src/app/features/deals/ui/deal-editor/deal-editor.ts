@@ -1,8 +1,9 @@
 import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Deal } from '@feature/deals/model/deal';
 
 @Component({
-  imports: [],
+  imports: [FormsModule],
   selector: 'app-deal-editor',
   styles: `
     :host {
@@ -11,14 +12,16 @@ import { Deal } from '@feature/deals/model/deal';
   `,
   template: `
     <div class="grid gap-5 p-5">
-      <h2 class="text-xl">Edit Deal</h2>
+      <h2 class="text-xl" >Edit Deal</h2>
 
       <input
         class="p-3 bg-surface-bright border"
         type="text"
-        [value]="draft().title"
-        (input)="draft().title = $event.target.value"
+
+        [ngModel]="draft().title" (ngModelChange)="draft().title = $event"
       />
+        <!-- [value]="draft().title"
+        (input)="draft().title = $event.target.value" -->
 
       <p>{{ draft().title.length }} / 100</p>
 
