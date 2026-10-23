@@ -9,11 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { InfoItem } from './ui/info-grid/info-item';
 import { InfoGrid } from './ui/info-grid/info-grid';
+import { Avatar } from './ui/avatar/avatar';
 import { JsonPipe } from '@angular/common';
 import { FormField } from '@angular/forms/signals';
 
 export { InfoGrid } from './ui/info-grid/info-grid';
 export { InfoItem } from './ui/info-grid/info-item';
+export { Avatar } from './ui/avatar/avatar';
 
 /**
  * Components and module for Forms
@@ -31,7 +33,7 @@ export const SharedForms = [
   MatButtonModule,
 ];
 
-export const SharedUI = [InfoGrid, InfoItem, MatButtonModule, JsonPipe];
+export const SharedUI = [InfoGrid, InfoItem, Avatar, MatButtonModule, JsonPipe];
 
 export const SharedAll = [SharedUI, SharedForms];
 

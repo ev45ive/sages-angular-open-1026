@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/deals').then((e) => e.dealsRoutes),
   },
   {
+    path: 'contacts',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/contacts').then((e) => e.contactsRoutes),
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./core/layouts/page-not-found/page-not-found').then((e) => e.PageNotFound),

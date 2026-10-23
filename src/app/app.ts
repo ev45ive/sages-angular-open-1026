@@ -15,7 +15,9 @@ import { ThemeToggle } from './core/theme/theme-toggle/theme-toggle';
       <!-- <p app-toolbar>{{appName()}}</p> -->
       <!-- <p app-title>{{appName()}}</p> -->
 
-      <button app-toolbar-action mat-flat-button>Settings</button>
+      <a app-toolbar-action mat-flat-button href="/deals">Deals</a>
+      <a app-toolbar-action mat-flat-button href="/contacts">Contacts</a>
+
       <app-theme-toggle app-toolbar-action />
       @if (auth.isLoggedIn()) {
         <button app-toolbar-action mat-raised-button (click)="auth.logout()">Logout</button>
