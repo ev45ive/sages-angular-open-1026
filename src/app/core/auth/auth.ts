@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 @Service()
 export class Auth {
 
-  private token = 'mock-access';
+  private token = 'mock-access-u1';
 
   // -- public API --
 
