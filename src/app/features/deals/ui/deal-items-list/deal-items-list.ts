@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Deal } from '@feature/deals/model/deal';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
@@ -55,12 +55,16 @@ export class DealItemsList {
 
   items = input<Deal[]>([]);
 
-  selectedId = input<Deal['id']>();
+  selectedId = model<Deal['id']>('')
+
+  // selectedId =       input<Deal['id']>();
+  // selectedIdChange = output<Deal['id']>();
 
   // Event Emmitter -> (id) => $event
-  selectionChanged = output<Deal['id']>();
 
   selectItem(id: Deal['id']) {
-    this.selectionChanged.emit(id);
+    // this.selectedIdChange.emit(id);
+
+    this.selectedId.set(id);
   }
 }

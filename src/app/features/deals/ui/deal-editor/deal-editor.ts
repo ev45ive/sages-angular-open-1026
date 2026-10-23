@@ -18,10 +18,10 @@ import { Deal } from '@feature/deals/model/deal';
         class="p-3 bg-surface-bright border"
         type="text"
 
-        [ngModel]="draft().title" (ngModelChange)="draft().title = $event"
+        [(ngModel)]="draft().title"
       />
-        <!-- [value]="draft().title"
-        (input)="draft().title = $event.target.value" -->
+        <!-- [ngModel]="draft().title" (ngModelChange)="draft().title = $event" -->
+        <!-- [value]="draft().title" (input)="draft().title = $event.target.value" -->
 
       <p>{{ draft().title.length }} / 100</p>
 

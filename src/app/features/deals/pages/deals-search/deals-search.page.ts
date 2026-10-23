@@ -37,9 +37,12 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
       <div class="grid gap-sm">
         <app-deal-items-list
           [items]="dealsList()"
-          [selectedId]="selectedDealId()"
-          (selectionChanged)="selectDeal($event)"
+          
+          [(selectedId)]="selectedDealId"
+          (selectedIdChange)="selectDeal($event)"
         />
+        <!-- [selectedId]="selectedDealId()"
+          (selectedIdChange)="selectDeal($event)" -->
       </div>
 
       <div class="grid gap-sm">
