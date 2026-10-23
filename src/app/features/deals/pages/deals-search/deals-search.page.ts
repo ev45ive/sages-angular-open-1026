@@ -53,10 +53,8 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
             <!--  -->
 
             @if (selectedDeal(); as deal) {
-              <app-deal-editor [deal]="deal" (save)="saveDeal($event)" />
+              <app-deal-editor [deal]="deal" (cancel)="closeEditor()" (save)="saveDeal($event)" />
             }
-
-            <button mat-flat-button (click)="closeEditor()">Cancel</button>
           }
           @case ('creator') {
             <!--  -->
@@ -91,7 +89,7 @@ export class DealsSearchPage {
     this.dealsList();
 
     console.log('Request ' + id);
-    
+
     const handler = setTimeout(() => {
       console.log('Response ' + id);
       const deal = this.dealsList().find((d) => d.id === id);

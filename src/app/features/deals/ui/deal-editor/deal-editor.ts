@@ -19,20 +19,30 @@ import { Deal } from '@feature/deals/model/deal';
         [value]="draft().title"
         (input)="draft().title = $event.target.value"
       />
-      <!-- ^- Mutating original signal value -> no .set(). -> same Ref -> no updates! -->
 
       <p>{{ draft().title.length }} / 100</p>
 
-      <button (click)="submit()">Save</button>
+      <div class="flex justify-end gap-md">
+        <button (click)="submit()">Save</button>
+        <button mat-flat-button (click)="onCancel()">Cancel</button>
+      </div>
     </div>
   `,
 })
 export class DealEditor {
-  deal = input<Deal>();
-  
-  draft = linkedSignal(() => ({ ...(this.deal() ?? emptyDealDraft()) }));
+  deal = input<Deal>(emptyDealDraft());
+
+  draft = linkedSignal(() => {
+    if (!this.deal()) return emptyDealDraft();
+    return { ...this.deal() };
+  });
 
   save = output<Deal>();
+  cancel = output();
+
+  onCancel() {
+    this.cancel.emit();
+  }
 
   submit() {
     this.save.emit(this.draft());
