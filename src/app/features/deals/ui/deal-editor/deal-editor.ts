@@ -1,4 +1,5 @@
-import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
+import { Component, effect, input, linkedSignal, output, signal, viewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { Deal } from '@feature/deals/model/deal';
 import { SharedForms /* SharedModule */ } from '@shared/ui';
 
@@ -15,11 +16,12 @@ import { SharedForms /* SharedModule */ } from '@shared/ui';
       <h2 class="text-xl">Edit Deal</h2>
 
       <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
-      
+
       <mat-form-field>
-        <input type="text" matInput [(ngModel)]="draft().title" required #titleModelREf="ngModel" />
         <mat-label>Title</mat-label>
-        <mat-hint align="end"> {{ draft().title.length }} / 100 </mat-hint>
+        <input type="text" matInput [ngModel]="deal().title" required #titleModelREf="ngModel" />
+
+        <mat-hint align="end"> {{ titleModelREf.value.length }} / 100 </mat-hint>
         <mat-error>
           @if (titleModelREf.getError('required')) {
             Field is required
@@ -37,15 +39,7 @@ import { SharedForms /* SharedModule */ } from '@shared/ui';
 export class DealEditor {
   deal = input<Deal>(emptyDealDraft());
 
-  draft = linkedSignal(() => {
-    if (!this.deal()) return emptyDealDraft();
-    return { ...this.deal() };
-  });
-
-  // Individual field signals
-  title = linkedSignal(() => this.draft().title);
-  value = linkedSignal(() => this.draft().value);
-  // ...
+  titleModelREf = viewChild<NgModel>('titleModelREf');
 
   save = output<Deal>();
   cancel = output();
@@ -55,13 +49,14 @@ export class DealEditor {
   }
 
   submit() {
-    const draft = {
-      ...this.draft(),
-      title: this.title(),
-      value: this.value(),
+    const title = this.titleModelREf();
+
+    const draft: Deal = {
+      ...this.deal(),
+      title: title?.value,
     };
 
-    this.save.emit(this.draft());
+    this.save.emit(draft);
   }
 }
 

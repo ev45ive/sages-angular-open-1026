@@ -37,7 +37,7 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
       <div class="grid gap-sm">
         <app-deal-items-list
           [items]="dealsList()"
-          
+
           [(selectedId)]="selectedDealId"
           (selectedIdChange)="selectDeal($event)"
         />
@@ -73,9 +73,9 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
   `,
 })
 export class DealsSearchPage {
-  mode = signal<'details' | 'editor' | 'creator'>('details');
+  mode = signal<'details' | 'editor' | 'creator'>('editor');
 
-  selectedDealId = signal('');
+  selectedDealId = signal('d1');
 
   dealsList = signal<Deal[]>(mockDeals);
   // dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
@@ -97,7 +97,7 @@ export class DealsSearchPage {
       console.log('Response ' + id);
       const deal = this.dealsList().find((d) => d.id === id);
       this.selectedDeal.set(deal);
-    }, 2_000 * Math.random());
+    }, 100 * Math.random());
 
     // Abort previous request
     onCleanup(() => {
