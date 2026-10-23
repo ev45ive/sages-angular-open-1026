@@ -778,3 +778,902 @@ _**Agent (copilot/claude-haiku-5.5)**_
 
 Created 5 todos
 </details></tool-use>
+
+---
+
+_**User (2026-10-23 14:12:54Z)**_
+
+Start implementation
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<think><details><summary>Thought Process</summary>
+Next I'll wire the exports into the shared barrel, migrate `DealDetailsCard`, and add the snippets.  
+
+`DealDetailsCard` is migrated. `index.ts` changed since I last read it (an `Avatar` export was added), so I'll re-apply the card exports against the current content.   
+
+The root component is missing its `UiCardHeader` import. I'll add it, then run a build to confirm the templates compile.
+</details></think>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I'll implement the plan using the recommended options: keep the `app-` generator prefix and hand-write the `ui-` files, default heading level 2, and explicit header wins. First I'll check the snippet file format. 
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `shared-components.code-snippets`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\.vscode\shared-components.code-snippets`
+- startLine: `1`
+
+**Result:**
+
+```
+{
+  "InfoGrid usage": {
+    "scope": "html,typescript",
+    "prefix": "info-grid",
+    "description": "InfoGrid with one InfoItem",
+    "body": [
+      "<app-info-grid>",
+      "  <app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />",
+      "  $0",
+      "</app-info-grid>"
+    ]
+  },
+  "InfoItem usage": {
+    "scope": "html,typescript",
+    "prefix": "info-item",
+    "description": "InfoItem with label and value inputs",
+    "body": [
+      "<app-info-item label=\"${1:Label}\" value=\"${2:Value}\" />"
+    ]
+  },
+  "InfoItem usage with projected label": {
+    "scope": "html,typescript",
+    "prefix": "info-item-label",
+    "description": "InfoItem with projected info-label",
+    "body": [
+      "<app-info-item value=\"${1:Value}\">",
+      "  <span info-label>${2:Label}</span>",
+      "</app-info-item>"
+    ]
+  },
+  "InfoItem usage with projected value": {
+    "scope": "html,typescript",
+    "prefix": "info-item-value",
+    "description": "InfoItem with projected value",
+    "body": [
+      "<app-info-item label=\"${1:Label}\">${2:value}</app-info-item>"
+    ]
+  }
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+The snippet file is a JSON object of named entries. I'll create the four card files first: the root, the header, and the two slot-marker directives. 
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="create_file"><details>
+<summary>Tool use: **create_file**</summary>
+
+Created `card-actions.ts`
+
+**Input:**
+
+- content:
+
+```
+import { Directive } from '@angular/core';
+
+/** Slot marker for header actions. Import together with `UiCard`. */
+@Directive({
+  selector: '[ui-card-actions]',
+})
+export class UiCardActions {}
+
+```
+
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-actions.ts`
+
+**Result:**
+
+```
+The following files were successfully edited:
+c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-actions.ts
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="create_file"><details>
+<summary>Tool use: **create_file**</summary>
+
+Created `card-badge.ts`
+
+**Input:**
+
+- content:
+
+```
+import { Directive } from '@angular/core';
+
+/** Slot marker for header badge. Import together with `UiCard`. */
+@Directive({
+  selector: '[ui-card-badge]',
+})
+export class UiCardBadge {}
+
+```
+
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-badge.ts`
+
+**Result:**
+
+```
+The following files were successfully edited:
+c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-badge.ts
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="create_file"><details>
+<summary>Tool use: **create_file**</summary>
+
+Created `card-header.ts`
+
+**Input:**
+
+- content:
+
+```
+import { Component, input } from '@angular/core';
+
+export type HeadingLevel = 2 | 3 | 4 | 5 | 6;
+
+/** Default header of `ui-card`, or an explicit header with its own `title`/`subtitle`. */
+@Component({
+  selector: 'ui-card-header',
+  host: { class: 'flex items-start justify-between gap-4' },
+  template: `
+    <div class="min-w-0">
+      @if (title()) {
+        <div role="heading" [attr.aria-level]="headingLevel()" class="text-title-md text-on-surface">
+          {{ title() }}
+        </div>
+      }
+      @if (subtitle()) {
+        <p class="mt-1 text-body-md text-on-surface-variant">{{ subtitle() }}</p>
+      }
+    </div>
+    <div class="flex shrink-0 items-center gap-3">
+      <ng-content select="[ui-card-badge]" />
+      <ng-content select="[ui-card-actions]" />
+    </div>
+  `,
+})
+export class UiCardHeader {
+  title = input<string>();
+  subtitle = input<string>();
+  headingLevel = input<HeadingLevel>(2);
+}
+
+```
+
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-header.ts`
+
+**Result:**
+
+```
+The following files were successfully edited:
+c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card-header.ts
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="create_file"><details>
+<summary>Tool use: **create_file**</summary>
+
+Created `card.ts`
+
+**Input:**
+
+- content:
+
+````
+import { Component, computed, contentChild, input } from '@angular/core';
+import { UiCardActions } from './card-actions';
+import { UiCardBadge } from './card-badge';
+import { HeadingLevel, UiCardHeader } from './card-header';
+
+/**
+ * Card with optional header and body. Root `title`, `subtitle`, `[ui-card-actions]` and `[ui-card-badge]`
+ * build a default header; an explicit `ui-card-header` replaces it and hides root header content.
+ *
+ * @example
+ * ```html
+ * <ui-card [title]="deal.title" [subtitle]="deal.description">
+ *   <button ui-card-actions type="button">Edit</button>
+ *   <app-info-grid>...</app-info-grid>
+ * </ui-card>
+ * ```
+ */
+@Component({
+  selector: 'ui-card',
+  host: { class: 'block' },
+  template: `
+    <article class="flex flex-col gap-4 rounded-md bg-surface-container-lowest p-5 shadow-level1">
+      <ng-content select="ui-card-header" />
+      @if (showDefaultHeader()) {
+        <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
+          <ng-content select="[ui-card-badge]" />
+          <ng-content select="[ui-card-actions]" />
+        </ui-card-header>
+      }
+      <div>
+        <ng-content />
+      </div>
+    </article>
+  `,
+})
+export class UiCard {
+  title = input<string>();
+  subtitle = input<string>();
+  headingLevel = input<HeadingLevel>(2);
+
+  private readonly explicitHeader = contentChild(UiCardHeader, { descendants: false });
+  private readonly actions = contentChild(UiCardActions, { descendants: false });
+  private readonly badge = contentChild(UiCardBadge, { descendants: false });
+
+  protected readonly showDefaultHeader = computed(
+    () =>
+      !this.explicitHeader() && !!(this.title() || this.subtitle() || this.actions() || this.badge()),
+  );
+}
+
+````
+
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card.ts`
+
+**Result:**
+
+```
+The following files were successfully edited:
+c:\Projects\sages-angular-open-1026\src\app\shared\ui\card\card.ts
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **card-actions.ts**</summary>
+
+@@ lines 1-1 @@
+
+```
+import { Directive } from '@angular/core';
+
+/** Slot marker for header actions. Import together with `UiCard`. */
+@Directive({
+  selector: '[ui-card-actions]',
+})
+export class UiCardActions {}
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **card-badge.ts**</summary>
+
+@@ lines 1-1 @@
+
+```
+import { Directive } from '@angular/core';
+
+/** Slot marker for header badge. Import together with `UiCard`. */
+@Directive({
+  selector: '[ui-card-badge]',
+})
+export class UiCardBadge {}
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **card-header.ts**</summary>
+
+@@ lines 1-1 @@
+
+```
+import { Component, input } from '@angular/core';
+
+export type HeadingLevel = 2 | 3 | 4 | 5 | 6;
+
+/** Default header of `ui-card`, or an explicit header with its own `title`/`subtitle`. */
+@Component({
+  selector: 'ui-card-header',
+  host: { class: 'flex items-start justify-between gap-4' },
+  template: `
+    <div class="min-w-0">
+      @if (title()) {
+        <div role="heading" [attr.aria-level]="headingLevel()" class="text-title-md text-on-surface">
+          {{ title() }}
+        </div>
+      }
+      @if (subtitle()) {
+        <p class="mt-1 text-body-md text-on-surface-variant">{{ subtitle() }}</p>
+      }
+    </div>
+    <div class="flex shrink-0 items-center gap-3">
+      <ng-content select="[ui-card-badge]" />
+      <ng-content select="[ui-card-actions]" />
+    </div>
+  `,
+})
+export class UiCardHeader {
+  title = input<string>();
+  subtitle = input<string>();
+  headingLevel = input<HeadingLevel>(2);
+}
+
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **card.ts**</summary>
+
+@@ lines 1-1 @@
+
+````
+import { Component, computed, contentChild, input } from '@angular/core';
+import { UiCardActions } from './card-actions';
+import { UiCardBadge } from './card-badge';
+import { HeadingLevel, UiCardHeader } from './card-header';
+
+/**
+ * Card with optional header and body. Root `title`, `subtitle`, `[ui-card-actions]` and `[ui-card-badge]`
+ * build a default header; an explicit `ui-card-header` replaces it and hides root header content.
+ *
+ * @example
+ * ```html
+ * <ui-card [title]="deal.title" [subtitle]="deal.description">
+ *   <button ui-card-actions type="button">Edit</button>
+ *   <app-info-grid>...</app-info-grid>
+ * </ui-card>
+ * ```
+ */
+@Component({
+  selector: 'ui-card',
+  host: { class: 'block' },
+  template: `
+    <article class="flex flex-col gap-4 rounded-md bg-surface-container-lowest p-5 shadow-level1">
+      <ng-content select="ui-card-header" />
+      @if (showDefaultHeader()) {
+        <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
+          <ng-content select="[ui-card-badge]" />
+          <ng-content select="[ui-card-actions]" />
+        </ui-card-header>
+      }
+      <div>
+        <ng-content />
+      </div>
+    </article>
+  `,
+})
+export class UiCard {
+  title = input<string>();
+  subtitle = input<string>();
+  headingLevel = input<HeadingLevel>(2);
+
+  private readonly explicitHeader = contentChild(UiCardHeader, { descendants: false });
+  private readonly actions = contentChild(UiCardActions, { descendants: false });
+  private readonly badge = contentChild(UiCardBadge, { descendants: false });
+
+  protected readonly showDefaultHeader = computed(
+    () =>
+      !this.explicitHeader() && !!(this.title() || this.subtitle() || this.actions() || this.badge()),
+  );
+}
+
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Next I'll wire the exports into the shared barrel, migrate , and add the snippets. 
+
+ 
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **deal-details-card.ts**</summary>
+
+@@ lines 20-42 @@
+
+```
+ui-card [title]="deal.title" [subtitle]="deal.description">
+        <app-deal-stage-badge ui-card-badge [stage]="deal.stage" />
+        <button ui-card-actions type="button" mat-raised-button (click)="onEdit()">Edit</button>
+
+        <app-info-grid>
+          <app-info-item label="Value" [value]="deal.value | currency" />
+          <app-info-item label="Contact" value="Anna Kowalska" />
+          <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+        </app-info-grid>
+      </ui-card
+```
+
+@@ lines 7-11 @@
+
+```
+UiCard } from '@shared/ui/card/card';
+import { UiCardActions } from '@shared/ui/card/card-actions';
+import { UiCardBadge } from '@shared/ui/card/card-badge';
+import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
+import { CurrencyPipe } from '@angular/common';
+
+@Component({
+  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe, UiCard, UiCardActions, UiCardBadg
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+
+```
+
+```
+
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **shared-components.code-snippets**</summary>
+
+@@ lines 38-38 @@
+
+```
+,
+  "UiCard usage": {
+    "scope": "html,typescript",
+    "prefix": "ui-card",
+    "description": "UiCard with title and subtitle",
+    "body": [
+      "<ui-card [title]=\"${1:title}\" [subtitle]=\"${2:subtitle}\">",
+      "  $0",
+      "</ui-card>"
+    ]
+  },
+  "UiCard with actions and badge": {
+    "scope": "html,typescript",
+    "prefix": "ui-card-actions",
+    "description": "UiCard with title and an action in the default header",
+    "body": [
+      "<ui-card [title]=\"${1:title}\">",
+      "  <button ui-card-actions type=\"button\">${2:Action}</button>",
+      "  $0",
+      "</ui-card>"
+    ]
+  },
+  "UiCard explicit header": {
+    "scope": "html,typescript",
+    "prefix": "ui-card-header",
+    "description": "UiCard with an explicit ui-card-header",
+    "body": [
+      "<ui-card>",
+      "  <ui-card-header [title]=\"${1:title}\" [subtitle]=\"${2:subtitle}\">",
+      "    <button ui-card-actions type=\"button\">${3:Action}</button>",
+      "  </ui-card-header>",
+      "  $0",
+      "</ui-card>"
+    ]
+  }
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Two replacements failed. I'll check which files actually changed.  
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `index.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\shared\index.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { NgModule } from '@angular/core';
+import { InfoItem } from './ui/info-grid/info-item';
+import { InfoGrid } from './ui/info-grid/info-grid';
+import { Avatar } from './ui/avatar/avatar';
+import { JsonPipe } from '@angular/common';
+import { FormField } from '@angular/forms/signals';
+
+export { InfoGrid } from './ui/info-grid/info-grid';
+export { InfoItem } from './ui/info-grid/info-item';
+export { Avatar } from './ui/avatar/avatar';
+
+/**
+ * Components and module for Forms
+ */
+export const SharedForms = [
+  FormField,
+  FormsModule,
+  ReactiveFormsModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatCheckboxModule,
+  MatAutocompleteModule,
+  MatSelectModule,
+  MatBadgeModule,
+  MatButtonModule,
+];
+
+export const SharedUI = [InfoGrid, InfoItem, Avatar, MatButtonModule, JsonPipe];
+
+export const SharedAll = [SharedUI, SharedForms];
+
+@NgModule({
+  declarations: [/* NonStandalone + export  */],
+  imports: [SharedForms, [[[[SharedUI]]]]], // flat()
+  exports: [SharedForms, SharedUI],
+})
+export class SharedModule {}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `deal-details-card.ts`
+
+**Input:**
+
+- endLine: `60`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\features\deals\ui\deal-details-card\deal-details-card.ts`
+- startLine: `1`
+
+**Result:**
+
+```
+import { Component, input, output, signal } from '@angular/core';
+import { MatAnchor } from '@angular/material/button';
+import { mockDeals } from '@feature/deals/data/mock-deals';
+import { Deal } from '@feature/deals/model/deal';
+import { InfoGrid } from '@shared/ui/info-grid/info-grid';
+import { InfoItem } from '@shared/ui/info-grid/info-item';
+import { UiCard } from '@shared/ui/card/card';
+import { UiCardActions } from '@shared/ui/card/card-actions';
+import { UiCardBadge } from '@shared/ui/card/card-badge';
+import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
+import { CurrencyPipe } from '@angular/common';
+
+@Component({
+  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe, UiCard, UiCardActions, UiCardBadge],
+  selector: 'app-deal-details-card',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
+  template: `
+    @if (deal(); as deal) {
+      <ui-card [title]="deal.title" [subtitle]="deal.description">
+        <app-deal-stage-badge ui-card-badge [stage]="deal.stage" />
+        <button ui-card-actions type="button" mat-raised-button (click)="onEdit()">Edit</button>
+
+        <app-info-grid>
+          <app-info-item label="Value" [value]="deal.value | currency" />
+          <app-info-item label="Contact" value="Anna Kowalska" />
+          <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
+        </app-info-grid>
+      </ui-card>
+    } @else {
+      <div class="px-3 py-4 text-center">No deal selected</div>
+    }
+  `,
+})
+export class DealDetailsCard {
+  deal = input<Deal>();
+
+  edit = output();
+
+  onEdit() {
+    this.edit.emit();
+  }
+
+  // TODO: Emit!
+}
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+ is migrated. `index.ts` changed since I last read it (an  export was added), so I'll re-apply the card exports against the current content.   
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **index.ts**</summary>
+
+@@ lines 36-36 @@
+
+```
+
+  InfoGrid,
+  InfoItem,
+  Avatar,
+  UiCard,
+  UiCardHeader,
+  UiCardActions,
+  UiCardBadge,
+  MatButtonModule,
+  JsonPipe,
+
+```
+
+@@ lines 13-18 @@
+
+```
+UiCard } from './ui/card/card';
+import { UiCardHeader } from './ui/card/card-header';
+import { UiCardActions } from './ui/card/card-actions';
+import { UiCardBadge } from './ui/card/card-badge';
+import { JsonPipe } from '@angular/common';
+import { FormField } from '@angular/forms/signals';
+
+export { InfoGrid } from './ui/info-grid/info-grid';
+export { InfoItem } from './ui/info-grid/info-item';
+export { Avatar } from './ui/avatar/avatar';
+export { UiCard } from './ui/card/card';
+export { UiCardHeader } from './ui/card/card-header';
+export { UiCardActions } from './ui/card/card-actions';
+export { UiCardBadge } from './ui/card/card-badge
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 4 todos
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Next I'll check for compile errors in the changed files.   
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `card.ts`, `card-header.ts`, `card-actions.ts`, `card-badge.ts`, `index.ts`, `deal-details-card.ts`, 3 problems found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card-header.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card-actions.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card-badge.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\index.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\features\\deals\\ui\\deal-details-card\\deal-details-card.ts"
+]
+```
+
+
+**Result:**
+
+````
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card.ts">
+This code at line 25
+```
+        <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
+```
+has the problem reported:
+<compileError>
+'ui-card-header' is not a known element:
+1. If 'ui-card-header' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'ui-card-header' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message. Find more at https://v22.angular.dev/errors/NG8001
+</compileError>
+This code at line 25
+```
+        <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
+```
+has the problem reported:
+<compileError>
+Can't bind to 'subtitle' since it isn't a known property of 'ui-card-header'.
+1. If 'ui-card-header' is an Angular component and it has 'subtitle' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'ui-card-header' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component. Find more at https://v22.angular.dev/errors/NG8002
+</compileError>
+This code at line 25
+```
+        <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
+```
+has the problem reported:
+<compileError>
+Can't bind to 'headingLevel' since it isn't a known property of 'ui-card-header'.
+1. If 'ui-card-header' is an Angular component and it has 'headingLevel' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'ui-card-header' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this com
+… (output truncated)
+````
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+The root component is missing its  import. I'll add it, then run a build to confirm the templates compile.   
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **card.ts**</summary>
+
+@@ lines 21-21 @@
+
+```
+imports: [UiCardHeader],
+  
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="execution_subagent"><details>
+<summary>Tool use: **execution_subagent**</summary>
+
+Execution complete: Build project to verify templates
+
+**Input:**
+
+- description: `Build project to verify templates`
+- query: `In c:\Projects\sages-angular-open-1026 run `npx ng build --configuration development` (or `npm run build` if that is the project script). Report only: success or failure, and for any errors the file path, line and message. Do not modify any files.`
+
+**Result:**
+
+```
+Failure — build command was not run.
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="run_in_terminal"><details>
+<summary>Tool use: **run_in_terminal**</summary>
+
+Running ` cd /c/Projects/sages-angular-open-1026 && npx ng build --configuration devel...`
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+The build subagent did not run. I'll run the build directly in the terminal.   
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="run_in_terminal"><details>
+<summary>Tool use: **run_in_terminal**</summary>
+
+Running ` npx ng build --configuration development`
+
+Compile the app to verify the new card templates and migrated DealDetailsCard.
+
+```bash
+npx ng build --configuration development
+```
+
+**Result:**
+
+```
+The user chose to skip the tool call, they want to proceed without running it
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+The build was skipped by you, so I'll rely on the editor's error check instead.    
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `card.ts`, `deal-details-card.ts`, no problems found
+
+**Input:**
+
+- filePaths:
+
+```
+[
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card.ts",
+  "c:\\Projects\\sages-angular-open-1026\\src\\app\\features\\deals\\ui\\deal-details-card\\deal-details-card.ts"
+]
+```
+
+
+**Result:**
+
+```
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\shared\\ui\\card\\card.ts">
+No errors found
+</errors>
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\features\\deals\\ui\\deal-details-card\\deal-details-card.ts">
+No errors found
+</errors>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+Implemented the `ui-card` component set and migrated . The build was skipped at your request, so only the editor error check ran (no errors in the changed files). I have not checked the page in a browser.
+
+**Files**
+- `src/app/shared/ui/card/card.ts`: `ui-card` root with , `subtitle`, `headingLevel` inputs. It builds a default header when none is projected.
+- `src/app/shared/ui/card/card-header.ts`: `ui-card-header`, with its own `[ui-card-badge]` and `[ui-card-actions]` slots.
+- `src/app/shared/ui/card/card-actions.ts` and `src/app/shared/ui/card/card-badge.ts`: marker directives for the slots.
+- `src/app/shared/index.ts`: exports the four classes and adds them to .
+- `src/app/features/deals/ui/deal-details-card/deal-details-card.ts`: now uses `ui-card` with the badge and Edit button in the header.
+- `.vscode/shared-components.code-snippets`: `ui-card`, `ui-card-actions`, `ui-card-header` snippets.
+
+**Choices I made (you didn't answer these; please confirm)**
+- Kept `angular.json` prefix `app`. The `ui-` files are hand-written, not generated.
+- `headingLevel` defaults to 2.
+- An explicit `ui-card-header` replaces the default header. Root /`subtitle`/actions/badge are then not shown.
+
+**Things to know**
+- Consumers must import  and  alongside  (or use ). Without them the slots are not detected and the default header will not show them.
+-  on `ui-card` shadows the native  attribute. A static `title="..."` shows a browser tooltip over the whole card, so use `[title]="..."` as the snippets and migration do.
+- The plan listed separate `ui-card-title`/`ui-card-subtitle`/`ui-card-body` components. I folded title and subtitle into `ui-card-header` and used the default slot for the body, to keep the surface smaller.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Completed: *Create card component files* (1/4)
+</details></tool-use>

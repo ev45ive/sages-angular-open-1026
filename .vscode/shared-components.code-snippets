@@ -35,5 +35,39 @@
     "body": [
       "<app-info-item label=\"${1:Label}\">${2:value}</app-info-item>"
     ]
+  },
+  "UiCard usage": {
+    "scope": "html,typescript",
+    "prefix": "ui-card",
+    "description": "UiCard with title and subtitle",
+    "body": [
+      "<ui-card [title]=\"${1:title}\" [subtitle]=\"${2:subtitle}\">",
+      "  $0",
+      "</ui-card>"
+    ]
+  },
+  "UiCard with actions and badge": {
+    "scope": "html,typescript",
+    "prefix": "ui-card-actions",
+    "description": "UiCard with title and an action in the default header",
+    "body": [
+      "<ui-card [title]=\"${1:title}\">",
+      "  <button ui-card-actions type=\"button\">${2:Action}</button>",
+      "  $0",
+      "</ui-card>"
+    ]
+  },
+  "UiCard explicit header": {
+    "scope": "html,typescript",
+    "prefix": "ui-card-header",
+    "description": "UiCard with an explicit ui-card-header",
+    "body": [
+      "<ui-card>",
+      "  <ui-card-header [title]=\"${1:title}\" [subtitle]=\"${2:subtitle}\">",
+      "    <button ui-card-actions type=\"button\">${3:Action}</button>",
+      "  </ui-card-header>",
+      "  $0",
+      "</ui-card>"
+    ]
   }
 }

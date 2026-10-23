@@ -10,12 +10,20 @@ import { NgModule } from '@angular/core';
 import { InfoItem } from './ui/info-grid/info-item';
 import { InfoGrid } from './ui/info-grid/info-grid';
 import { Avatar } from './ui/avatar/avatar';
+import { UiCard } from './ui/card/card';
+import { UiCardHeader } from './ui/card/card-header';
+import { UiCardActions } from './ui/card/card-actions';
+import { UiCardBadge } from './ui/card/card-badge';
 import { JsonPipe } from '@angular/common';
 import { FormField } from '@angular/forms/signals';
 
 export { InfoGrid } from './ui/info-grid/info-grid';
 export { InfoItem } from './ui/info-grid/info-item';
 export { Avatar } from './ui/avatar/avatar';
+export { UiCard } from './ui/card/card';
+export { UiCardHeader } from './ui/card/card-header';
+export { UiCardActions } from './ui/card/card-actions';
+export { UiCardBadge } from './ui/card/card-badge';
 
 /**
  * Components and module for Forms
@@ -33,7 +41,17 @@ export const SharedForms = [
   MatButtonModule,
 ];
 
-export const SharedUI = [InfoGrid, InfoItem, Avatar, MatButtonModule, JsonPipe];
+export const SharedUI = [
+  InfoGrid,
+  InfoItem,
+  Avatar,
+  UiCard,
+  UiCardHeader,
+  UiCardActions,
+  UiCardBadge,
+  MatButtonModule,
+  JsonPipe,
+];
 
 export const SharedAll = [SharedUI, SharedForms];
 

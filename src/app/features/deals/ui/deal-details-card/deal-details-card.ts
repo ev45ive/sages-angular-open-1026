@@ -4,11 +4,14 @@ import { mockDeals } from '@feature/deals/data/mock-deals';
 import { Deal } from '@feature/deals/model/deal';
 import { InfoGrid } from '@shared/ui/info-grid/info-grid';
 import { InfoItem } from '@shared/ui/info-grid/info-item';
+import { UiCard } from '@shared/ui/card/card';
+import { UiCardActions } from '@shared/ui/card/card-actions';
+import { UiCardBadge } from '@shared/ui/card/card-badge';
 import { DealStageBadge } from '../deal-stage-badge/deal-stage-badge';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe],
+  imports: [MatAnchor, DealStageBadge, InfoGrid, InfoItem, CurrencyPipe, UiCard, UiCardActions, UiCardBadge],
   selector: 'app-deal-details-card',
   styles: `
     :host {
@@ -17,29 +20,17 @@ import { CurrencyPipe } from '@angular/common';
   `,
   template: `
     @if (deal(); as deal) {
-      <article class="rounded-md bg-surface-container-lowest p-5 shadow-level1">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-title-md text-on-surface">
-              {{ deal.title }}
-            </h2>
-            <p class="mt-1 text-body-md text-on-surface-variant">
-              {{ deal.description }}
-            </p>
-          </div>
-          <div class="flex shrink-0 items-center gap-3">
-            <app-deal-stage-badge [stage]="deal.stage" />
-
-            <button type="button" mat-raised-button (click)="onEdit()">Edit</button>
-          </div>
-        </div>
+      <ui-card [title]="deal.title" [subtitle]="deal.description">
+        <app-deal-stage-badge ui-card-badge [stage]="deal.stage" />
+        <button ui-card-actions type="button" mat-raised-button (click)="onEdit()">Edit</button>
+        <!-- <button ui-card-footer type="button" mat-raised-button (click)="onEdit()">Edit</button> -->
 
         <app-info-grid>
           <app-info-item label="Value" [value]="deal.value | currency" />
           <app-info-item label="Contact" value="Anna Kowalska" />
           <app-info-item label="Public">{{ deal.public ? 'Yes' : 'No' }}</app-info-item>
         </app-info-grid>
-      </article>
+      </ui-card>
     } @else {
       <div class="px-3 py-4 text-center">No deal selected</div>
     }
