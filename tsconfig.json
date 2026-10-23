@@ -15,6 +15,7 @@
     "module": "preserve",
     "paths": {
       /* Core */
+      "@core/*": ["./src/app/core/*"],
       "@core/tokens": ["./src/app/core/index.ts"],
 
       /* Features */

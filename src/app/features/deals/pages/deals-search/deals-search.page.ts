@@ -16,6 +16,7 @@ import { DealDetailsCard } from '@feature/deals/ui/deal-details-card/deal-detail
 import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list';
 import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
+import { DealsAPI } from '@feature/deals/data/deals-api/deals-api';
 
 @Component({
   imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, MatButton, DealEditor],
@@ -25,7 +26,6 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
       display: block;
     }
   `,
-  // changeDetection: ChangeDetectionStrategy.OnPush, // Default v22+
   template: `
     <div class="grid sm:grid-cols-[minmax(200px,1fr)_2fr] gap-md">
       <div class="flex justify-between col-span-full">
@@ -37,12 +37,9 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
       <div class="grid gap-sm">
         <app-deal-items-list
           [items]="dealsList()"
-
           [(selectedId)]="selectedDealId"
           (selectedIdChange)="selectDeal($event)"
         />
-        <!-- [selectedId]="selectedDealId()"
-          (selectedIdChange)="selectDeal($event)" -->
       </div>
 
       <div class="grid gap-sm">
@@ -73,16 +70,26 @@ import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
   `,
 })
 export class DealsSearchPage {
-  mode = signal<'details' | 'editor' | 'creator'>('editor');
+  mode = signal<'details' | 'editor' | 'creator'>('details');
 
-  selectedDealId = signal('d1');
+  selectedDealId = signal('');
 
-  dealsList = signal<Deal[]>(mockDeals);
-  // dealsList = signal<ReadonlyArray<Deal>>(mockDeals);
-
-  // selectedDeal = computed(() => { // lazy + tracking + sync
+  dealsList = signal<Deal[]>([]);
 
   selectedDeal = signal<Deal | undefined>(undefined);
+
+  // TODO: Factory/Builder / Service Injector
+  // api = new DealsApi(new Auth( API_URL ))
+
+  api = inject(DealsAPI);
+
+  loadingDeals = effect(() => {
+    // Consumer - component/route/action...
+    this.api
+      .fetchDeals('')
+      .then((data) => this.dealsList.set(data))
+      .catch((error) => console.log(error));
+  });
 
   // Eager + tracking + Async + onCleanup!
   loadDeal$ = effect((onCleanup) => {
