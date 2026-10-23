@@ -1,11 +1,9 @@
 import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
 import { Deal } from '@feature/deals/model/deal';
 import { SharedModule } from '@shared/index';
-import { InfoGrid } from '@shared/ui/info-grid/info-grid';
-
 
 @Component({
-  imports: [SharedModule, InfoGrid],
+  imports: [SharedModule],
   selector: 'app-deal-editor',
   styles: `
     :host {
@@ -20,7 +18,6 @@ import { InfoGrid } from '@shared/ui/info-grid/info-grid';
 
       <mat-form-field>
         <mat-label></mat-label>
-
       </mat-form-field>
 
       <p>{{ draft().title.length }} / 100</p>
