@@ -35,4 +35,8 @@ export class DealsAPI {
       headers: { ...this.auth.getHeaders() },
     });
   }
+
+  fetchDealById(id=''){
+    // TODO...
+  }
 }
