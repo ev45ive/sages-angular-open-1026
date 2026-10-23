@@ -19,11 +19,14 @@ import { DealItemsList } from '@feature/deals/ui/deal-items-list/deal-items-list
 import { ExhaustivePipe } from '@shared/pipes/exhaustive-pipe';
 import { DealEditor } from '@feature/deals/ui/deal-editor/deal-editor';
 import { DealsAPI } from '@feature/deals/data/deals-api/deals-api';
-import { finalize, lastValueFrom } from 'rxjs';
+import { EMPTY, finalize, lastValueFrom } from 'rxjs';
 import { useDealsResource } from '@feature/deals/data/injectables/useDealsResource';
+import { httpResource } from '@angular/common/http';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { SharedUI } from '@shared/index';
 
 @Component({
-  imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, MatButton, DealEditor],
+  imports: [DealDetailsCard, DealItemsList, ExhaustivePipe, SharedUI, DealEditor],
   selector: 'app-deals-search',
   styles: `
     :host {
@@ -43,7 +46,7 @@ import { useDealsResource } from '@feature/deals/data/injectables/useDealsResour
           Loading Deals
         } @else if (dealsResource.error()) {
           Error Loading Deals
-        } @else {
+        } @else if (dealsResource.hasValue()) {
           <app-deal-items-list
             [items]="dealsResource.value()"
             [(selectedId)]="selectedDealId"
@@ -55,22 +58,21 @@ import { useDealsResource } from '@feature/deals/data/injectables/useDealsResour
       <div class="grid gap-sm">
         @let activeMode = mode();
 
-        @if (selectedDeal.isLoading()) {
+        @if (dealResource.isLoading()) {
           Deal is loading
         }
 
         @switch (activeMode) {
           @case ('details') {
-            <app-deal-details-card [deal]="selectedDeal.value()" (edit)="editDeal()" />
+            {{ dealResource.value() | json }}
+            <app-deal-details-card [deal]="dealResource.value()" (edit)="editDeal()" />
           }
           @case ('editor') {
-            @if (selectedDeal.hasValue()) {
-              <app-deal-editor
-                [deal]="selectedDeal.value()"
-                (cancel)="closeEditor()"
-                (save)="saveDeal($event)"
-              />
-            }
+            <app-deal-editor
+              [deal]="dealResource.value()"
+              (cancel)="closeEditor()"
+              (save)="saveDeal($event)"
+            />
           }
           @case ('creator') {
             <app-deal-editor (cancel)="closeEditor()" (save)="createDeal($event)" />
@@ -84,38 +86,55 @@ import { useDealsResource } from '@feature/deals/data/injectables/useDealsResour
   `,
 })
 export class DealsSearchPage {
-  createDeal($event: Deal) {
-    throw new Error('Method not implemented.');
-  }
   mode = signal<'details' | 'editor' | 'creator'>('details');
 
   selectedDealId = signal('');
 
-  dealsList = signal<Deal[]>([]);
-
-  // selectedDeal = signal<Deal | undefined>(undefined);
-
   api = inject(DealsAPI);
 
   dealsFilter = signal('');
-  dealsResource = useDealsResource(this.dealsFilter);
-  // tasksResource = useTasksResource(this.dealsFilter);
 
-  selectedDeal = resource({
-    params: () => {
-      const id = this.selectedDealId();
-      if (!id) return;
-      return { id };
-    },
-    loader: ({ params: { id } }) => lastValueFrom(this.api.fetchDealById(id)),
+  dealsResource = rxResource({
+    params: () => this.dealsFilter(),
+    stream: ({ params }) => this.api.fetchDeals(params),
   });
 
+  dealResource = rxResource({
+    params: () => this.selectedDealId() || undefined,
+    stream: ({ params: id }) => this.api.fetchDealById(id),
+  });
+
+  /// =============
+
+  createDeal($event: Deal) {
+    this.dealResource.set(undefined);
+
+    throw new Error('Method not implemented.');
+  }
+
+  // dealsResource = useDealsResource(this.dealsFilter);
+
+  // dealsResource = httpResource<{items:Deal[]}>(() => ({ url: `deals` }));
+  // dealResource = httpResource<Deal>(() =>
+  //   this.selectedDealId() ? { url: `deals/${this.selectedDealId()}` } : undefined,
+  // );
+
+  // dealResource = resource({
+  //   params: () => {
+  //     const id = this.selectedDealId();
+  //     if (!id) return;
+  //     return { id };
+  //   },
+  //   loader: ({ params: { id } }) => lastValueFrom(this.api.fetchDealById(id)),
+  // });
+
   openDealCreator() {
-    this.mode.set('creator');
+    this.dealResource.set(undefined);
+    this.mode.set('editor');
   }
 
   selectDeal(id: string) {
-    // this.mode.set('details');
+    this.mode.set('details');
     this.selectedDealId.set(id);
   }
 
@@ -124,10 +143,6 @@ export class DealsSearchPage {
   }
 
   saveDeal(draft: Deal) {
-    // this.dealsList.update((list) => {
-    //   return list.map((d) => (d.id === draft.id ? draft : d));
-    // });
-
     this.mode.set('details');
   }
 

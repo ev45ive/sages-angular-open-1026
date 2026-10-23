@@ -76,11 +76,11 @@ function createTask(task: Partial<Task> = {}): Task {
             <input type="number" matInput [formField]="form.value" />
           </mat-form-field>
 
-          <mat-form-field>
+          <!-- <mat-form-field>
             <mat-label>Contact name</mat-label>
 
             <input type="text" matInput [formField]="form.contactName" />
-          </mat-form-field>
+          </mat-form-field> -->
 
           <mat-form-field class="sm:col-span-full">
             <mat-label>Description</mat-label>
@@ -148,9 +148,11 @@ export class DealEditor {
   protected readonly stageLabels = DealStageLabel;
   protected readonly priorities: readonly TaskPriority[] = ['low', 'medium', 'high'];
 
-  deal = input<Deal>(emptyDealDraft());
+  deal = input<Deal>();
 
-  private readonly draftModel = linkedSignal<DealFormModel>(() => toFormModel(this.deal()));
+  private readonly draftModel = linkedSignal<DealFormModel>(() =>
+    toFormModel(this.deal() ?? emptyDealDraft()),
+  );
 
   protected readonly form = form(this.draftModel, (path) => {
     // required(path.description)
@@ -162,7 +164,7 @@ export class DealEditor {
         ? { kind: 'censor', message: 'Cannot contain bad word "batman"' }
         : undefined,
     );
-    
+
     // validateAsync(path.title, {
     //   params: ({ value }) => value(),
     //   factory: (params) =>
@@ -198,8 +200,8 @@ export class DealEditor {
   async onSubmit() {
     await submit(this.form, async (form) => {
       // form()...
-      
-      this.save.emit({ ...this.deal(), ...this.draftModel() });
+
+      this.save.emit({ ...this.deal()!, ...this.draftModel() });
     });
   }
 }
@@ -212,6 +214,7 @@ export function emptyDealDraft(): Deal {
     stage: 'new',
     value: 0,
     contactName: '',
+    // contactId: '',
     public: false,
   };
 }
