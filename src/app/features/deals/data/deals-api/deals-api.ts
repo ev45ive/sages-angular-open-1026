@@ -10,11 +10,11 @@ import { API_URL } from '@core/tokens';
 export class DealsAPI {
   protected auth = inject(Auth);
 
-  protected API_URL = inject(API_URL);
+  protected apiURL = inject(API_URL);
 
   fetchDeals(q = ''): Promise<Deal[]> {
     return (
-      fetch(`${API_URL}deals?q=${q}`, {
+      fetch(`${this.apiURL}deals?q=${q}`, {
         // /resource?params=... URL
         headers: {
           ...this.auth.getHeaders(),
