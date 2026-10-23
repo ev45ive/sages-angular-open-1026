@@ -104,29 +104,11 @@ export class DealsSearchPage {
     stream: ({ params: id }) => this.api.fetchDealById(id),
   });
 
-  /// =============
-
   createDeal($event: Deal) {
     this.dealResource.set(undefined);
 
     throw new Error('Method not implemented.');
   }
-
-  // dealsResource = useDealsResource(this.dealsFilter);
-
-  // dealsResource = httpResource<{items:Deal[]}>(() => ({ url: `deals` }));
-  // dealResource = httpResource<Deal>(() =>
-  //   this.selectedDealId() ? { url: `deals/${this.selectedDealId()}` } : undefined,
-  // );
-
-  // dealResource = resource({
-  //   params: () => {
-  //     const id = this.selectedDealId();
-  //     if (!id) return;
-  //     return { id };
-  //   },
-  //   loader: ({ params: { id } }) => lastValueFrom(this.api.fetchDealById(id)),
-  // });
 
   openDealCreator() {
     this.dealResource.set(undefined);
