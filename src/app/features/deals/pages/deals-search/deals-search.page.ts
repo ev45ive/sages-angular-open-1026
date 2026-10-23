@@ -86,7 +86,7 @@ export class DealsSearchPage {
   loadingDeals = effect((onCleanup) => {
     const sub = this.api.fetchDeals('').subscribe({
       next: (data) => this.dealsList.set(data.items),
-      // error: console.log,
+      error: (error) => console.log(error.error.error.message),
       // complete: () => console.log('complete'),
     });
 
@@ -100,6 +100,7 @@ export class DealsSearchPage {
 
     const sub = this.api.fetchDealById(id).subscribe({
       next: (data) => this.selectedDeal.set(data),
+      error: (error) => console.log(error.error.error.message),
     });
 
     onCleanup(() => sub.unsubscribe());

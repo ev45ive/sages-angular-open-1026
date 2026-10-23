@@ -6,20 +6,7 @@ import { Deal } from '@feature/deals/model/deal';
 
 import { API_URL } from '@core/tokens';
 import { HttpClient } from '@angular/common/http';
-
-/* 
-    Sync/Async APIs
-
-    var - sync 1 value
-    signal() - sync 1 value
-    
-    fn() - lazy, sync value 1-1
-    promise - async, value   1-*
-    
-    []  - sync ...value
-    Observable - lazy, async ...value  1-1
-
-*/
+ 
 
 @Service()
 export class DealsAPI {

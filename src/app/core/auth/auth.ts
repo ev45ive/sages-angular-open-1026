@@ -2,8 +2,7 @@ import { Service } from '@angular/core';
 
 @Service()
 export class Auth {
-
-  private token = 'mock-access-u1';
+  private token = 'mock-';
 
   // -- public API --
 
