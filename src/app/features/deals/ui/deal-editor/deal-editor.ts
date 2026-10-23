@@ -1,24 +1,43 @@
-import { Component, effect, inject, input, output } from '@angular/core';
-import { NonNullableFormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { Component, inject, input, linkedSignal, output } from '@angular/core';
+import { applyEach, form, FormField, required, submit, validate } from '@angular/forms/signals';
 import { Deal, DealStage } from '@feature/deals/model/deal';
 import { DEAL_STAGES, DealStageLabel } from '@feature/deals/model/deal-stage-config';
 import { Task, TaskPriority } from '@feature/deals/model/task';
 import { InfoGrid } from '@shared/ui/info-grid/info-grid';
 import { SharedForms, SharedUI } from '@shared/ui';
 
-function createTaskGroup(fb: NonNullableFormBuilder, task: Partial<Task> = {}) {
-  return fb.group({
-    id: [task.id ?? ''],
-    title: [task.title ?? '', Validators.required],
-    priority: fb.control<TaskPriority>(task.priority ?? 'medium'),
-    completed: [task.completed ?? false],
-  });
+interface DealFormModel extends Omit<Deal, 'id' | 'tasks'> {
+  tasks: Task[];
 }
 
-type TaskFormGroup = ReturnType<typeof createTaskGroup>;
+function toFormModel(deal: Deal): DealFormModel {
+  return {
+    // title: deal.title,
+    // description: deal.description,
+    // stage: deal.stage,
+    // value: deal.value,
+    // contactName: deal.contactName,
+    // public: deal.public,
+
+    ...deal,
+    tasks: (deal.tasks ?? []).map((task) => createTask(task)),
+    // wizard_step2: this.bob.group({
+    //   value: [''], // control
+    // }),
+  };
+}
+
+function createTask(task: Partial<Task> = {}): Task {
+  return {
+    id: task.id ?? '',
+    title: task.title ?? '',
+    priority: task.priority ?? 'medium',
+    completed: task.completed ?? false,
+  };
+}
 
 @Component({
-  imports: [SharedForms, SharedUI, InfoGrid],
+  imports: [SharedForms, SharedUI, InfoGrid, FormField],
   selector: 'app-deal-editor',
   styles: `
     :host {
@@ -26,34 +45,25 @@ type TaskFormGroup = ReturnType<typeof createTaskGroup>;
     }
   `,
   template: `
-    <form [formGroup]="form">
+    <form>
       <div class="grid gap-5 p-5">
         <h2 class="text-xl">Edit Deal</h2>
         <!-- @let titleField = form.get('title'); -->
 
         <app-info-grid>
-          @if (form.get('title'); as field) {
-            <mat-form-field class="sm:col-span-full">
-              <mat-label>Title</mat-label>
+          <mat-form-field class="sm:col-span-full">
+            <mat-label>Title</mat-label>
 
-              <input type="text" matInput formControlName="title" />
+            <input type="text" matInput [formField]="form.title" />
 
-              <mat-hint align="end"> {{ field?.value?.length }} / 100 </mat-hint>
-              <mat-error>
-                @if (field?.getError('required')) {
-                  Field is required
-                }
-                @if (field?.getError('censor'); as error) {
-                  Cannot contain bad word "{{ error.censor }}"
-                }
-              </mat-error>
-            </mat-form-field>
-          }
+            <mat-hint align="end"> {{ form.title().value().length }} / 100 </mat-hint>
+            <mat-error>{{ form.title().errors()[0]?.message }}</mat-error>
+          </mat-form-field>
 
           <mat-form-field>
             <mat-label>Stage</mat-label>
 
-            <mat-select formControlName="stage">
+            <mat-select [formField]="form.stage">
               @for (stage of stages; track stage) {
                 <mat-option [value]="stage">{{ stageLabels[stage] }}</mat-option>
               }
@@ -63,112 +73,112 @@ type TaskFormGroup = ReturnType<typeof createTaskGroup>;
           <mat-form-field>
             <mat-label>Value</mat-label>
 
-            <input type="number" min="0" matInput formControlName="value" />
-
-            <mat-error>
-              @if (form.get('value')?.getError('required')) {
-                Field is required
-              }
-            </mat-error>
+            <input type="number" matInput [formField]="form.value" />
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Contact name</mat-label>
 
-            <input type="text" matInput formControlName="contactName" />
+            <input type="text" matInput [formField]="form.contactName" />
           </mat-form-field>
 
           <mat-form-field class="sm:col-span-full">
             <mat-label>Description</mat-label>
 
-            <textarea matInput rows="4" formControlName="description"></textarea>
+            <textarea matInput rows="4" [formField]="form.description"></textarea>
           </mat-form-field>
 
-          <mat-checkbox formControlName="public">Public</mat-checkbox>
+          <mat-checkbox [formField]="form.public">Public</mat-checkbox>
         </app-info-grid>
 
-        <section class="grid gap-sm" formArrayName="tasks">
+        <section class="grid gap-sm">
           <div class="flex items-center justify-between">
             <h3 class="text-title-sm">Tasks</h3>
-            <button type="button" mat-stroked-button aria-label="Add task" (click)="addTask()">+</button>
+            <button type="button" mat-stroked-button aria-label="Add task" (click)="addTask()">
+              +
+            </button>
           </div>
 
-          @for (task of tasks.controls; track task; let i = $index) {
-            <div class="grid items-center gap-md sm:grid-cols-[2fr_1fr_auto_auto]" [formGroupName]="i">
+          @for (task of form.tasks; track $index; let i = $index) {
+            <div class="grid items-center gap-md sm:grid-cols-[2fr_1fr_auto_auto]">
               <mat-form-field>
                 <mat-label>Task title</mat-label>
 
-                <input type="text" matInput formControlName="title" />
+                <input type="text" matInput [formField]="task.title" />
 
-                <mat-error>
-                  @if (task.get('title')?.getError('required')) {
-                    Field is required
-                  }
-                </mat-error>
+                <mat-error>{{ task.title().errors()[0]?.message }}</mat-error>
               </mat-form-field>
 
               <mat-form-field>
                 <mat-label>Priority</mat-label>
 
-                <mat-select formControlName="priority">
+                <mat-select [formField]="task.priority">
                   @for (priority of priorities; track priority) {
                     <mat-option [value]="priority">{{ priority }}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
 
-              <mat-checkbox formControlName="completed">Completed</mat-checkbox>
+              <mat-checkbox [formField]="task.completed">Completed</mat-checkbox>
 
-              <button type="button" mat-icon-button aria-label="Remove task" (click)="removeTask(i)">-</button>
+              <button
+                type="button"
+                mat-icon-button
+                aria-label="Remove task"
+                (click)="removeTask(i)"
+              >
+                -
+              </button>
             </div>
           }
         </section>
 
         <div class="flex justify-end gap-md">
-          <button (click)="submit()">Save</button>
+          <button (click)="onSubmit()">Save</button>
           <button mat-flat-button (click)="onCancel()">Cancel</button>
         </div>
       </div>
 
-      <pre>{{ form.value | json }}</pre>
+      <pre>{{ form().value() | json }}</pre>
     </form>
   `,
 })
 export class DealEditor {
-  private readonly censorValidator: ValidatorFn = (control) => {
-    return control.value.includes('batman') ? { censor: 'bad word' } : null;
-  };
-
   protected readonly stages = DEAL_STAGES;
   protected readonly stageLabels = DealStageLabel;
   protected readonly priorities: readonly TaskPriority[] = ['low', 'medium', 'high'];
 
-  bob = inject(NonNullableFormBuilder);
-
   deal = input<Deal>(emptyDealDraft());
 
-  resetFormEffect = effect(() => {
-    const deal = this.deal();
+  private readonly draftModel = linkedSignal<DealFormModel>(() => toFormModel(this.deal()));
 
-    this.tasks.clear();
-    deal.tasks?.forEach((task) => this.tasks.push(createTaskGroup(this.bob, task)));
-    this.form.reset(deal);
+  protected readonly form = form(this.draftModel, (path) => {
+    // required(path.description)
+
+    // Form Config
+    required(path.title, { message: 'Field is required' });
+    validate(path.title, ({ value }) =>
+      value().includes('batman')
+        ? { kind: 'censor', message: 'Cannot contain bad word "batman"' }
+        : undefined,
+    );
+    
+    // validateAsync(path.title, {
+    //   params: ({ value }) => value(),
+    //   factory: (params) =>
+    //     resource({
+    //       params,
+    //       loader: ({ params: text, abortSignal }) => checkCensored(text, abortSignal),
+    //     }),
+    //   onSuccess: (isCensored) =>
+    //     isCensored ? { kind: 'censor', message: 'Cannot contain bad word "batman"' } : undefined,
+    //   onError: () => undefined,
+    // });
+
+    applyEach(path.tasks, (task) => {
+      required(task.title, { message: 'Field is required' });
+    });
   });
-
-  form = this.bob.group({
-    title: this.bob.control('', { validators: [Validators.required, this.censorValidator] }),
-    value: [0],
-    description: [''],
-    stage: this.bob.control<DealStage>('new'),
-    contactName: [''],
-    public: [false],
-    tasks: this.bob.array<TaskFormGroup>([]),
-    // wizard_step2: this.bob.group({
-    //   value: [''], // control
-    // }),
-  });
-
-  protected readonly tasks = this.form.controls.tasks;
 
   save = output<Deal>();
   cancel = output();
@@ -178,22 +188,19 @@ export class DealEditor {
   }
 
   addTask() {
-    this.tasks.push(createTaskGroup(this.bob));
+    this.form.tasks().value.update((tasks) => [...tasks, createTask()]);
   }
 
   removeTask(index: number) {
-    this.tasks.removeAt(index);
+    this.form.tasks().value.update((tasks) => tasks.filter((_, i) => i !== index));
   }
 
-  submit() {
-    const form = this.form;
-
-    const draft: Deal = {
-      ...this.deal(),
-      ...form.getRawValue(),
-    };
-
-    this.save.emit(draft);
+  async onSubmit() {
+    await submit(this.form, async (form) => {
+      // form()...
+      
+      this.save.emit({ ...this.deal(), ...this.draftModel() });
+    });
   }
 }
 
