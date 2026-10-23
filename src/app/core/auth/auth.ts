@@ -23,14 +23,26 @@ export class Auth {
 
   public login(email: string, password: string): Observable<AuthTokens> {
     return this.http
-      .post<AuthTokens>('auth/login', { email, password }, { context: new HttpContext().set(SKIP_AUTH, true) })
+      .post<AuthTokens>(
+        'auth/login',
+        { email, password },
+        {
+          context: new HttpContext().set(SKIP_AUTH, true),
+        },
+      )
       .pipe(tap((tokens) => this.setTokens(tokens)));
   }
 
   public refreshToken(): Observable<AuthTokens> {
     const refreshToken = this.tokens()?.refreshToken ?? '';
     return this.http
-      .post<AuthTokens>('auth/refresh', { refreshToken }, { context: new HttpContext().set(SKIP_AUTH, true) })
+      .post<AuthTokens>(
+        'auth/refresh',
+        { refreshToken },
+        {
+          context: new HttpContext().set(SKIP_AUTH, true),
+        },
+      )
       .pipe(tap((tokens) => this.setTokens(tokens)));
   }
 

@@ -46,18 +46,21 @@ export class LoginPage {
   private readonly router = inject(Router);
 
   private readonly credentials = signal({ email: '', password: '' });
+
   readonly loginForm = form(this.credentials, (path) => {
     required(path.email);
     email(path.email);
     required(path.password);
   });
+
   readonly serverError = signal<string | null>(null);
 
   onSubmit(event: Event) {
-    event.preventDefault();
+    // event.preventDefault(); // Prevent browser from reloading page
 
     submit(this.loginForm, async () => {
       const creds = this.credentials();
+
       try {
         await lastValueFrom(this.auth.login(creds.email, creds.password));
         await this.router.navigateByUrl('/deals');
