@@ -85,9 +85,8 @@ export class DealsSearchPage {
 
   loadingDeals = effect((onCleanup) => {
     const sub = this.api.fetchDeals('').subscribe({
-      next: (data) => this.dealsList.set(data.items),
-      error: (error) => console.log(error.error.error.message),
-      // complete: () => console.log('complete'),
+      next: (items) => this.dealsList.set(items),
+      error: (error) => console.log(error.message),
     });
 
     onCleanup(() => sub.unsubscribe());
@@ -100,13 +99,13 @@ export class DealsSearchPage {
 
     const sub = this.api.fetchDealById(id).subscribe({
       next: (data) => this.selectedDeal.set(data),
-      error: (error) => console.log(error.error.error.message),
+      error: (error) => console.log(error.message),
     });
 
     onCleanup(() => sub.unsubscribe());
   });
 
-  // ---
+  // ---F
 
   createDeal() {
     this.mode.set('creator');
