@@ -39,7 +39,7 @@ import { SharedForms /* SharedModule */ } from '@shared/ui';
 export class DealEditor {
   deal = input<Deal>(emptyDealDraft());
 
-  titleModelREf = viewChild<NgModel>('titleModelREf');
+  titleModelREf = viewChild.required<NgModel>('titleModelREf');
 
   save = output<Deal>();
   cancel = output();
@@ -53,7 +53,7 @@ export class DealEditor {
 
     const draft: Deal = {
       ...this.deal(),
-      title: title?.value,
+      title: title.value,
     };
 
     this.save.emit(draft);
