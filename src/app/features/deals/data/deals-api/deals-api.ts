@@ -20,40 +20,28 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = ''): Observable<Deal[]> {
-    // return of(mockDeals) // Mock
-
     return this.http
       .get<PagingObject<Deal>>(`${this.apiURL}deals`, {
         params: { q: q },
         headers: { ...this.auth.getHeaders() },
       })
       .pipe(
-        // step 2
         catchError((error) => {
           throw new Error(error.error.error.message);
         }),
-        // step 3
-        // step ...
-
-        tap(console.log),
-
         map((res) => res.items),
-
-        // ^-------O-|>
-        //         v - map()
-
-        // ^-------i-|>
-        //         v - delay()
-
-        // tap(console.log),
-
-        // ^--------------i-|>
       );
   }
 
   fetchDealById(id = '') {
-    return this.http.get<Deal>(`${this.apiURL}deals/${id}`, {
-      headers: { ...this.auth.getHeaders() },
-    });
+    return this.http
+      .get<Deal>(`${this.apiURL}deals/${id}`, {
+        headers: { ...this.auth.getHeaders() },
+      })
+      .pipe(
+        catchError((error) => {
+          throw new Error(error.error.error.message);
+        }),
+      );
   }
 }
