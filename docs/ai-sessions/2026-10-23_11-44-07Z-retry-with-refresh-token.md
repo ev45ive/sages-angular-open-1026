@@ -938,3 +938,133 @@ Created 6 todos
 _**Agent (copilot/claude-haiku-5.5)**_
 
  are no longer in the file, so I did not restore them.
+
+---
+
+_**User (2026-10-23 12:00:51Z)**_
+
+add comments explaining each feature/step of error interceptor
+
+---
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file"><details>
+<summary>Tool use: **read_file**</summary>
+
+Read `index.ts`, lines 55 to 100
+
+**Input:**
+
+- endLine: `100`
+- filePath: `c:\Projects\sages-angular-open-1026\src\app\core\http\index.ts`
+- startLine: `55`
+
+**Result:**
+
+```
+      },
+    }),
+
+    catchError((error: unknown) => {
+      assertHttpError(error);
+
+      if (error.status == 401) {
+        router.navigateByUrl('/login');
+        return EMPTY;
+      }
+      return throwError(() => error);
+    }),
+  );
+};
+
+export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
+  // if (req.headers.has('Authorization')) return next(req);
+  // const auth = inject(Auth);
+
+  return next(req).pipe(
+    timeout(10_000),
+    retry({
+      count: 3,
+      delay(error, retryCount) {
+        if (!HTTP_ERRORS.retry.includes(error.status)) return throwError(() => error);
+
+        // Re-Subscribe same request:
+        return timer(500 * retryCount ** 2); // Exponential Back-off (0.5 2.0s 4.5s)
+      },
+    }),
+    catchError((error: unknown) => {
+      assertHttpError(error);
+
+      throw new Error(error.error.error.message);
+    }),
+  );
+};
+
+// Chain of responsibility:
+
+// HttpClient.handler = IntA
+
+// IntA.next = IntB
+// IntB.next = IntN
+
+// IntN.next =  HttpHandler -> Observable + .pipe()
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="write" data-tool-name="textEditGroup"><details>
+<summary>Edit: **index.ts**</summary>
+
+@@ lines 75-84 @@
+
+```
+// Fails each attempt that exceeds 10s; every retry gets its own timeout.
+    timeout(10_000),
+    // Retries up to 3 times; the delay callback decides whether a retry happens.
+    retry({
+      count: 3,
+      delay(error, retryCount) {
+        // Non-transient statuses skip retry and go straight to catchError.
+        if (!HTTP_ERRORS.retry.includes(error.status)) return throwError(() => error);
+
+        // Re-Subscribe same request:
+        return timer(500 * retryCount ** 2); // Exponential Back-off (0.5 2.0s 4.5s)
+      },
+    }),
+    // Converts HTTP errors to Error with the server message; other errors are rethrown.
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="generic" data-tool-name="get_errors"><details>
+<summary>Tool use: **get_errors**</summary>
+
+Checked `index.ts`, no problems found
+
+**Input:**
+
+- filePaths: `["c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\http\\index.ts"]`
+
+**Result:**
+
+```
+<errors path="c:\\Projects\\sages-angular-open-1026\\src\\app\\core\\http\\index.ts">
+No errors found
+</errors>
+```
+</details></tool-use>
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+I added step comments inside  in `src/app/core/http/index.ts#L72-L94` for the ,  with its  callback, and  steps. The file has no compile errors.
+
+_**Agent (copilot/claude-haiku-5.5)**_
+
+<tool-use data-tool-type="task" data-tool-name="manage_todo_list"><details>
+<summary>Tool use: **manage_todo_list**</summary>
+
+Created 7 todos
+</details></tool-use>

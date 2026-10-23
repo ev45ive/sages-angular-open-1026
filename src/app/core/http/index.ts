@@ -72,16 +72,20 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
   // const auth = inject(Auth);
 
   return next(req).pipe(
+    // Fails each attempt that exceeds 10s; every retry gets its own timeout.
     timeout(10_000),
+    // Retries up to 3 times; the delay callback decides whether a retry happens.
     retry({
       count: 3,
       delay(error, retryCount) {
+        // Non-transient statuses skip retry and go straight to catchError.
         if (!HTTP_ERRORS.retry.includes(error.status)) return throwError(() => error);
 
         // Re-Subscribe same request:
         return timer(500 * retryCount ** 2); // Exponential Back-off (0.5 2.0s 4.5s)
       },
     }),
+    // Converts HTTP errors to Error with the server message; other errors are rethrown.
     catchError((error: unknown) => {
       assertHttpError(error);
 

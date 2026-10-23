@@ -12,7 +12,7 @@ type PagingObject<T> = { items: T[]; limit: number; offset: number };
 export class DealsAPI {
   http = inject(HttpClient);
 
-  fetchDeals(q = ''): Observable<Deal[]> {
+  fetchDeals(q = '') {
     return this.http
       .get<PagingObject<Deal>>(`deals`, {
         params: { q: q },
