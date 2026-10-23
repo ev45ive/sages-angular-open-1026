@@ -1,9 +1,10 @@
 import { Service } from '@angular/core';
+import { of } from 'rxjs';
 
 @Service()
 export class Auth {
 
-  private token = 'mock-access-u1';
+  private token = 'mock-access';
 
   // -- public API --
 
@@ -13,5 +14,12 @@ export class Auth {
 
   public getHeaders() {
     return { Authorization: `Bearer ${this.token}` };
+  }
+
+  refreshToken(){
+    // TODO:
+    console.log('Refresh token');
+    
+    return of(true)
   }
 }

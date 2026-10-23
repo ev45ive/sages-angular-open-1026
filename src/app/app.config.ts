@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     // { provide: HttpClient, useClass: MyAwesomeHttpClient (extends HttpClient) },
     // { provide: HttpHandler, useClass: MyAwesomeHttpHandler },
 
-    provideHttpClient(withInterceptors([URLInterceptor, AuthInterceptor, ErrorInterceptor])),
+    provideHttpClient(withInterceptors([URLInterceptor, ErrorInterceptor, AuthInterceptor])),
   ],
 };

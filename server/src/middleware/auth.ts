@@ -18,8 +18,8 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
   const token = header.slice(7);
 
   if (!token.startsWith('mock-access-')) {
-    res.status(401).json({
-      error: { status: 401, message: 'Invalid access token', code: 'UNAUTHORIZED' },
+    res.status(403).json({
+      error: { status: 403, message: 'Invalid access token', code: 'UNAUTHORIZED' },
     });
     return;
   }
