@@ -83,12 +83,17 @@ export class DealsSearchPage {
 
   api = inject(DealsAPI);
 
-  loadingDeals = effect(() => {
+  loadingDeals = effect((onCleanup) => {
     // Consumer - component/route/action...
+
+    // Cancelling fetch
+    const huston = new AbortController();
+    onCleanup(() => huston.abort('Cancelled'));
+
     this.api
-      .fetchDeals('')
+      .fetchDeals('', { signal: huston.signal })
       .then((data) => this.dealsList.set(data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error) /* Cancelled? */);
   });
 
   // Eager + tracking + Async + onCleanup!

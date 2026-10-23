@@ -12,13 +12,15 @@ export class DealsAPI {
 
   protected apiURL = inject(API_URL);
 
-  fetchDeals(q = ''): Promise<Deal[]> {
+  fetchDeals(q = '', init?: RequestInit): Promise<Deal[]> {
     return (
       fetch(`${this.apiURL}deals?q=${q}`, {
-        // /resource?params=... URL
+        // signal: huston.signal,
         headers: {
+          ...init?.headers,
           ...this.auth.getHeaders(),
         },
+        ...init,
       })
         // JSON / Error handling:
         .then((resp) => {
