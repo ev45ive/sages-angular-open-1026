@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, linkedSignal, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { SharedForms } from '@shared/index';
 
 @Component({
-  imports: [MatButtonModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule],
+  imports: [
+    MatButtonModule,
+    SharedForms,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+  ],
   selector: 'app-contact-search-form',
   styles: `
     :host {
@@ -19,10 +27,10 @@ import { MatInputModule } from '@angular/material/input';
         <mat-form-field class="grow" subscriptSizing="dynamic">
           <mat-icon matPrefix>search</mat-icon>
           <mat-label>Search contacts by name, email or company...</mat-label>
-          <input matInput type="search" />
+          <input matInput type="search" [(ngModel)]="draft" />
         </mat-form-field>
 
-        <button type="button" mat-flat-button>Search</button>
+        <button type="button" mat-flat-button (click)="submit()">Search</button>
       </div>
 
       <mat-expansion-panel>
@@ -35,4 +43,11 @@ import { MatInputModule } from '@angular/material/input';
     </div>
   `,
 })
-export class ContactSearchForm {}
+export class ContactSearchForm {
+  query = model('');
+  draft = linkedSignal(() => this.query());
+
+  submit() {
+    this.query.set(this.draft());
+  }
+}
