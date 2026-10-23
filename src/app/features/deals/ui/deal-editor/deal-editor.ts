@@ -1,15 +1,5 @@
-import {
-  Component,
-  effect,
-  inject,
-  input,
-  output,
-} from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { Component, effect, inject, input, output } from '@angular/core';
+import { NonNullableFormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { Deal, DealStage } from '@feature/deals/model/deal';
 import { DEAL_STAGES, DealStageLabel } from '@feature/deals/model/deal-stage-config';
 import { InfoGrid } from '@shared/ui/info-grid/info-grid';
@@ -31,7 +21,7 @@ import { SharedForms, SharedUI } from '@shared/ui';
 
         <app-info-grid>
           @if (form.get('title'); as field) {
-            <mat-form-field class="sm:col-span-3">
+            <mat-form-field class="sm:col-span-full">
               <mat-label>Title</mat-label>
 
               <input type="text" matInput formControlName="title" />
@@ -76,7 +66,7 @@ import { SharedForms, SharedUI } from '@shared/ui';
             <input type="text" matInput formControlName="contactName" />
           </mat-form-field>
 
-          <mat-form-field class="sm:col-span-3">
+          <mat-form-field class="sm:col-span-full">
             <mat-label>Description</mat-label>
 
             <textarea matInput rows="4" formControlName="description"></textarea>
@@ -91,13 +81,11 @@ import { SharedForms, SharedUI } from '@shared/ui';
         </div>
       </div>
 
-      <pre>{{ form.value | json }}</pre>
+      <!-- <pre>{{ form.value | json }}</pre> -->
     </form>
   `,
 })
 export class DealEditor {
-  deal = input<Deal>(emptyDealDraft());
-
   private readonly censorValidator: ValidatorFn = (control) => {
     return control.value.includes('batman') ? { censor: 'bad word' } : null;
   };
@@ -106,6 +94,10 @@ export class DealEditor {
   protected readonly stageLabels = DealStageLabel;
 
   bob = inject(NonNullableFormBuilder);
+
+  deal = input<Deal>(emptyDealDraft());
+
+  resetFormEffect = effect(() => this.form.reset(this.deal()));
 
   form = this.bob.group({
     title: this.bob.control('', { validators: [Validators.required, this.censorValidator] }),
@@ -121,10 +113,6 @@ export class DealEditor {
 
   save = output<Deal>();
   cancel = output();
-
-  constructor() {
-    effect(() => this.form.reset(this.deal()));
-  }
 
   onCancel() {
     this.cancel.emit();
