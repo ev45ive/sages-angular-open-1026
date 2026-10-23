@@ -12,27 +12,25 @@ export class DealsAPI {
 
   protected apiURL = inject(API_URL);
 
-  fetchDeals(q = '', init?: RequestInit): Promise<Deal[]> {
-    return (
-      fetch(`${this.apiURL}deals?q=${q}`, {
-        // signal: huston.signal,
-        headers: {
-          ...init?.headers,
-          ...this.auth.getHeaders(),
-        },
-        ...init,
-      })
-        // JSON / Error handling:
-        .then((resp) => {
-          if (!resp.ok) {
-            return resp.json().then((e) => {
-              return Promise.reject(new Error(e.error.message));
-            });
-          }
-          return resp;
-        })
-        .then((resp) => resp.json())
-        .then((data) => data.items)
-    ); // mapping
+  async fetchDeals(q = '', init?: RequestInit): Promise<Deal[]> {
+    const resp = await fetch(`${this.apiURL}deals?q=${q}`, {
+      // signal: huston.signal,
+      headers: {
+        ...init?.headers,
+        ...this.auth.getHeaders(),
+      },
+      ...init,
+    });
+
+    // JSON / Error handling:
+    if (!resp.ok) {
+      const e = await resp.json();
+      throw new Error(e.error.message);
+    }
+
+    const data = await resp.json();
+
+    // mapping
+    return data.items; 
   }
 }
