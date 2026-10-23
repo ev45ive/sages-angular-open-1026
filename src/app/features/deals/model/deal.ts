@@ -8,5 +8,5 @@ export interface Deal {
   value: number;
   contactName: string;
   public: boolean;
-  task?: []; //
+  // tasks?: []; //
 }

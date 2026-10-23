@@ -35,29 +35,37 @@ import { SharedForms /* SharedModule */ } from '@shared/ui';
     <form [formGroup]="form">
       <div class="grid gap-5 p-5">
         <h2 class="text-xl">Edit Deal</h2>
-        <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
+        <!-- @let titleField = form.get('title'); -->
+
+        @if (form.get('title'); as field) {
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+
+            <input type="text" matInput formControlName="title" />
+
+            <mat-hint align="end"> {{ field?.value?.length }} / 100 </mat-hint>
+            <mat-error>
+              @if (field?.getError('required')) {
+                Field is required
+              }
+              @if (field?.getError('censor'); as error) {
+                Cannot contain bad word "{{ error.censor }}"
+              }
+            </mat-error>
+          </mat-form-field>
+        }
+
         <mat-form-field>
-          <mat-label>Title</mat-label>
+          <mat-label>Value</mat-label>
 
-          <input type="text" matInput formControlName="title" />
+          <input type="number" min="0" matInput formControlName="value" />
 
-          <mat-hint align="end"> {{ form.get('title')?.value?.length }} / 100 </mat-hint>
           <mat-error>
-            @if (form.get('title')?.getError('required')) {
+            @if (form.get('value')?.getError('required')) {
               Field is required
-            }
-            @if (form.get('title')?.getError('censor'); as error) {
-              Cannot contain bad word "{{ error.censor }}"
             }
           </mat-error>
         </mat-form-field>
-
-        <!-- TODO: Wizard steps -->
-        @if (1 > 2) {
-          <div formGroupName="wizard_step2">
-            <input type="text" formControlName="tajne" value="tajne" />
-          </div>
-        }
 
         <div class="flex justify-end gap-md">
           <button (click)="submit()">Save</button>
@@ -76,25 +84,15 @@ export class DealEditor {
     return control.value.includes('batman') ? { censor: 'bad word' } : null;
   };
 
-  // bob = inject(FormBuilder);
   bob = inject(NonNullableFormBuilder);
 
   form = this.bob.group({
     title: this.bob.control('', { validators: [Validators.required, this.censorValidator] }),
-    wizard_step2: this.bob.group({
-      value: [''], // control
-    }),
+    value: [0],
+    // wizard_step2: this.bob.group({
+    //   value: [''], // control
+    // }),
   });
-
-  // form = new FormGroup({
-  //   title: new FormControl('', {
-  //     validators: [Validators.required, this.censorValidator],
-  //     nonNullable: true,
-  //   }),
-  //   wizard_step2: new FormGroup({
-  //     value: new FormControl(0, { nonNullable: true }),
-  //   }),
-  // });
 
   save = output<Deal>();
   cancel = output();
