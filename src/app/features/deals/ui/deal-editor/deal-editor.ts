@@ -1,11 +1,22 @@
 import { JsonPipe } from '@angular/common';
-import { Component, effect, input, linkedSignal, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  linkedSignal,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   ControlContainer,
+  FormBuilder,
   FormControl,
   FormGroup,
   NgForm,
   NgModel,
+  NonNullableFormBuilder,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -64,14 +75,26 @@ export class DealEditor {
   private readonly censorValidator: ValidatorFn = (control) => {
     return control.value.includes('batman') ? { censor: 'bad word' } : null;
   };
- 
 
-  form = new FormGroup({
-    title: new FormControl('', [Validators.required, this.censorValidator]),
-    wizard_step2: new FormGroup({
-      value: new FormControl(0),
+  // bob = inject(FormBuilder);
+  bob = inject(NonNullableFormBuilder);
+
+  form = this.bob.group({
+    title: this.bob.control('', { validators: [Validators.required, this.censorValidator] }),
+    wizard_step2: this.bob.group({
+      value: [''], // control
     }),
   });
+
+  // form = new FormGroup({
+  //   title: new FormControl('', {
+  //     validators: [Validators.required, this.censorValidator],
+  //     nonNullable: true,
+  //   }),
+  //   wizard_step2: new FormGroup({
+  //     value: new FormControl(0, { nonNullable: true }),
+  //   }),
+  // });
 
   save = output<Deal>();
   cancel = output();
