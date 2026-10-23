@@ -1,3 +1,5 @@
+import { Task } from '@feature/deals/model/task';
+
 export type DealStage = 'new' | 'negotiation' | 'proposal' | 'closed-won' | 'closed-lost';
 
 export interface Deal {
@@ -8,5 +10,5 @@ export interface Deal {
   value: number;
   contactName: string;
   public: boolean;
-  // tasks?: []; //
+  tasks?: Task[];
 }

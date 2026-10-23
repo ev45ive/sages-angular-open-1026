@@ -2,8 +2,20 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { NonNullableFormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { Deal, DealStage } from '@feature/deals/model/deal';
 import { DEAL_STAGES, DealStageLabel } from '@feature/deals/model/deal-stage-config';
+import { Task, TaskPriority } from '@feature/deals/model/task';
 import { InfoGrid } from '@shared/ui/info-grid/info-grid';
 import { SharedForms, SharedUI } from '@shared/ui';
+
+function createTaskGroup(fb: NonNullableFormBuilder, task: Partial<Task> = {}) {
+  return fb.group({
+    id: [task.id ?? ''],
+    title: [task.title ?? '', Validators.required],
+    priority: fb.control<TaskPriority>(task.priority ?? 'medium'),
+    completed: [task.completed ?? false],
+  });
+}
+
+type TaskFormGroup = ReturnType<typeof createTaskGroup>;
 
 @Component({
   imports: [SharedForms, SharedUI, InfoGrid],
@@ -75,13 +87,50 @@ import { SharedForms, SharedUI } from '@shared/ui';
           <mat-checkbox formControlName="public">Public</mat-checkbox>
         </app-info-grid>
 
+        <section class="grid gap-sm" formArrayName="tasks">
+          <div class="flex items-center justify-between">
+            <h3 class="text-title-sm">Tasks</h3>
+            <button type="button" mat-stroked-button aria-label="Add task" (click)="addTask()">+</button>
+          </div>
+
+          @for (task of tasks.controls; track task; let i = $index) {
+            <div class="grid items-center gap-md sm:grid-cols-[2fr_1fr_auto_auto]" [formGroupName]="i">
+              <mat-form-field>
+                <mat-label>Task title</mat-label>
+
+                <input type="text" matInput formControlName="title" />
+
+                <mat-error>
+                  @if (task.get('title')?.getError('required')) {
+                    Field is required
+                  }
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Priority</mat-label>
+
+                <mat-select formControlName="priority">
+                  @for (priority of priorities; track priority) {
+                    <mat-option [value]="priority">{{ priority }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-checkbox formControlName="completed">Completed</mat-checkbox>
+
+              <button type="button" mat-icon-button aria-label="Remove task" (click)="removeTask(i)">-</button>
+            </div>
+          }
+        </section>
+
         <div class="flex justify-end gap-md">
           <button (click)="submit()">Save</button>
           <button mat-flat-button (click)="onCancel()">Cancel</button>
         </div>
       </div>
 
-      <!-- <pre>{{ form.value | json }}</pre> -->
+      <pre>{{ form.value | json }}</pre>
     </form>
   `,
 })
@@ -92,12 +141,19 @@ export class DealEditor {
 
   protected readonly stages = DEAL_STAGES;
   protected readonly stageLabels = DealStageLabel;
+  protected readonly priorities: readonly TaskPriority[] = ['low', 'medium', 'high'];
 
   bob = inject(NonNullableFormBuilder);
 
   deal = input<Deal>(emptyDealDraft());
 
-  resetFormEffect = effect(() => this.form.reset(this.deal()));
+  resetFormEffect = effect(() => {
+    const deal = this.deal();
+
+    this.tasks.clear();
+    deal.tasks?.forEach((task) => this.tasks.push(createTaskGroup(this.bob, task)));
+    this.form.reset(deal);
+  });
 
   form = this.bob.group({
     title: this.bob.control('', { validators: [Validators.required, this.censorValidator] }),
@@ -106,10 +162,13 @@ export class DealEditor {
     stage: this.bob.control<DealStage>('new'),
     contactName: [''],
     public: [false],
+    tasks: this.bob.array<TaskFormGroup>([]),
     // wizard_step2: this.bob.group({
     //   value: [''], // control
     // }),
   });
+
+  protected readonly tasks = this.form.controls.tasks;
 
   save = output<Deal>();
   cancel = output();
@@ -118,12 +177,20 @@ export class DealEditor {
     this.cancel.emit();
   }
 
+  addTask() {
+    this.tasks.push(createTaskGroup(this.bob));
+  }
+
+  removeTask(index: number) {
+    this.tasks.removeAt(index);
+  }
+
   submit() {
     const form = this.form;
 
     const draft: Deal = {
       ...this.deal(),
-      ...form.value,
+      ...form.getRawValue(),
     };
 
     this.save.emit(draft);
