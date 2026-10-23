@@ -6,7 +6,8 @@ import { Deal } from '@feature/deals/model/deal';
 
 import { API_URL } from '@core/tokens';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, tap } from 'rxjs';
+import { catchError, from, map, Observable, of, tap } from 'rxjs';
+import { mockDeals } from '../mock-deals';
 
 type PagingObject<T> = { items: T[]; limit: number; offset: number };
 
@@ -19,6 +20,7 @@ export class DealsAPI {
   http = inject(HttpClient);
 
   fetchDeals(q = ''): Observable<Deal[]> {
+    // return of(mockDeals) // Mock
 
     return this.http
       .get<PagingObject<Deal>>(`${this.apiURL}deals`, {
@@ -32,19 +34,19 @@ export class DealsAPI {
         }),
         // step 3
         // step ...
-        
+
         tap(console.log),
-        
+
         map((res) => res.items),
 
         // ^-------O-|>
         //         v - map()
-        
+
         // ^-------i-|>
         //         v - delay()
 
         // tap(console.log),
-        
+
         // ^--------------i-|>
       );
   }
