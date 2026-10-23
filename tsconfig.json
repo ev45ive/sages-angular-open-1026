@@ -22,7 +22,8 @@
       "@feature/contacts/*": ["./src/app/features/contacts/*"],
 
       /* Shared */
-      "@shared/*": ["./src/app/shared/*"]
+      "@shared/*": ["./src/app/shared/*"],
+      "@shared/ui": ["./src/app/shared/index"]
 
       /* TODO: eslint boundaries */
     }

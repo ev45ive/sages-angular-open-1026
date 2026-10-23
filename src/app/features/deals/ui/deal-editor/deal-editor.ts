@@ -1,9 +1,9 @@
 import { Component, effect, input, linkedSignal, output, signal } from '@angular/core';
 import { Deal } from '@feature/deals/model/deal';
-import { SharedModule } from '@shared/index';
+import { SharedForms /* SharedModule */ } from '@shared/ui';
 
 @Component({
-  imports: [SharedModule],
+  imports: [SharedForms],
   selector: 'app-deal-editor',
   styles: `
     :host {
@@ -15,12 +15,17 @@ import { SharedModule } from '@shared/index';
       <h2 class="text-xl">Edit Deal</h2>
 
       <!-- <input class="p-3 bg-surface-bright border" type="text" [(ngModel)]="draft().title" /> -->
-
+      
       <mat-form-field>
-        <mat-label></mat-label>
+        <input type="text" matInput [(ngModel)]="draft().title" required #titleModelREf="ngModel" />
+        <mat-label>Title</mat-label>
+        <mat-hint align="end"> {{ draft().title.length }} / 100 </mat-hint>
+        <mat-error>
+          @if (titleModelREf.getError('required')) {
+            Field is required
+          }
+        </mat-error>
       </mat-form-field>
-
-      <p>{{ draft().title.length }} / 100</p>
 
       <div class="flex justify-end gap-md">
         <button (click)="submit()">Save</button>
