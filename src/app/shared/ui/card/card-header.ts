@@ -20,6 +20,7 @@ export type HeadingLevel = 2 | 3 | 4 | 5 | 6;
     <div class="flex shrink-0 items-center gap-3">
       <ng-content select="[ui-card-badge]" />
       <ng-content select="[ui-card-actions]" />
+      <!-- <ng-content></ng-content> -->
     </div>
   `,
 })

@@ -23,8 +23,8 @@ import { HeadingLevel, UiCardHeader } from './card-header';
     <article class="flex flex-col gap-4 rounded-md bg-surface-container-lowest p-5 shadow-level1">
       <ng-content select="ui-card-header,[ui-card-header]">
         <ui-card-header [title]="title()" [subtitle]="subtitle()" [headingLevel]="headingLevel()">
-          <ng-content select="[ui-card-badge]" />
-          <ng-content select="[ui-card-actions]" />
+          <ng-content ui-card-badge select="[ui-card-badge]" />
+          <ng-content ui-card-actions select="[ui-card-actions]" />
         </ui-card-header>
       </ng-content>
       <div>
