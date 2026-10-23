@@ -2,11 +2,15 @@ import { inject, Service } from '@angular/core';
 import { Auth } from '@core/auth/auth';
 import { Deal } from '@feature/deals/model/deal';
 
-const API_URL = `http://localhost:3000/api/`;
+// const API_URL = `http://localhost:3000/api/`;
+
+import { API_URL } from '@core/tokens';
 
 @Service()
 export class DealsAPI {
   protected auth = inject(Auth);
+
+  protected API_URL = inject(API_URL);
 
   fetchDeals(q = ''): Promise<Deal[]> {
     return (

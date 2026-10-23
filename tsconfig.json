@@ -16,7 +16,6 @@
     "paths": {
       /* Core */
       "@core/*": ["./src/app/core/*"],
-      "@core/tokens": ["./src/app/core/index.ts"],
 
       /* Features */
       "@feature/deals/*": ["./src/app/features/deals/*"],
@@ -36,7 +35,7 @@
     "extendedDiagnostics": {
       "checks": { "unusedStandaloneImports": "suppress" }
     },
-    "strictTemplates": true,
+    "strictTemplates": true
   },
   "files": [],
   "references": [
